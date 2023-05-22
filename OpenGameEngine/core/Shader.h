@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.h"
+#include <glm/glm.hpp>
 
 namespace openge {
 
@@ -13,6 +14,7 @@ namespace openge {
 		unsigned int getProgram() const;
 		void setUniform4f(std::string name, float v1, float v2, float v3, float v4);
 		void setUniform1i(std::string name, int location);
+		void setUniformMatrix4fv(std::string name, glm::mat4 &mat);
 	private:
 		std::string getContentPathShader(const std::string& path);
 		void compileShader();

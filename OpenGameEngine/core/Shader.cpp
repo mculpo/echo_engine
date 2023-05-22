@@ -1,4 +1,5 @@
 #include "Shader.h"
+#include <glm/glm.hpp>
 namespace openge {
 	Shader::Shader(const std::string& pathVertex, const std::string& pathFragment)
 	{
@@ -35,6 +36,11 @@ namespace openge {
 	void Shader::setUniform1i(std::string name, int location)
 	{
 		glUniform1i(getUniformLocation(name), location);
+	}
+
+	void Shader::setUniformMatrix4fv(std::string name, glm::mat4& mat)
+	{
+		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
 	}
 
 	unsigned int Shader::createShader(std::string& sourceShader, GLenum type)

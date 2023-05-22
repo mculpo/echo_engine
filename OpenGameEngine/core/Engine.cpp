@@ -1,11 +1,14 @@
 #include "Engine.h"
 #include "Shader.h"
 #include "VertexBufferObject.h"
-#include "../vendor/stb_image.h"
+#include <stb_image.h>
 #include "ElementBufferObject.h"
 #include "VertexArrayObject.h"
 #include "VertexAttribPointerLayout.h"
 #include "Texture.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 namespace openge {
 
 	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -103,6 +106,23 @@ namespace openge {
 			texture1->Bind();
 			glActiveTexture(GL_TEXTURE1);
 			texture2->Bind();
+
+			glm::mat4 transform = glm::mat4(1.0f);
+			transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+			transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 0.5f));
+
+			shader->setUniformMatrix4fv("transform", transform);
+			//render container
+			shader->Bind();
+			vao->Bind();
+			glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, 0);
+
+			transform = glm::mat4(1.0f); //reset
+			transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
+			float scaleAmount = static_cast<float>(sin(glfwGetTime()));
+			transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
+
+			shader->setUniformMatrix4fv("transform", transform);
 
 			//render container
 			shader->Bind();
