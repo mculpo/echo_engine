@@ -4,6 +4,17 @@ namespace openge {
 	Texture::Texture(const std::string& path)
 	{
 		m_isRGBA = false;
+		CreateTexture(path);
+	}
+	Texture::Texture(const std::string& path, bool rgba) : m_isRGBA(rgba)
+	{
+		CreateTexture(path);
+	}
+	Texture::~Texture()
+	{
+	}
+	void Texture::CreateTexture(const std::string& path)
+	{
 		glGenTextures(1, &m_rendererID);
 		Bind();
 		/**
@@ -16,7 +27,7 @@ namespace openge {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // Y
 		// Minimização de textura GL_TEXTURE_MIN_FILTER
 		/**
-		* GL_LINEAR (também conhecida como filtragem (bi)linear) obtém um valor interpolado dos texels vizinhos da coordenada de textura, aproximando-se de uma cor entre os texels. Quanto menor a distância da coordenada de textura ao centro de um texel, mais a cor do texel contribui para a cor amostrada. Abaixo podemos ver que uma cor mista dos pixels vizinhos é retornada:
+		* GL_LINEAR (também conhecida como filtragem (bi)linear) obtém um valor interpolado dos texels vizinhos da coordenada de textura, aproximando-se de uma cor entre os texels. Quanto menor a distância da coordenada de textura ao centro de um texel, mais a cor do texel contribui para a cor amostrada.
 		*/
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		/*
@@ -25,21 +36,6 @@ namespace openge {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		LoadTexture(path);
-
-	}
-	Texture::Texture(const std::string& path, bool rgba) : m_isRGBA(rgba)
-	{
-		glGenTextures(1, &m_rendererID);
-		Bind();
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		LoadTexture(path);
-	}
-	Texture::~Texture()
-	{
 	}
 	void Texture::Bind()
 	{
