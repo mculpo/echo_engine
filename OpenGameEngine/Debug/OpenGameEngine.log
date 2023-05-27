@@ -1,2 +1,4 @@
 ﻿  Engine.cpp
+E:\Projetos\C++\open_game_engine\OpenGameEngine\core\Engine.cpp(316,52): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Projetos\C++\open_game_engine\OpenGameEngine\core\Engine.cpp(317,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   OpenGameEngine.vcxproj -> E:\Projetos\C++\open_game_engine\Debug\OpenGameEngine.exe
