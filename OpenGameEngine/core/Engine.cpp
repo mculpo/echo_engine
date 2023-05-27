@@ -9,7 +9,51 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Time.h"
 namespace openge {
+	// camera
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	bool firstMouse = true;
+	float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
+	float pitch = 0.0f;
+	float lastX = 800.0f / 2.0;
+	float lastY = 600.0 / 2.0;
+	float fov = 45.0f;
+
+	// Custom implementation of the LookAt function
+	glm::mat4 calculate_lookAt_matrix(glm::vec3 position, glm::vec3 target, glm::vec3 worldUp)
+	{
+		// 1. Position = known
+		// 2. Calculate cameraDirection
+		glm::vec3 zaxis = glm::normalize(position - target);
+		// 3. Get positive right axis vector
+		glm::vec3 xaxis = glm::normalize(glm::cross(glm::normalize(worldUp), zaxis));
+		// 4. Calculate camera up vector
+		glm::vec3 yaxis = glm::cross(zaxis, xaxis);
+
+		// Create translation and rotation matrix
+		// In glm we access elements as mat[col][row] due to column-major layout
+		glm::mat4 translation = glm::mat4(1.0f); // Identity matrix by default
+		translation[3][0] = -position.x; // Third column, first row
+		translation[3][1] = -position.y;
+		translation[3][2] = -position.z;
+		glm::mat4 rotation = glm::mat4(1.0f);
+		rotation[0][0] = xaxis.x; // First column, first row
+		rotation[1][0] = xaxis.y;
+		rotation[2][0] = xaxis.z;
+		rotation[0][1] = yaxis.x; // First column, second row
+		rotation[1][1] = yaxis.y;
+		rotation[2][1] = yaxis.z;
+		rotation[0][2] = zaxis.x; // First column, third row
+		rotation[1][2] = zaxis.y;
+		rotation[2][2] = zaxis.z;
+
+		// Return lookAt matrix as combination of translation and rotation matrix
+		return rotation * translation; // Remember to read from right to left (first translation then rotation)
+	}
 
 	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
 	// ---------------------------------------------------------------------------------------------
@@ -19,7 +63,61 @@ namespace openge {
 		// height will be significantly larger than specified on retina displays.
 		glViewport(0, 0, width, height);
 	}
+	// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+// ---------------------------------------------------------------------------------------------------------
+	void processInput(GLFWwindow* window)
+	{
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			glfwSetWindowShouldClose(window, true);
 
+		float cameraSpeed = static_cast<float>(2.5 * Time::getInstance().deltaTime());
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			cameraPos += cameraSpeed * cameraFront;
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			cameraPos -= cameraSpeed * cameraFront;
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	}
+	// glfw: whenever the mouse moves, this callback is called
+	// -------------------------------------------------------
+	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+	{
+		float xpos = static_cast<float>(xposIn);
+		float ypos = static_cast<float>(yposIn);
+
+		if (firstMouse)
+		{
+			lastX = xpos;
+			lastY = ypos;
+			firstMouse = false;
+		}
+
+		float xoffset = xpos - lastX;
+		float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+		lastX = xpos;
+		lastY = ypos;
+
+		float sensitivity = 0.1f; // change this value to your liking
+		xoffset *= sensitivity;
+		yoffset *= sensitivity;
+
+		yaw += xoffset;
+		pitch += yoffset;
+
+		// make sure that when pitch is out of bounds, screen doesn't get flipped
+		if (pitch > 89.0f)
+			pitch = 89.0f;
+		if (pitch < -89.0f)
+			pitch = -89.0f;
+
+		glm::vec3 front;
+		front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+		front.y = sin(glm::radians(pitch));
+		front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+		cameraFront = glm::normalize(front);
+	}
 
 	Engine::Engine(int width, int height, const char* title, bool fullWidth)
 	{
@@ -34,6 +132,13 @@ namespace openge {
 			}
 			glfwMakeContextCurrent(m_window);
 		}
+		glfwMakeContextCurrent(m_window);
+		glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
+		glfwSetCursorPosCallback(m_window, mouse_callback);
+
+		// tell GLFW to capture our mouse
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 		glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 
 		// configure global opengl state
@@ -159,6 +264,12 @@ namespace openge {
 
 		while (!glfwWindowShouldClose(m_window)) {
 
+			Time::getInstance().updateDeltaTime();
+			
+				// input
+				// -----
+			processInput(m_window);
+
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -170,13 +281,9 @@ namespace openge {
 
 			shader->Bind(); 
 			//glm::mat4 model = glm::mat4(1.0f);
-			glm::mat4 view = glm::mat4(1.0f);
+			glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 			glm::mat4 projection = glm::mat4(1.0f);
-			
-			//Transformation around the model ( Plane with texture )
-			//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0, 0));
-			// Transformation about de View Inspect Camera
-			view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
 			// Create a Perpective Projection
 			projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
