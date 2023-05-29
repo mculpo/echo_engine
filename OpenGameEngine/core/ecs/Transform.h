@@ -21,6 +21,7 @@ namespace openge {
 		glm::mat4 getModelMatrix();
 
 		void translate(const glm::vec3 translation);
+		void scale(const glm::vec3 scale);
 		void rotate(const glm::quat& angles);
 		void lookAt(const glm::vec3& target, float speed);
 

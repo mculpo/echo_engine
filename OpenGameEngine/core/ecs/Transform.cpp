@@ -21,6 +21,11 @@ namespace openge {
 		return model;
 	}
 
+	void Transform::scale(const glm::vec3 scale)
+	{
+		m_scale = scale;
+	}
+
 	void Transform::translate(const glm::vec3 translation)
 	{
 		m_position += translation;
