@@ -134,20 +134,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="core\ecs\Camera.cpp" />
     <ClCompile Include="core\Engine.cpp" />
     <ClCompile Include="core\Shader.cpp" />
     <ClCompile Include="core\ElementBufferObject.cpp" />
     <ClCompile Include="core\Texture.cpp" />
-    <ClCompile Include="core\ecs\Entity.cpp" />
     <ClCompile Include="core\Time.cpp" />
     <ClCompile Include="core\ecs\Transform.cpp" />
+    <ClCompile Include="core\ecs\Model.cpp" />
     <ClCompile Include="vendor\stb_image.cpp" />
     <ClCompile Include="core\VertexBufferObject.cpp" />
     <ClCompile Include="core\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\ecs\Camera.h" />
     <ClInclude Include="core\ecs\Component.h" />
     <ClInclude Include="core\Engine.h" />
+    <ClInclude Include="core\Input.h" />
+    <ClInclude Include="core\Mouse.h" />
     <ClInclude Include="core\Shader.h" />
     <ClInclude Include="core\ElementBufferObject.h" />
     <ClInclude Include="core\singleton\Singleton.h" />
@@ -156,6 +160,7 @@
     <ClInclude Include="core\ecs\Entity.h" />
     <ClInclude Include="core\Time.h" />
     <ClInclude Include="core\ecs\Transform.h" />
+    <ClInclude Include="core\ecs\Model.h" />
     <ClInclude Include="vendor\stb_image.h" />
     <ClInclude Include="core\VertexBufferObject.h" />
     <ClInclude Include="core\VertexArrayObject.h" />

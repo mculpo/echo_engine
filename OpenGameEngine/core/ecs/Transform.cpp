@@ -1,9 +1,9 @@
 #include "Transform.h"
 namespace openge {
-	Transform::Transform(const glm::vec3 position = glm::vec3(0.0f), 
+	Transform::Transform(Entity& entity, std::uint64_t id, const glm::vec3 position = glm::vec3(0.0f),
 		const glm::vec3 scale = glm::vec3(0.0f), 
 		const glm::quat rotation = glm::quat()) :
-		m_position(position), m_scale(scale), m_rotation(rotation){}
+		Component(entity, id), m_position(position), m_scale(scale), m_rotation(rotation){}
 	Transform::~Transform()
 	{}
 
@@ -19,51 +19,6 @@ namespace openge {
 		model = glm::rotate(model, glm::radians(m_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(m_rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));*/
 		return model;
-	}
-
-	Transform& Transform::operator=(const Transform& value)
-	{
-		if (this != &value) {
-			m_position = value.m_position;
-			m_scale = value.m_scale;
-			m_rotation = value.m_rotation;
-		}
-		return *this;
-	}
-
-	Transform Transform::operator-()
-	{
-		return Transform(-m_position, m_scale, m_rotation);
-	}
-
-	Transform Transform::operator/(float scalar) const
-	{
-		return Transform(m_position/ scalar, m_scale / scalar, m_rotation);
-	}
-
-	Transform Transform::operator*(float scalar) const
-	{
-		return Transform(m_position * scalar, m_scale * scalar, m_rotation);
-	}
-
-	Transform& Transform::operator/(const Transform& value) const
-	{
-		Transform result;
-		result.m_position = m_position / value.m_position;
-		result.m_scale = m_scale / value.m_scale;
-		result.m_rotation.x /= value.m_rotation.x;
-		result.m_rotation.y /= value.m_rotation.y;
-		result.m_rotation.z /= value.m_rotation.z;
-		return result;
-	}
-
-	Transform& Transform::operator*(const Transform& value) const
-	{
-		Transform result;
-		result.m_position = m_position + value.m_position;
-		result.m_scale = m_scale * value.m_scale;
-		result.m_rotation = m_rotation * value.m_rotation;
-		return result;
 	}
 
 	void Transform::translate(const glm::vec3 translation)

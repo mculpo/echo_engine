@@ -11,6 +11,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Time.h"
 #include "ecs/Transform.h"
+#include "ecs/Camera.h"
+#include "ecs/Model.h"
+#include "Input.h"
+#include "Mouse.h"
 namespace openge {
 	// camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -136,7 +140,8 @@ namespace openge {
 		glfwMakeContextCurrent(m_window);
 		glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 		glfwSetCursorPosCallback(m_window, mouse_callback);
-
+		// Criar uma instância da classe Mouse
+		Mouse::getInstance().setWindow(m_window);
 		// tell GLFW to capture our mouse
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -158,6 +163,24 @@ namespace openge {
 
 	void Engine::run()
 	{
+
+		Model model = Model(1, "MainCamera", "MainCamera");
+
+		Camera camera = Camera(model, 1);
+		camera.setCameraType(CameraType::Perpective);
+		camera.setAspectRatio(800.0f/600.0f);
+		camera.setFov(45.0f);
+		camera.setFront(glm::vec3(0.0f, 0.0f, -1.0f));
+		camera.setUp(glm::vec3(0.0f, 1.0f, 0.0f));
+		camera.setFarPlane(100.0f);
+		camera.setNearPlane(0.1f);
+
+		Transform transformCamera = Transform(model, 2, glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(1.0f), glm::vec3(0.0f));
+
+		model.addComponent<Camera>(camera);
+		model.addComponent<Transform>(transformCamera);
+
+
 		//float vertices[] = {
 		//			// positions			// colors			// texture coords
 		//			0.5f,  0.5f,  0.0f,     1.0f, 0.0f, 0.0f,   1.0f, 1.0f,     // top right
@@ -171,9 +194,50 @@ namespace openge {
 		//	1, 2, 3
 		//};
 
-		// set up vertex data (and buffer(s)) and configure vertex attributes
-		// ------------------------------------------------------------------
 		float vertices[] = {
+			-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+			 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+			 0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+			-0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f,
+
+			-0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+			-0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f,
+
+			-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 1.0f,  1.0f, 0.0f,
+
+			 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 1.0f,  1.0f, 0.0f,
+
+			-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
+			-0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f,
+
+			-0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+			 0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f
+		};
+		/*float vertices[] = {
 			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 			 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
 			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -215,34 +279,21 @@ namespace openge {
 			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-		};
+		};*/
 		// world space positions of our cubes
 
 		std::vector<openge::Transform> transforms = {
-			openge::Transform(glm::vec3(0.0f,  0.0f,  0.0f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(2.0f,  5.0f, -15.0f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(-1.5f, -2.2f, -2.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(-3.8f, -2.0f, -12.3f),  glm::vec3(1.0f),glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(2.4f, -0.4f, -3.5f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(-1.7f,  3.0f, -7.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(1.5f,   2.0f, -2.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(1.5f,   0.2f, -1.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(glm::vec3(-1.3f,  1.0f, -1.5f),  glm::vec3(1.0f), glm::vec3(0.0f))
+			openge::Transform(model, 0, glm::vec3(0.0f,  0.0f,  0.0f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(2.0f,  5.0f, -15.0f),  glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(-1.5f, -2.2f, -2.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(-3.8f, -2.0f, -12.3f),  glm::vec3(1.0f),glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(2.4f, -0.4f, -3.5f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(-1.7f,  3.0f, -7.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(1.5f,   2.0f, -2.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(1.5f,   0.2f, -1.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(model, 0, glm::vec3(-1.3f,  1.0f, -1.5f),  glm::vec3(1.0f), glm::vec3(0.0f))
 		};
-
-		/*glm::vec3 cubePositions[] = {
-			glm::vec3(0.0f,  0.0f,  0.0f),
-			glm::vec3(2.0f,  5.0f, -15.0f),
-			glm::vec3(-1.5f, -2.2f, -2.5f),
-			glm::vec3(-3.8f, -2.0f, -12.3f),
-			glm::vec3(2.4f, -0.4f, -3.5f),
-			glm::vec3(-1.7f,  3.0f, -7.5f),
-			glm::vec3(1.3f, -2.0f, -2.5f),
-			glm::vec3(1.5f,  2.0f, -2.5f),
-			glm::vec3(1.5f,  0.2f, -1.5f),
-			glm::vec3(-1.3f,  1.0f, -1.5f)
-		};*/
 
 		VertexArrayObject *vao = new VertexArrayObject();
 		VertexBufferObject *vbo = new VertexBufferObject(vertices, sizeof(vertices), GL_STATIC_DRAW);
@@ -250,7 +301,7 @@ namespace openge {
 
 
 		vao->AddLayout(3, VP_FLOAT); // position
-		//vao->AddLayout(3, VP_FLOAT); // color
+		vao->AddLayout(3, VP_FLOAT); // color
 		vao->AddLayout(2, VP_FLOAT); // texture
 
 		vao->runLayout();
@@ -280,10 +331,47 @@ namespace openge {
 		while (!glfwWindowShouldClose(m_window)) {
 
 			Time::getInstance().updateDeltaTime();
-			
-				// input
-				// -----
-			processInput(m_window);
+			Mouse::getInstance().update();
+			//float xpos = Mouse::getInstance().getX();
+			//float ypos = Mouse::getInstance().getY();
+			//float xoffset = xpos - lastX;
+			//float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+			//lastX = xpos;
+			//lastY = ypos;
+
+			//float sensitivity = 0.1f; // change this value to your liking
+			//xoffset *= sensitivity;
+			//yoffset *= sensitivity;
+
+			//yaw += xoffset;
+			//pitch += yoffset;
+
+			//// make sure that when pitch is out of bounds, screen doesn't get flipped
+			//if (pitch > 89.0f)
+			//	pitch = 89.0f;
+			//if (pitch < -89.0f)
+			//	pitch = -89.0f;
+
+			//glm::vec3 front;
+			//front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+			//front.y = sin(glm::radians(pitch));
+			//front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+			//model.getComponent<Camera>()->setFront( glm::normalize(front) );
+
+
+			//if (Input::IsKeyPressed(KEYCODE_ESCAPE))
+			//	glfwSetWindowShouldClose(m_window, true);
+
+			//float cameraSpeed = static_cast<float>(2.5 * Time::getInstance().deltaTime());
+			//if (Input::IsKeyHeld(KEYCODE_W))
+			//	model.getComponent<Transform>()->translate(cameraSpeed * model.getComponent<Camera>()->getFront());
+			//if (Input::IsKeyHeld(KEYCODE_S))
+			//	model.getComponent<Transform>()->translate(-(cameraSpeed * model.getComponent<Camera>()->getFront()));
+			//if (Input::IsKeyHeld(KEYCODE_A))
+			//	model.getComponent<Transform>()->translate(-glm::normalize(glm::cross(model.getComponent<Camera>()->getFront(), model.getComponent<Camera>()->getUp())) * cameraSpeed);
+			//if (Input::IsKeyHeld(KEYCODE_D))
+			//	model.getComponent<Transform>()->translate(glm::normalize(glm::cross(model.getComponent<Camera>()->getFront(), model.getComponent<Camera>()->getUp())) * cameraSpeed);
+
 
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -295,17 +383,20 @@ namespace openge {
 			texture2->Bind();
 
 			shader->Bind(); 
-			//glm::mat4 model = glm::mat4(1.0f);
-			glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-			glm::mat4 projection = glm::mat4(1.0f);
+			////glm::mat4 model = glm::mat4(1.0f);
+			//glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+			//glm::mat4 projection = glm::mat4(1.0f);
 
-			// Create a Perpective Projection
-			projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+			//// Create a Perpective Projection
+			//projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 			//shader->setUniformMatrix4fv("model", model);
+			std::shared_ptr<Camera> camera = model.getComponent<Camera>();
+			glm::mat4 view = camera->getViewMatrix();
+			glm::mat4 projection = camera->getProjectionMatrix();
 			shader->setUniformMatrix4fv("view", view);
 			shader->setUniformMatrix4fv("projection", projection);
-			//render container
+			//render container 
 			
 			vao->Bind();
 			for (unsigned int i = 0; i < transforms.size(); i++) {
@@ -313,7 +404,7 @@ namespace openge {
 				//float angle = 20.0f * (i == 0 ? 1.5f : i);
 				//transform.rotate(glm::vec3(1.0f, 1.0f, 1.0f) * (float)(angle * Time::getInstance().deltaTime()));
 				
-				transform.lookAt(cameraPos, 20 * Time::getInstance().deltaTime());
+				//transform.lookAt(cameraPos, 20 * Time::getInstance().deltaTime());
 
 				glm::mat4 model = transform.getModelMatrix();
 				shader->setUniformMatrix4fv("model", model);
@@ -333,4 +424,5 @@ namespace openge {
 		delete vao;
 	}
 }
+
 
