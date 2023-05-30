@@ -6,7 +6,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/euler_angles.hpp>
 #include "Component.h"
-#include "../core/Time.h"
+#include "ecs/system/time/Time.h"
 #include <string>
 namespace openge {
 	class Transform : public Component

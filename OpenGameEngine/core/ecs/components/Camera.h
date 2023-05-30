@@ -1,9 +1,9 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 
-#include "Component.h"
+#include "ecs/components/Component.h"
 #include "Transform.h"
-#include "Entity.h"
+#include "ecs/entity/Entity.h"
 #include <glm/glm.hpp>
 namespace openge {
 	class Transform;

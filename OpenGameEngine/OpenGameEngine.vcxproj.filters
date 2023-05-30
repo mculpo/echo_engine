@@ -21,34 +21,34 @@
     <ClCompile Include="core\Engine.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\Shader.cpp">
+    <ClCompile Include="core\ecs\components\shader\Shader.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\VertexBufferObject.cpp">
+    <ClCompile Include="core\ecs\system\renderer\VertexBufferObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ElementBufferObject.cpp">
+    <ClCompile Include="core\ecs\system\renderer\ElementBufferObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\VertexArrayObject.cpp">
+    <ClCompile Include="core\ecs\system\renderer\VertexArrayObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\Texture.cpp">
+    <ClCompile Include="core\ecs\components\texture\Texture.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\Time.cpp">
+    <ClCompile Include="core\ecs\system\time\Time.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\Transform.cpp">
+    <ClCompile Include="core\ecs\components\Transform.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\Camera.cpp">
+    <ClCompile Include="core\ecs\components\Camera.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\Model.cpp">
+    <ClCompile Include="core\ecs\entity\Model.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,52 +56,52 @@
     <ClInclude Include="core\Engine.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\Shader.h">
+    <ClInclude Include="core\ecs\components\shader\Shader.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="vendor\stb_image.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\VertexBufferObject.h">
+    <ClInclude Include="core\ecs\system\renderer\VertexBufferObject.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ElementBufferObject.h">
+    <ClInclude Include="core\ecs\system\renderer\ElementBufferObject.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\VertexArrayObject.h">
+    <ClInclude Include="core\ecs\system\renderer\VertexArrayObject.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\VertexAttribPointerLayout.h">
+    <ClInclude Include="core\ecs\system\renderer\VertexAttribPointerLayout.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\Texture.h">
+    <ClInclude Include="core\ecs\components\texture\Texture.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\Component.h">
+    <ClInclude Include="core\ecs\components\Component.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\Entity.h">
+    <ClInclude Include="core\ecs\entity\Entity.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\singleton\Singleton.h">
+    <ClInclude Include="core\ecs\singleton\Singleton.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\Time.h">
+    <ClInclude Include="core\ecs\system\time\Time.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\Transform.h">
+    <ClInclude Include="core\ecs\components\Transform.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\Camera.h">
+    <ClInclude Include="core\ecs\components\Camera.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\Model.h">
+    <ClInclude Include="core\ecs\entity\Model.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\Input.h">
+    <ClInclude Include="core\ecs\system\input\Input.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\Mouse.h">
+    <ClInclude Include="core\ecs\system\input\Mouse.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

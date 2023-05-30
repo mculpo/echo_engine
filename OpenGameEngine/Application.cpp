@@ -5,9 +5,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "core/ecs/Entity.h"
-#include "core/ecs/Transform.h"
-#include "core/ecs/Model.h"
 using namespace openge;
 int main(void) {
 

@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <typeindex>
 #include <memory>
-#include "Entity.h"
+#include "ecs/entity/Entity.h"
 namespace openge {
 	class Entity;
 

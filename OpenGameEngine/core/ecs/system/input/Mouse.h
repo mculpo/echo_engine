@@ -1,7 +1,7 @@
 #ifndef __MOUSE_H__
 #define __MOUSE_H__
 #include <GLFW/glfw3.h>
-#include "singleton/Singleton.h"
+#include "ecs/singleton/Singleton.h"
 namespace openge {
     class Mouse : public Singleton<Mouse> {
     private:

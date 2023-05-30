@@ -76,13 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Projetos\C++\dependencies\GLEW\include;E:\Projetos\C++\dependencies\GLFW\include;E:\Projetos\C++\open_game_engine\OpenGameEngine\vendor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Desenvolvimento\C++\open_game_engine\dependencies\GLEW\include;C:\Desenvolvimento\C++\open_game_engine\dependencies\GLFW\include;C:\Desenvolvimento\C++\open_game_engine\OpenGameEngine\vendor;C:\Desenvolvimento\C++\open_game_engine\OpenGameEngine\core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:\Projetos\C++\dependencies\GLEW\lib\Release\Win32;E:\Projetos\C++\dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Desenvolvimento\C++\open_game_engine\dependencies\GLEW\lib\Release\Win32;C:\Desenvolvimento\C++\open_game_engine\dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,36 +134,36 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="core\ecs\Camera.cpp" />
+    <ClCompile Include="core\ecs\components\Camera.cpp" />
     <ClCompile Include="core\Engine.cpp" />
-    <ClCompile Include="core\Shader.cpp" />
-    <ClCompile Include="core\ElementBufferObject.cpp" />
-    <ClCompile Include="core\Texture.cpp" />
-    <ClCompile Include="core\Time.cpp" />
-    <ClCompile Include="core\ecs\Transform.cpp" />
-    <ClCompile Include="core\ecs\Model.cpp" />
+    <ClCompile Include="core\ecs\components\shader\Shader.cpp" />
+    <ClCompile Include="core\ecs\system\renderer\ElementBufferObject.cpp" />
+    <ClCompile Include="core\ecs\components\texture\Texture.cpp" />
+    <ClCompile Include="core\ecs\system\time\Time.cpp" />
+    <ClCompile Include="core\ecs\components\Transform.cpp" />
+    <ClCompile Include="core\ecs\entity\Model.cpp" />
     <ClCompile Include="vendor\stb_image.cpp" />
-    <ClCompile Include="core\VertexBufferObject.cpp" />
-    <ClCompile Include="core\VertexArrayObject.cpp" />
+    <ClCompile Include="core\ecs\system\renderer\VertexBufferObject.cpp" />
+    <ClCompile Include="core\ecs\system\renderer\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\ecs\Camera.h" />
-    <ClInclude Include="core\ecs\Component.h" />
+    <ClInclude Include="core\ecs\components\Camera.h" />
+    <ClInclude Include="core\ecs\components\Component.h" />
     <ClInclude Include="core\Engine.h" />
-    <ClInclude Include="core\Input.h" />
-    <ClInclude Include="core\Mouse.h" />
-    <ClInclude Include="core\Shader.h" />
-    <ClInclude Include="core\ElementBufferObject.h" />
-    <ClInclude Include="core\singleton\Singleton.h" />
-    <ClInclude Include="core\VertexAttribPointerLayout.h" />
-    <ClInclude Include="core\Texture.h" />
-    <ClInclude Include="core\ecs\Entity.h" />
-    <ClInclude Include="core\Time.h" />
-    <ClInclude Include="core\ecs\Transform.h" />
-    <ClInclude Include="core\ecs\Model.h" />
+    <ClInclude Include="core\ecs\system\input\Input.h" />
+    <ClInclude Include="core\ecs\system\input\Mouse.h" />
+    <ClInclude Include="core\ecs\components\shader\Shader.h" />
+    <ClInclude Include="core\ecs\system\renderer\ElementBufferObject.h" />
+    <ClInclude Include="core\ecs\singleton\Singleton.h" />
+    <ClInclude Include="core\ecs\system\renderer\VertexAttribPointerLayout.h" />
+    <ClInclude Include="core\ecs\components\texture\Texture.h" />
+    <ClInclude Include="core\ecs\entity\Entity.h" />
+    <ClInclude Include="core\ecs\system\time\Time.h" />
+    <ClInclude Include="core\ecs\components\Transform.h" />
+    <ClInclude Include="core\ecs\entity\Model.h" />
     <ClInclude Include="vendor\stb_image.h" />
-    <ClInclude Include="core\VertexBufferObject.h" />
-    <ClInclude Include="core\VertexArrayObject.h" />
+    <ClInclude Include="core\ecs\system\renderer\VertexBufferObject.h" />
+    <ClInclude Include="core\ecs\system\renderer\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\default.frag" />

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.h"
+#include <stb_image.h>
 namespace openge {
 	class Texture
 	{

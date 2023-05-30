@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <typeindex>
 #include <memory>
-#include "Component.h"
+#include "ecs/components/Component.h"
 
 namespace openge {
 

@@ -1,6 +1,6 @@
 #ifndef __TIME_H__
 #define __TIME_H__
-#include "singleton/Singleton.h"
+#include "ecs/singleton/Singleton.h"
 #include <GLFW/glfw3.h>
 namespace openge {
     // Classe Time que herda de Singleton<Time>

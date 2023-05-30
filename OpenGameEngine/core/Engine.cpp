@@ -1,20 +1,17 @@
 #include "Engine.h"
-#include "Shader.h"
-#include "VertexBufferObject.h"
 #include <stb_image.h>
-#include "ElementBufferObject.h"
-#include "VertexArrayObject.h"
-#include "VertexAttribPointerLayout.h"
-#include "Texture.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "Time.h"
-#include "ecs/Transform.h"
-#include "ecs/Camera.h"
-#include "ecs/Model.h"
-#include "Input.h"
-#include "Mouse.h"
+#include <ecs/system/renderer/VertexArrayObject.h>
+#include <ecs/system/renderer/VertexBufferObject.h>
+#include <ecs/components/texture/Texture.h>
+#include <ecs/entity/Model.h>
+#include <ecs/components/Camera.h>
+#include <ecs/components/shader/Shader.h>
+#include <ecs/system/input/Input.h>
+#include <ecs/system/input/Mouse.h>
+#include <ecs/system/time/Time.h>
 namespace openge {
 
 
@@ -100,7 +97,6 @@ namespace openge {
 		glfwTerminate();
 	}
 
-
 	void Engine::run()
 	{
 
@@ -112,7 +108,7 @@ namespace openge {
 		camera.setFov(45.0f);
 		camera.setFront(glm::vec3(0.0f, 0.0f, -1.0f));
 		camera.setUp(glm::vec3(0.0f, 1.0f, 0.0f));
-		camera.setFarPlane(100.0f);
+		camera.setFarPlane(10.0f);
 		camera.setNearPlane(0.1f);
 
 		Transform transformCamera = Transform(mainCamera, 2, 
@@ -169,22 +165,21 @@ namespace openge {
 		};
 
 		std::vector<openge::Transform> transforms = {
-			openge::Transform(mainCamera, 0, glm::vec3(0.0f,  0.0f,  0.0f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(2.0f,  5.0f, -15.0f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-1.5f, -2.2f, -2.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-3.8f, -2.0f, -12.3f),  glm::vec3(1.0f),glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(2.4f, -0.4f, -3.5f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-1.7f,  3.0f, -7.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(1.5f,   2.0f, -2.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(1.5f,   0.2f, -1.5f),  glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-1.3f,  1.0f, -1.5f),  glm::vec3(1.0f), glm::vec3(0.0f))
+			openge::Transform(mainCamera, 0, glm::vec3(0.0f,  0.0f,  0.0f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(2.0f,  5.0f, -15.0f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(-1.5f, -2.2f, -2.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(-3.8f, -2.0f, -12.3f),	glm::vec3(1.0f),glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(2.4f, -0.4f, -3.5f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(-1.7f,  3.0f, -7.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(1.3f, -2.0f, -2.5f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(1.5f,   2.0f, -2.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(1.5f,   0.2f, -1.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+			openge::Transform(mainCamera, 0, glm::vec3(-1.3f,  1.0f, -1.5f),	glm::vec3(1.0f), glm::vec3(0.0f))
 		};
 
 		VertexArrayObject *vao = new VertexArrayObject();
 		VertexBufferObject *vbo = new VertexBufferObject(vertices, sizeof(vertices), GL_STATIC_DRAW);
 		//ElementBufferObject *ebo = new ElementBufferObject(indices, sizeof(indices), GL_STATIC_DRAW);
-
 
 		vao->AddLayout(3, VP_FLOAT); // position
 		vao->AddLayout(3, VP_FLOAT); // color
@@ -210,54 +205,58 @@ namespace openge {
 		shader->setUniform1i("texture1", 0);
 		shader->setUniform1i("texture2", 1);
 
-		int nrAttributes;
+		/*int nrAttributes;
 		glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
-		std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
+		std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;*/
 
 		while (!glfwWindowShouldClose(m_window)) {
 
 			Time::getInstance().updateDeltaTime();
 			Mouse::getInstance().update();
-			float xpos = Mouse::getInstance().getX();
-			float ypos = Mouse::getInstance().getY();
-			float xoffset = xpos - lastX;
-			float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-			lastX = xpos;
-			lastY = ypos;
 
-			float sensitivity = 0.1f; // change this value to your liking
-			xoffset *= sensitivity;
-			yoffset *= sensitivity;
+			//Input Mouse and Keyboard
+			{
+				float xpos = Mouse::getInstance().getX();
+				float ypos = Mouse::getInstance().getY();
+				float xoffset = xpos - lastX;
+				float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+				lastX = xpos;
+				lastY = ypos;
 
-			yaw += xoffset;
-			pitch += yoffset;
+				float sensitivity = 0.1f; // change this value to your liking
+				xoffset *= sensitivity;
+				yoffset *= sensitivity;
 
-			// make sure that when pitch is out of bounds, screen doesn't get flipped
-			if (pitch > 89.0f)
-				pitch = 89.0f;
-			if (pitch < -89.0f)
-				pitch = -89.0f;
+				yaw += xoffset;
+				pitch += yoffset;
 
-			glm::vec3 front;
-			front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-			front.y = sin(glm::radians(pitch));
-			front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-			mainCamera.getComponent<Camera>()->setFront( glm::normalize(front) );
+				// make sure that when pitch is out of bounds, screen doesn't get flipped
+				if (pitch > 89.0f)
+					pitch = 89.0f;
+				if (pitch < -89.0f)
+					pitch = -89.0f;
+
+				glm::vec3 front;
+				front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+				front.y = sin(glm::radians(pitch));
+				front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+				mainCamera.getComponent<Camera>()->setFront(glm::normalize(front));
 
 
-			if (Input::IsKeyPressed(KEYCODE_ESCAPE))
-				glfwSetWindowShouldClose(m_window, true);
+				if (Input::IsKeyPressed(KEYCODE_ESCAPE))
+					glfwSetWindowShouldClose(m_window, true);
 
-			float cameraSpeed = static_cast<float>(2.5 * Time::getInstance().deltaTime());
-			if (Input::IsKeyHeld(KEYCODE_W))
-				mainCamera.getComponent<Transform>()->translate(cameraSpeed * mainCamera.getComponent<Camera>()->getFront());
-			if (Input::IsKeyHeld(KEYCODE_S))
-				mainCamera.getComponent<Transform>()->translate(-(cameraSpeed * mainCamera.getComponent<Camera>()->getFront()));
-			if (Input::IsKeyHeld(KEYCODE_A))
-				mainCamera.getComponent<Transform>()->translate(-glm::normalize(glm::cross(mainCamera.getComponent<Camera>()->getFront(), mainCamera.getComponent<Camera>()->getUp())) * cameraSpeed);
-			if (Input::IsKeyHeld(KEYCODE_D))
-				mainCamera.getComponent<Transform>()->translate(glm::normalize(glm::cross(mainCamera.getComponent<Camera>()->getFront(), mainCamera.getComponent<Camera>()->getUp())) * cameraSpeed);
+				float cameraSpeed = static_cast<float>(2.5 * Time::getInstance().deltaTime());
+				if (Input::IsKeyHeld(KEYCODE_W))
+					mainCamera.getComponent<Transform>()->translate(cameraSpeed * mainCamera.getComponent<Camera>()->getFront());
+				if (Input::IsKeyHeld(KEYCODE_S))
+					mainCamera.getComponent<Transform>()->translate(-(cameraSpeed * mainCamera.getComponent<Camera>()->getFront()));
+				if (Input::IsKeyHeld(KEYCODE_A))
+					mainCamera.getComponent<Transform>()->translate(-glm::normalize(glm::cross(mainCamera.getComponent<Camera>()->getFront(), mainCamera.getComponent<Camera>()->getUp())) * cameraSpeed);
+				if (Input::IsKeyHeld(KEYCODE_D))
+					mainCamera.getComponent<Transform>()->translate(glm::normalize(glm::cross(mainCamera.getComponent<Camera>()->getFront(), mainCamera.getComponent<Camera>()->getUp())) * cameraSpeed);
 
+			}
 
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -291,7 +290,7 @@ namespace openge {
 				transform.rotate(glm::vec3(0.0f, 1.0f, 0.0f) * (float)(2 * Time::getInstance().deltaTime()));
 				
 				//transform.lookAt(cameraPos, 20 * Time::getInstance().deltaTime());
-				transform.scale(glm::vec3(0.5f));
+				//transform.scale(glm::vec3(1.5f));
 				glm::mat4 model = transform.getModelMatrix();
 				shader->setUniformMatrix4fv("model", model);
 				glDrawArrays(GL_TRIANGLES, 0, 36);

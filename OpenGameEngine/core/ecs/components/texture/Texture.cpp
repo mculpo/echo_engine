@@ -1,5 +1,4 @@
 #include "Texture.h"
-#include "../vendor/stb_image.h"
 namespace openge {
 	Texture::Texture(const std::string& path)
 	{

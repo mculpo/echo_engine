@@ -1,5 +1,4 @@
 #include "Shader.h"
-#include <glm/glm.hpp>
 namespace openge {
 	Shader::Shader(const std::string& pathVertex, const std::string& pathFragment)
 	{
