@@ -6,14 +6,20 @@
 #include <ecs/system/renderer/VertexArrayObject.h>
 #include <ecs/system/renderer/VertexBufferObject.h>
 #include <ecs/components/texture/Texture.h>
-#include <ecs/entity/Model.h>
+#include <ecs/entity/GameObject.h>
 #include <ecs/components/Camera.h>
 #include <ecs/components/shader/Shader.h>
 #include <ecs/system/input/Input.h>
 #include <ecs/system/input/Mouse.h>
 #include <ecs/system/time/Time.h>
+#include <ecs/system/renderer/ElementBufferObject.h>
+#include <ecs/components/mesh/Mesh.h>
+#include <ecs/entity/EntityManager.h>
+#include "../Material.h"
+#include "../MeshRenderer.h"
 namespace openge {
-
+	
+	
 
 	bool firstMouse = true;
 	float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
@@ -100,27 +106,7 @@ namespace openge {
 	void Engine::run()
 	{
 
-		Model mainCamera = Model(1, "MainCamera", "MainCamera");
-
-		Camera camera = Camera(mainCamera, 1);
-		camera.setCameraType(CameraType::Perpective);
-		camera.setAspectRatio(800.0f/600.0f);
-		camera.setFov(45.0f);
-		camera.setFront(glm::vec3(0.0f, 0.0f, -1.0f));
-		camera.setUp(glm::vec3(0.0f, 1.0f, 0.0f));
-		camera.setFarPlane(10.0f);
-		camera.setNearPlane(0.1f);
-
-		Transform transformCamera = Transform(mainCamera, 2, 
-			glm::vec3(0.0f, 0.0f, 3.0f), 
-			glm::vec3(1.0f), 
-			glm::vec3(0.0f)
-		);
-
-		mainCamera.addComponent<Camera>(camera);
-		mainCamera.addComponent<Transform>(transformCamera);
-
-		float vertices[] = {
+		std::vector<float>vertices = {
 			-0.5f, -0.5f, -0.5f,	1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
 			 0.5f, -0.5f, -0.5f,	0.0f, 1.0f, 0.0f,		1.0f, 0.0f,
 			 0.5f,  0.5f, -0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
@@ -162,53 +148,103 @@ namespace openge {
 			 0.5f,  0.5f,  0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
 			-0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 0.0f,		0.0f, 0.0f,
 			-0.5f,  0.5f, -0.5f,	0.0f, 1.0f, 1.0f,		0.0f, 1.0f
-		};
-
-		std::vector<openge::Transform> transforms = {
-			openge::Transform(mainCamera, 0, glm::vec3(0.0f,  0.0f,  0.0f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(2.0f,  5.0f, -15.0f),	glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-1.5f, -2.2f, -2.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-3.8f, -2.0f, -12.3f),	glm::vec3(1.0f),glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(2.4f, -0.4f, -3.5f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-1.7f,  3.0f, -7.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(1.3f, -2.0f, -2.5f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(1.5f,   2.0f, -2.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(1.5f,   0.2f, -1.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
-			openge::Transform(mainCamera, 0, glm::vec3(-1.3f,  1.0f, -1.5f),	glm::vec3(1.0f), glm::vec3(0.0f))
-		};
-
-		VertexArrayObject *vao = new VertexArrayObject();
-		VertexBufferObject *vbo = new VertexBufferObject(vertices, sizeof(vertices), GL_STATIC_DRAW);
-		//ElementBufferObject *ebo = new ElementBufferObject(indices, sizeof(indices), GL_STATIC_DRAW);
-
-		vao->AddLayout(3, VP_FLOAT); // position
-		vao->AddLayout(3, VP_FLOAT); // color
-		vao->AddLayout(2, VP_FLOAT); // texture
-
-		vao->runLayout();
-
-		vbo->Unbind();
-		vao->Unbind();
+	};
 
 		stbi_set_flip_vertically_on_load(true);
+		GameObject mainCamera = GameObject(1, "MainCamera", "MainCamera");
 
-		Texture* texture1 = new Texture("resources/texture/container.jpg");
-		Texture* texture2 = new Texture("resources/texture/awesomeface.png", true);
+		Camera camera = Camera();
+		camera.setCameraType(CameraType::Perpective);
+		camera.setAspectRatio(800.0f/600.0f);
+		camera.setFov(45.0f);
+		camera.setFront(glm::vec3(0.0f, 0.0f, -1.0f));
+		camera.setUp(glm::vec3(0.0f, 1.0f, 0.0f));
+		camera.setFarPlane(100.0f);
+		camera.setNearPlane(0.1f);
 
+		Transform transformCamera = Transform(
+			glm::vec3(0.0f, 0.0f, 3.0f), 
+			glm::vec3(1.0f), 
+			glm::vec3(0.0f)
+		);
+
+		mainCamera.addComponent<Camera>(camera);
+		mainCamera.addComponent<Transform>(transformCamera);
+		
+		
+		GameObject box = GameObject(1, "Box", "Box");
+		Transform transformBox = Transform(
+			glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f), glm::vec3(0.0f)
+		);
+
+		MeshRenderer meshRenderer = MeshRenderer();
+
+		Mesh mesh = Mesh(&box, 1);
+		mesh.setVertices(vertices);
+		meshRenderer.setMesh(std::make_unique<Mesh>(mesh));
+
+		mesh.setup();
+		
+		std::shared_ptr<Material> material = meshRenderer.setMaterial(std::make_shared<Material>(Material()));
+
+		material->setTexture("texture1", std::make_shared<Texture>("resources/texture/container.jpg"));
+		material->setTexture("texture2" , std::make_shared<Texture>("resources/texture/awesomeface.png", true));
+		material->setShader(std::make_shared <Shader>("resources/shaders/uniform.vertex", "resources/shaders/uniform.frag"));
+		//material.setup();
+		
+		box.addComponent<Transform>(transformBox);
+		box.addComponent<Mesh>(mesh);
+		box.addComponent<MeshRenderer>(meshRenderer);
+
+		meshRenderer.setup();
+
+		EntityManager::getInstance().addEntity<GameObject>(box);
+		EntityManager::getInstance().addEntity<GameObject>(mainCamera);
+
+		//std::vector< Transform> transforms = {
+		//	Transform(glm::vec3(0.0f,  0.0f,  0.0f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
+		//	Transform(glm::vec3(2.0f,  5.0f, -15.0f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+		//	Transform(glm::vec3(-1.5f, -2.2f, -2.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+		//	Transform(glm::vec3(-3.8f, -2.0f, -12.3f),	glm::vec3(1.0f),glm::vec3(0.0f)),
+		//	Transform(glm::vec3(2.4f, -0.4f, -3.5f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
+		//	Transform(glm::vec3(-1.7f,  3.0f, -7.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+		//	Transform(glm::vec3(1.3f, -2.0f, -2.5f),		glm::vec3(1.0f),  glm::vec3(0.0f)),
+		//	Transform(glm::vec3(1.5f,   2.0f, -2.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+		//	Transform(glm::vec3(1.5f,   0.2f, -1.5f),	glm::vec3(1.0f), glm::vec3(0.0f)),
+		//	Transform(glm::vec3(-1.3f,  1.0f, -1.5f),	glm::vec3(1.0f), glm::vec3(0.0f))
+		//};
+		//VertexArrayObject *vao = new VertexArrayObject();
+		//VertexBufferObject *vbo = new VertexBufferObject(vertices.data(), vertices.size() * sizeof(float), GL_STATIC_DRAW);
+		////ElementBufferObject *ebo = new ElementBufferObject(indices, sizeof(indices), GL_STATIC_DRAW);
+
+		//vao->AddLayout(3, VP_FLOAT); // position
+		//vao->AddLayout(3, VP_FLOAT); // color
+		//vao->AddLayout(2, VP_FLOAT); // texture
+
+		//vao->runLayout();
+
+		//vbo->Unbind();
+		//vao->Unbind();
+
+		
+
+		
+		/*Texture* texture1 = new Texture("resources/texture/container.jpg");
+		Texture* texture2 = new Texture("resources/texture/awesomeface.png", true);*/
 		/*
 		* Shaders Vertex and Fragment configuration
 		* create and use its
 		*/
-		Shader* shader = new Shader("resources/shaders/uniform.vertex", "resources/shaders/uniform.frag");
+		/*Shader* shader = new Shader("resources/shaders/uniform.vertex", "resources/shaders/uniform.frag");*/
 
-		shader->Bind();
+		/*shader->Bind();
 		shader->setUniform1i("texture1", 0);
-		shader->setUniform1i("texture2", 1);
+		shader->setUniform1i("texture2", 1);*/
 
 		/*int nrAttributes;
 		glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 		std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;*/
-
+		
 		while (!glfwWindowShouldClose(m_window)) {
 
 			Time::getInstance().updateDeltaTime();
@@ -261,13 +297,15 @@ namespace openge {
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			box.getComponent<MeshRenderer>()->bind();
+			box.getComponent<MeshRenderer>()->render();
 			//bind textures on corresponding texture units
-			glActiveTexture(GL_TEXTURE0);
+			/*glActiveTexture(GL_TEXTURE0);
 			texture1->Bind();
 			glActiveTexture(GL_TEXTURE1);
-			texture2->Bind();
+			texture2->Bind();*/
 
-			shader->Bind(); 
+			/*shader->Bind(); */
 			////glm::mat4 model = glm::mat4(1.0f);
 			//glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 			//glm::mat4 projection = glm::mat4(1.0f);
@@ -276,37 +314,37 @@ namespace openge {
 			//projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 			//shader->setUniformMatrix4fv("model", model);
-			std::shared_ptr<Camera> camera = mainCamera.getComponent<Camera>();
+			/*std::shared_ptr<Camera> camera = mainCamera.getComponent<Camera>();
 			glm::mat4 view = camera->getViewMatrix();
 			glm::mat4 projection = camera->getProjectionMatrix();
 			shader->setUniformMatrix4fv("view", view);
-			shader->setUniformMatrix4fv("projection", projection);
+			shader->setUniformMatrix4fv("projection", projection);*/
 			//render container 
 			
-			vao->Bind();
-			for (unsigned int i = 0; i < transforms.size(); i++) {
-				openge::Transform& transform = transforms[i];
-				transform.rotate(glm::vec3(0.0f, 0.0f, 1.0f) * (float)(1 * Time::getInstance().deltaTime()));
-				transform.rotate(glm::vec3(0.0f, 1.0f, 0.0f) * (float)(2 * Time::getInstance().deltaTime()));
-				
-				//transform.lookAt(cameraPos, 20 * Time::getInstance().deltaTime());
-				//transform.scale(glm::vec3(1.5f));
-				glm::mat4 model = transform.getModelMatrix();
-				shader->setUniformMatrix4fv("model", model);
-				glDrawArrays(GL_TRIANGLES, 0, 36);
-			}
+			//vao->Bind();
+			//for (unsigned int i = 0; i < transforms.size(); i++) {
+			//	Transform* transform = &transforms[i];
+			//	transform->rotate(glm::vec3(0.0f, 0.0f, 1.0f) * (float)(1 * Time::getInstance().deltaTime()));
+			//	transform->rotate(glm::vec3(0.0f, 1.0f, 0.0f) * (float)(2 * Time::getInstance().deltaTime()));
+			//	
+			//	//transform.lookAt(cameraPos, 20 * Time::getInstance().deltaTime());
+			//	//transform.scale(glm::vec3(1.5f));
+			//	glm::mat4 model = transform->getModelMatrix();
+			//	shader->setUniformMatrix4fv("model", model);
+			//	glDrawArrays(GL_TRIANGLES, 0, 36);
+			//}
 			//glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, 0);
 			
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}
 
-		delete shader;
-		delete texture1;
-		delete texture2;
-		delete vbo;
-		//delete ebo;
-		delete vao;
+		//delete shader;
+		//delete texture1;
+		//delete texture2;
+		//delete vbo;
+		////delete ebo;
+		//delete vao;
 	}
 }
 

@@ -16,7 +16,9 @@ namespace openge {
 		glm::vec3 m_scale;
 		glm::quat m_rotation;
 
-		Transform(Entity& entity, std::uint64_t id, const glm::vec3 position, const glm::vec3 scale, const glm::quat rotation);
+		Transform(const glm::vec3 position, const glm::vec3 scale, const glm::quat rotation);
+		Transform(std::uint64_t id, const glm::vec3 position, const glm::vec3 scale, const glm::quat rotation);
+		Transform(Entity* entity, std::uint64_t id, const glm::vec3 position, const glm::vec3 scale, const glm::quat rotation);
 		~Transform();
 		glm::mat4 getModelMatrix();
 
@@ -26,7 +28,6 @@ namespace openge {
 		void lookAt(const glm::vec3& target, float speed);
 
 		std::string toString() const;
-
 	};
 }
 #endif // !__TRANSFORM_H__

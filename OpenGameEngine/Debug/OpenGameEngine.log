@@ -1,5 +1,4 @@
 ﻿  Engine.cpp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflita com uso de outras bibliotecas; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflita com uso de outras bibliotecas; use /NODEFAULTLIB:library
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' não foi encontrado 'glew32s.lib(glew.obj)' ou no ''; vinculando objeto quando quando sem nenhuma informação de depuração
-  OpenGameEngine.vcxproj -> C:\Desenvolvimento\C++\open_game_engine\Debug\OpenGameEngine.exe
+E:\Projetos\C++\open_game_engine\OpenGameEngine\core\Engine.cpp(255,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\Projetos\C++\open_game_engine\OpenGameEngine\core\Engine.cpp(256,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  OpenGameEngine.vcxproj -> E:\Projetos\C++\open_game_engine\Debug\OpenGameEngine.exe

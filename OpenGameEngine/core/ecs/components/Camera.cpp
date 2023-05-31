@@ -1,31 +1,12 @@
 #include "Camera.h"
 namespace openge {
-	Camera::Camera(
-		Entity& entity,
-		std::uint64_t id, 
-		glm::vec3& front, 
-		glm::vec3& up, 
-		float fov, 
-		float aspectRatio, 
-		float nearPlane, 
-		float farPlane, 
-		CameraType type) : 
-		Component(entity,id),
-		m_front(front),
-		m_up(up), 
-		m_fov(fov),
-		m_aspectRatio(aspectRatio),
-		m_nearPlane(nearPlane),
-		m_farPlane(farPlane){}
+	Camera::Camera() :Component() {}
 
-	Camera::Camera(Entity& entity,
-		std::uint64_t id):Component(entity, id) {}
-
-	Camera::~Camera(){}
+	Camera::~Camera() {}
 
 	glm::mat4 Camera::getViewMatrix()
 	{
-		std::shared_ptr<Transform> transform = getEntity().getComponent<Transform>();
+		std::shared_ptr<Transform> transform = getEntity()->getComponent<Transform>();
 		return glm::lookAt(transform->m_position, transform->m_position + m_front, m_up);
 	}
 

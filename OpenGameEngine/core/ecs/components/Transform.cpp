@@ -1,9 +1,22 @@
 #include "Transform.h"
 namespace openge {
-	Transform::Transform(Entity& entity, std::uint64_t id, const glm::vec3 position = glm::vec3(0.0f),
+
+
+	Transform::Transform(const glm::vec3 position = glm::vec3(0.0f),
+		const glm::vec3 scale = glm::vec3(0.0f),
+		const glm::quat rotation = glm::quat()) : Component(),
+		 m_position(position), m_scale(scale), m_rotation(rotation) {}
+
+	Transform::Transform(std::uint64_t id, const glm::vec3 position = glm::vec3(0.0f),
+		const glm::vec3 scale = glm::vec3(0.0f),
+		const glm::quat rotation = glm::quat()) :
+		Component(id), m_position(position), m_scale(scale), m_rotation(rotation) {}
+
+	Transform::Transform(Entity* entity, std::uint64_t id, const glm::vec3 position = glm::vec3(0.0f),
 		const glm::vec3 scale = glm::vec3(0.0f), 
 		const glm::quat rotation = glm::quat()) :
 		Component(entity, id), m_position(position), m_scale(scale), m_rotation(rotation){}
+
 	Transform::~Transform()
 	{}
 

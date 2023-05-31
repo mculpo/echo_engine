@@ -74,15 +74,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Desenvolvimento\C++\open_game_engine\dependencies\GLEW\include;C:\Desenvolvimento\C++\open_game_engine\dependencies\GLFW\include;C:\Desenvolvimento\C++\open_game_engine\OpenGameEngine\vendor;C:\Desenvolvimento\C++\open_game_engine\OpenGameEngine\core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\core;$(SolutionDir)\dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Desenvolvimento\C++\open_game_engine\dependencies\GLEW\lib\Release\Win32;C:\Desenvolvimento\C++\open_game_engine\dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\GLEW\lib\Release\Win32;$(SolutionDir)dependencies\GLFW\lib-vc2022</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,9 +91,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLFW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;GLFW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Projetos\C++\dependencies\GLEW\include;E:\Projetos\C++\dependencies\GLFW\include;E:\Projetos\C++\open_game_engine\OpenGameEngine\vendor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\core;$(SolutionDir)\dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,7 +101,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:\Projetos\C++\dependencies\GLEW\lib\Release\Win32;E:\Projetos\C++\dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\GLEW\lib\Release\Win32;$(SolutionDir)dependencies\GLFW\lib-vc2022</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,10 +110,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\core;$(SolutionDir)dependencies\GFLW\include;$(SolutionDir)dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\GFLW\lib-vc2022;$(SolutionDir)dependencies\GLEW\lib\Release\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,24 +126,29 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\core;$(SolutionDir)dependencies\GFLW\include;$(SolutionDir)dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\GFLW\lib-vc2022;$(SolutionDir)dependencies\GLEW\lib\Release\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="core\ecs\components\Camera.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="core\Engine.cpp" />
     <ClCompile Include="core\ecs\components\shader\Shader.cpp" />
     <ClCompile Include="core\ecs\system\renderer\ElementBufferObject.cpp" />
     <ClCompile Include="core\ecs\components\texture\Texture.cpp" />
     <ClCompile Include="core\ecs\system\time\Time.cpp" />
     <ClCompile Include="core\ecs\components\Transform.cpp" />
-    <ClCompile Include="core\ecs\entity\Model.cpp" />
+    <ClCompile Include="core\ecs\entity\GameObject.cpp" />
+    <ClCompile Include="core\ecs\components\mesh\Mesh.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="vendor\stb_image.cpp" />
     <ClCompile Include="core\ecs\system\renderer\VertexBufferObject.cpp" />
     <ClCompile Include="core\ecs\system\renderer\VertexArrayObject.cpp" />
@@ -149,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="core\ecs\components\Camera.h" />
     <ClInclude Include="core\ecs\components\Component.h" />
+    <ClInclude Include="core\ecs\entity\EntityManager.h" />
     <ClInclude Include="core\Engine.h" />
     <ClInclude Include="core\ecs\system\input\Input.h" />
     <ClInclude Include="core\ecs\system\input\Mouse.h" />
@@ -160,7 +168,10 @@
     <ClInclude Include="core\ecs\entity\Entity.h" />
     <ClInclude Include="core\ecs\system\time\Time.h" />
     <ClInclude Include="core\ecs\components\Transform.h" />
-    <ClInclude Include="core\ecs\entity\Model.h" />
+    <ClInclude Include="core\ecs\entity\GameObject.h" />
+    <ClInclude Include="core\ecs\components\mesh\Mesh.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="vendor\stb_image.h" />
     <ClInclude Include="core\ecs\system\renderer\VertexBufferObject.h" />
     <ClInclude Include="core\ecs\system\renderer\VertexArrayObject.h" />

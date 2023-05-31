@@ -10,21 +10,30 @@
 namespace openge {
 
     class Component;
+    class EntityManager;
 
     class Entity
     {
     private:
         std::uint64_t m_id;
         std::unordered_map<std::type_index, std::shared_ptr<Component>> m_components;
+        std::string m_name;
+        std::string m_tag;
 
     public:
-        Entity()
-            : m_id(0) {}
+        Entity() = default;
 
-        Entity(std::uint64_t id)
-            : m_id(id) {}
+        Entity(std::uint64_t id, std::string name, std::string tag)
+            : m_id(id), m_name(name), m_tag(tag) {}
 
         ~Entity() {}
+
+        std::string getName() const {
+            return m_name;
+        }
+        std::string getTag() const {
+            return m_tag;
+        }
 
         template<typename ComponentType, typename... Args>
         void addComponent(Args&&... args)
@@ -36,6 +45,7 @@ namespace openge {
             {
                 std::shared_ptr<ComponentType> component = std::make_shared<ComponentType>(std::forward<Args>(args)...);
                 m_components[componentTypeIndex] = component;
+                m_components[componentTypeIndex]->setEntity(this);
             }
             else
             {

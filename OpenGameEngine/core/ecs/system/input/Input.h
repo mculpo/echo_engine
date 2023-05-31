@@ -1,6 +1,5 @@
 #include <GLFW/glfw3.h>
 
-#include <GLFW/glfw3.h>
 
 // Teclas de função
 #define KEYCODE_SPACE           GLFW_KEY_SPACE

@@ -23,8 +23,7 @@ namespace openge {
 		float m_farPlane;
 		CameraType m_type;
 	public:
-		Camera(Entity& entity,std::uint64_t id, glm::vec3& front, glm::vec3& up, float fov, float aspectRatio, float nearPlane, float farPlane, CameraType type);
-		Camera(Entity& entity, std::uint64_t id);
+		Camera();
 		~Camera();
 
 		glm::mat4 getViewMatrix();
