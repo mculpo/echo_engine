@@ -18,111 +18,117 @@
     <ClCompile Include="Application.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\Engine.cpp">
+    <ClCompile Include="Engine.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\components\shader\Shader.cpp">
+    <ClCompile Include="src\Renderer\Shader.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\system\renderer\VertexBufferObject.cpp">
+    <ClCompile Include="src\Renderer\VertexBufferObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\system\renderer\ElementBufferObject.cpp">
+    <ClCompile Include="src\Renderer\ElementBufferObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\system\renderer\VertexArrayObject.cpp">
+    <ClCompile Include="src\Renderer\VertexArrayObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\components\texture\Texture.cpp">
+    <ClCompile Include="src\Renderer\Texture.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\system\time\Time.cpp">
+    <ClCompile Include="src\Core\Time.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\components\Transform.cpp">
+    <ClCompile Include="src\Component\Transform.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\components\Camera.cpp">
+    <ClCompile Include="src\Renderer\Camera.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\entity\GameObject.cpp">
+    <ClCompile Include="src\Entity\GameObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="core\ecs\components\mesh\Mesh.cpp">
+    <ClCompile Include="src\Component\Mesh.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
+    <ClCompile Include="src\Renderer\MeshRenderer.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
+    <ClCompile Include="src\Component\Material.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\Engine.h">
+    <ClInclude Include="Engine.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\components\shader\Shader.h">
+    <ClInclude Include="src\Renderer\Shader.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="vendor\stb_image.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\system\renderer\VertexBufferObject.h">
+    <ClInclude Include="src\Renderer\VertexBufferObject.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\system\renderer\ElementBufferObject.h">
+    <ClInclude Include="src\Renderer\ElementBufferObject.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\system\renderer\VertexArrayObject.h">
+    <ClInclude Include="src\Renderer\VertexArrayObject.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\system\renderer\VertexAttribPointerLayout.h">
+    <ClInclude Include="src\Renderer\VertexAttribPointerLayout.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\components\texture\Texture.h">
+    <ClInclude Include="src\Renderer\Texture.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\components\Component.h">
+    <ClInclude Include="src\Component\Component.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\entity\Entity.h">
+    <ClInclude Include="src\Entity\Entity.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\singleton\Singleton.h">
+    <ClInclude Include="src\Core\Singleton.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\system\time\Time.h">
+    <ClInclude Include="src\Core\Time.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\components\Transform.h">
+    <ClInclude Include="src\Component\Transform.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\components\Camera.h">
+    <ClInclude Include="src\Renderer\Camera.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\entity\GameObject.h">
+    <ClInclude Include="src\Entity\GameObject.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\system\input\Input.h">
+    <ClInclude Include="src\Core\Input.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\system\input\Mouse.h">
+    <ClInclude Include="src\Core\Mouse.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\components\mesh\Mesh.h">
+    <ClInclude Include="src\Component\Mesh.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
+    <ClInclude Include="src\Renderer\MeshRenderer.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
+    <ClInclude Include="src\Component\Material.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\ecs\entity\EntityManager.h">
+    <ClInclude Include="src\Entity\EntityManager.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\tspch.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\base.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

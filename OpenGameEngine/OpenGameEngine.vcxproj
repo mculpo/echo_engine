@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\core;$(SolutionDir)\dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\src\;$(SolutionDir)\dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;GLFW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\core;$(SolutionDir)\dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\src\;$(SolutionDir)\dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,43 +138,45 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="core\ecs\components\Camera.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="core\Engine.cpp" />
-    <ClCompile Include="core\ecs\components\shader\Shader.cpp" />
-    <ClCompile Include="core\ecs\system\renderer\ElementBufferObject.cpp" />
-    <ClCompile Include="core\ecs\components\texture\Texture.cpp" />
-    <ClCompile Include="core\ecs\system\time\Time.cpp" />
-    <ClCompile Include="core\ecs\components\Transform.cpp" />
-    <ClCompile Include="core\ecs\entity\GameObject.cpp" />
-    <ClCompile Include="core\ecs\components\mesh\Mesh.cpp" />
-    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="src\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Component\Material.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Renderer\ElementBufferObject.cpp" />
+    <ClCompile Include="src\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Core\Time.cpp" />
+    <ClCompile Include="src\Component\Transform.cpp" />
+    <ClCompile Include="src\Entity\GameObject.cpp" />
+    <ClCompile Include="src\Component\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\MeshRenderer.cpp" />
     <ClCompile Include="vendor\stb_image.cpp" />
-    <ClCompile Include="core\ecs\system\renderer\VertexBufferObject.cpp" />
-    <ClCompile Include="core\ecs\system\renderer\VertexArrayObject.cpp" />
+    <ClCompile Include="src\Renderer\VertexBufferObject.cpp" />
+    <ClCompile Include="src\Renderer\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\ecs\components\Camera.h" />
-    <ClInclude Include="core\ecs\components\Component.h" />
-    <ClInclude Include="core\ecs\entity\EntityManager.h" />
-    <ClInclude Include="core\Engine.h" />
-    <ClInclude Include="core\ecs\system\input\Input.h" />
-    <ClInclude Include="core\ecs\system\input\Mouse.h" />
-    <ClInclude Include="core\ecs\components\shader\Shader.h" />
-    <ClInclude Include="core\ecs\system\renderer\ElementBufferObject.h" />
-    <ClInclude Include="core\ecs\singleton\Singleton.h" />
-    <ClInclude Include="core\ecs\system\renderer\VertexAttribPointerLayout.h" />
-    <ClInclude Include="core\ecs\components\texture\Texture.h" />
-    <ClInclude Include="core\ecs\entity\Entity.h" />
-    <ClInclude Include="core\ecs\system\time\Time.h" />
-    <ClInclude Include="core\ecs\components\Transform.h" />
-    <ClInclude Include="core\ecs\entity\GameObject.h" />
-    <ClInclude Include="core\ecs\components\mesh\Mesh.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="src\Core\base.h" />
+    <ClInclude Include="src\Core\tspch.h" />
+    <ClInclude Include="src\Renderer\Camera.h" />
+    <ClInclude Include="src\Component\Component.h" />
+    <ClInclude Include="src\Entity\EntityManager.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="src\Core\Input.h" />
+    <ClInclude Include="src\Core\Mouse.h" />
+    <ClInclude Include="src\Renderer\Shader.h" />
+    <ClInclude Include="src\Renderer\ElementBufferObject.h" />
+    <ClInclude Include="src\Core\Singleton.h" />
+    <ClInclude Include="src\Renderer\VertexAttribPointerLayout.h" />
+    <ClInclude Include="src\Renderer\Texture.h" />
+    <ClInclude Include="src\Entity\Entity.h" />
+    <ClInclude Include="src\Core\Time.h" />
+    <ClInclude Include="src\Component\Transform.h" />
+    <ClInclude Include="src\Entity\GameObject.h" />
+    <ClInclude Include="src\Component\Mesh.h" />
+    <ClInclude Include="src\Component\Material.h" />
+    <ClInclude Include="src\Renderer\MeshRenderer.h" />
     <ClInclude Include="vendor\stb_image.h" />
-    <ClInclude Include="core\ecs\system\renderer\VertexBufferObject.h" />
-    <ClInclude Include="core\ecs\system\renderer\VertexArrayObject.h" />
+    <ClInclude Include="src\Renderer\VertexBufferObject.h" />
+    <ClInclude Include="src\Renderer\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\default.frag" />
