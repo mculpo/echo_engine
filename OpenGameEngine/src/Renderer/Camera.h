@@ -1,10 +1,9 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
-
+#include <Core/tspch.h>
 #include "Component/Component.h"
 #include "Component/Transform.h"
 #include "Entity/Entity.h"
-#include <glm/glm.hpp>
 namespace openge {
 	class Transform;
 	enum class CameraType {

@@ -1,5 +1,5 @@
-#ifndef __MESHRENDERER_H__
-#define __MESHRENDERER_H__
+#ifndef __RENDERER_H__
+#define __RENDERER_H__
 #include <Component/Component.h>
 #include <Component/Material.h>
 #include <Component/Mesh.h>
@@ -7,11 +7,11 @@
 #include <Renderer/Camera.h>
 #include <Entity/GameObject.h>
 namespace openge {
-	class MeshRenderer : public Component
+	class Renderer : public Component
 	{
 	public:
-		MeshRenderer() {}
-		~MeshRenderer() {}
+		Renderer() {}
+		~Renderer() {}
 
 		void setup();
 		void bind();

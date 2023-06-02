@@ -1,7 +1,5 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <GL/glew.h>
-#include <../Engine.h>
+#include <Core/tspch.h>
 namespace openge {
 
 	class Shader

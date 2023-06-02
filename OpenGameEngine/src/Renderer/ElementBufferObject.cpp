@@ -1,5 +1,4 @@
 #include "ElementBufferObject.h"
-#include <../Engine.h>
 namespace openge {
 	ElementBufferObject::ElementBufferObject(const void* indices, unsigned int size, unsigned int glEnum)
 	{

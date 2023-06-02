@@ -54,7 +54,7 @@
     <ClCompile Include="src\Component\Mesh.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\MeshRenderer.cpp">
+    <ClCompile Include="src\Renderer\Renderer.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="src\Component\Material.cpp">
@@ -116,7 +116,7 @@
     <ClInclude Include="src\Component\Mesh.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\MeshRenderer.h">
+    <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="src\Component\Material.h">
@@ -129,6 +129,12 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\base.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Vertex.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Random.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

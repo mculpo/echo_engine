@@ -3,17 +3,21 @@ namespace openge {
 	void Mesh::setup()
 	{
 		setVAO(std::make_shared<VertexArrayObject>());
-		setVBO(std::make_shared<VertexBufferObject>(m_vertices.data(), m_vertices.size() * sizeof(float), GL_STATIC_DRAW));
-		//setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
+		setVBO(std::make_shared<VertexBufferObject>(m_vertices.data(), m_vertices.size() * sizeof(Vertex), GL_STATIC_DRAW));
+		setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
 		
-		m_vao.get()->AddLayout(3, VP_FLOAT); // position
-		m_vao.get()->AddLayout(3, VP_FLOAT); // color
-		m_vao.get()->AddLayout(2, VP_FLOAT); // texture
+		m_vao->AddLayout(3, VP_FLOAT); // position
+		m_vao->AddLayout(2, VP_FLOAT); // texture
 
-		m_vao.get()->runLayout();
+		m_vao->runLayout();
 
-		m_vbo.get()->Unbind();
-		m_vao.get()->Unbind();
+		m_vbo->Unbind();
+		m_vao->Unbind();
+	}
+
+	void Mesh::disableVertexAttribArray()
+	{
+		m_vao->runLayout();
 	}
 
 	void Mesh::setMeshData(MeshData& meshData)
@@ -28,7 +32,7 @@ namespace openge {
 		m_indices = indices;
 	}
 
-	void Mesh::setVertices(std::vector<float>& vertices)
+	void Mesh::setVertices(std::vector<Vertex>& vertices)
 	{
 		m_vertices = vertices;
 	}

@@ -1,13 +1,13 @@
-#include "MeshRenderer.h"
+#include "Renderer.h"
 
 namespace openge {
-	void MeshRenderer::setup()
+	void Renderer::setup()
 	{
 		m_mesh->setup();
 		m_material->setup();
 	}
 
-	void MeshRenderer::bind()
+	void Renderer::bind()
 	{
 		m_material->bind();
 		std::shared_ptr<Camera> camera = gameObjectFindByTag<GameObject>("MainCamera")->getComponent<Camera>();
@@ -18,19 +18,19 @@ namespace openge {
 		m_mesh->useVAO();
 	}
 
-	void MeshRenderer::render()
+	void Renderer::render()
 	{
 		glm::mat4 model = getEntity()->getComponent<Transform>()->getModelMatrix();
 		m_material->getShader()->setUniformMatrix4fv("model", model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
 
-	void MeshRenderer::setMaterial(std::shared_ptr<Material> material)
+	void Renderer::setMaterial(std::shared_ptr<Material> material)
 	{
 		m_material = material;
 	}
 
-	void MeshRenderer::setMesh(std::shared_ptr<Mesh> mesh)
+	void Renderer::setMesh(std::shared_ptr<Mesh> mesh)
 	{
 		m_mesh = mesh;
 	}

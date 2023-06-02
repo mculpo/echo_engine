@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/tspch.h>
+#include <Core/Vertex.h>
 #include "VertexAttribPointerLayout.h"
 /*
 * https://docs.gl/gl4/glVertexAttribPointer
@@ -17,6 +18,7 @@ namespace openge {
 		void AddLayout(VertexAttribPointerLayout layout);
 		void AddLayout(int size, VertexPointerEnum type);
 		void runLayout();
+		void disableLayout();
 	private:
 		unsigned int m_rendererID;
 		/*

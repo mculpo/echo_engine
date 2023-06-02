@@ -1,4 +1,5 @@
 #pragma once
+#include <Core/tspch.h>
 namespace openge {
 	class ElementBufferObject
 	{

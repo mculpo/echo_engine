@@ -5,7 +5,7 @@
 #include <Renderer/VertexBufferObject.h>
 #include <Renderer/Texture.h>
 #include <Renderer/ElementBufferObject.h>
-#include <Renderer/MeshRenderer.h>
+#include <Renderer/Renderer.h>
 #include <Renderer/Camera.h>
 #include <Renderer/Shader.h>
 
@@ -19,12 +19,12 @@
 #include <Core/Input.h>
 #include <Core/Mouse.h>
 #include <Core/Time.h>
+#include <Core/Vertex.h>
+#include <Core/Random.h>
 
 
 namespace openge {
 	
-	
-
 	bool firstMouse = true;
 	float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
 	float pitch = 0.0f;
@@ -72,7 +72,7 @@ namespace openge {
 		glViewport(0, 0, width, height);
 	}
 
-	Engine::Engine(int width, int height, const char* title, bool fullWidth)
+	Engine::Engine(float width, float height, const char* title, bool fullWidth) : width(width) , height(height)
 	{
 		if (glfwInit()) {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -109,110 +109,107 @@ namespace openge {
 
 	void Engine::run()
 	{
-		//Time::getInstance().setTargetFps(120);
-		std::vector<float>vertices = {
-				-0.5f, -0.5f, -0.5f,	1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
-				 0.5f, -0.5f, -0.5f,	0.0f, 1.0f, 0.0f,		1.0f, 0.0f,
-				 0.5f,  0.5f, -0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
-				 0.5f,  0.5f, -0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
-				-0.5f,  0.5f, -0.5f,	1.0f, 1.0f, 0.0f,		0.0f, 1.0f,
-				-0.5f, -0.5f, -0.5f,	0.0f, 1.0f, 1.0f,		0.0f, 0.0f,
 
-				-0.5f, -0.5f,  0.5f,	1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
-				 0.5f, -0.5f,  0.5f,	0.0f, 1.0f, 0.0f,		1.0f, 0.0f,
-				 0.5f,  0.5f,  0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
-				 0.5f,  0.5f,  0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
-				-0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 0.0f,		0.0f, 1.0f,
-				-0.5f, -0.5f,  0.5f,	0.0f, 1.0f, 1.0f,		0.0f, 0.0f,
+		
 
-				-0.5f,  0.5f,  0.5f,	1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
-				-0.5f,  0.5f, -0.5f,	0.0f, 1.0f, 0.0f,		1.0f, 1.0f,
-				-0.5f, -0.5f, -0.5f,	0.0f, 0.0f, 1.0f,		0.0f, 1.0f,
-				-0.5f, -0.5f, -0.5f,	0.0f, 0.0f, 1.0f,		0.0f, 1.0f,
-				-0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 0.0f,		0.0f, 0.0f,
-				-0.5f,  0.5f,  0.5f,	0.0f, 1.0f, 1.0f,		1.0f, 0.0f,
+		std::vector<Vertex> vertices;
 
-				 0.5f,  0.5f,  0.5f,	1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
-				 0.5f,  0.5f, -0.5f,	0.0f, 1.0f, 0.0f,		1.0f, 1.0f,
-				 0.5f, -0.5f, -0.5f,	0.0f, 0.0f, 1.0f,		0.0f, 1.0f,
-				 0.5f, -0.5f, -0.5f,	0.0f, 0.0f, 1.0f,		0.0f, 1.0f,
-				 0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 0.0f,		0.0f, 0.0f,
-				 0.5f,  0.5f,  0.5f,	0.0f, 1.0f, 1.0f,		1.0f, 0.0f,
+		Vector2 t00 = Vector2(0.0f, 0.0f);  // Bottom left
+		Vector2 t01 = Vector2(0.0f, 1.0f);  // Top left
+		Vector2 t10 = Vector2(1.0f, 0.0f);  // Bottom right
+		Vector2 t11 = Vector2(1.0f, 1.0f);  // Top right
 
-				-0.5f, -0.5f, -0.5f,	1.0f, 0.0f, 0.0f,		0.0f, 1.0f,
-				 0.5f, -0.5f, -0.5f,	0.0f, 1.0f, 0.0f,		1.0f, 1.0f,
-				 0.5f, -0.5f,  0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
-				 0.5f, -0.5f,  0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
-				-0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 0.0f,		0.0f, 0.0f,
-				-0.5f, -0.5f, -0.5f,	0.0f, 1.0f, 1.0f,		0.0f, 1.0f,
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), t01));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), t10));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), t11));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), t10));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), t01));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), t11));
 
-				-0.5f,  0.5f, -0.5f,	1.0f, 0.0f, 0.0f,		0.0f, 1.0f,
-				 0.5f,  0.5f, -0.5f,	0.0f, 1.0f, 0.0f,		1.0f, 1.0f,
-				 0.5f,  0.5f,  0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
-				 0.5f,  0.5f,  0.5f,	0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
-				-0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 0.0f,		0.0f, 0.0f,
-				-0.5f,  0.5f, -0.5f,	0.0f, 1.0f, 1.0f,		0.0f, 1.0f
+
+		std::vector<unsigned int> indices = {
+							  0, 1, 2,
+							  1, 3, 4,
+							  5, 6, 3,
+							  7, 3, 6,
+							  2, 4, 7,
+							  0, 7, 6,
+							  0, 5, 1,
+							  1, 5, 3,
+							  5, 0, 6,
+							  7, 4, 3,
+							  2, 1, 4,
+							  0, 2, 7
 		};
 
 		stbi_set_flip_vertically_on_load(true);
-		std::shared_ptr<GameObject> mainCamera = std::make_shared<GameObject>(0, "MainCamera", "MainCamera");
 
-		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+
+		ref<GameObject> mainCamera = createRef<GameObject>(0, "MainCamera", "MainCamera");
+
+		ref<Camera> camera = createRef<Camera>();
 		camera->setCameraType(CameraType::Perpective);
-		camera->setAspectRatio(800.0f/600.0f);
+		camera->setAspectRatio(width / height);
 		camera->setFov(45.0f);
-		camera->setFront(glm::vec3(0.0f, 0.0f, -1.0f));
-		camera->setUp(glm::vec3(0.0f, 1.0f, 0.0f));
+		camera->setFront(Vector3(0.0f, 0.0f, -1.0f));
+		camera->setUp(Vector3(0.0f, 1.0f, 0.0f));
 		camera->setFarPlane(100.0f);
 		camera->setNearPlane(0.1f);
 
-		std::shared_ptr<Transform> transformCamera = std::make_shared <Transform>(
-			glm::vec3(0.0f, 0.0f, 3.0f), 
-			glm::vec3(1.0f), 
-			glm::vec3(0.0f)
+		ref<Transform> transformCamera = createRef <Transform>(
+			Vector3(0.0f, 0.0f, 0.0f),
+			Vector3(1.0f),
+			Vector3(0.0f)
 		);
 
 		mainCamera->addComponent<Camera>(camera);
 		mainCamera->addComponent<Transform>(transformCamera);
 		
-		
-		std::random_device rd;   // Obtém uma seed aleatória do dispositivo
-		std::mt19937 gen(rd());  // Gera números aleatórios usando o algoritmo Mersenne Twister
-		std::uniform_real_distribution<float> dist(-10.0f, 10.0f);  // Distribuição uniforme entre -10 e 10
-		std::uniform_real_distribution<float> distA(-10.0f, 0.0f);
 
-		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
-		std::shared_ptr<Material> material = std::make_shared<Material>();
+		ref<Mesh> mesh = createRef<Mesh>();
+		ref<Material> material = createRef<Material>();
 
 		mesh->setVertices(vertices);
+		mesh->setIndices(indices);
 		mesh->setup();
 
-		material->setTexture("texture1", std::make_shared<Texture>("resources/texture/container.jpg"));
-		material->setTexture("texture2", std::make_shared<Texture>("resources/texture/awesomeface.png", true));
-		material->setShader(std::make_shared <Shader>("resources/shaders/uniform.vertex", "resources/shaders/uniform.frag"));
+		auto texture = createRef<Texture>("resources/texture/container.jpg");
+		auto shader = createRef<Shader>("resources/shaders/default.vertex", "resources/shaders/default.frag");
+
+		material->setTexture("texture0", texture);
+		material->setShader(shader);
 		material->setup();
+		EntityManager::getInstance().addEntity<GameObject>(mainCamera);
 
-		for (int i = 0; i < 30; ++i) {
 
-			std::shared_ptr<GameObject> box = std::make_shared<GameObject>(i, "Box", "Box");
-			std::shared_ptr<Transform> transformBox = std::make_shared<Transform>(
-				glm::vec3(dist(gen), dist(gen), distA(gen)), glm::vec3(1.0f), glm::vec3(0.0f)
+		for (int i = 0; i < 20; ++i) {
+			
+			ref<GameObject> box = createRef<GameObject>(i, "Box", "Box");
+			ref<Transform> transformBox = createRef<Transform>(
+				glm::vec3(
+					Random::getInstance().Range(-5.0f, 5.0f), 
+					Random::getInstance().Range(-5.0f, 5.0f), 
+					Random::getInstance().Range(-5.0f, 5.0f)), 
+					Vector3(1.0f), 
+					Vector3(0.0f)
 				);
 
-			std::shared_ptr<MeshRenderer>meshRenderer = std::make_shared<MeshRenderer>();
+			std::shared_ptr<Renderer>meshRenderer = createRef<Renderer>();
 			
 			meshRenderer->setMesh(mesh);
 			meshRenderer->setMaterial(material);
 
 			box->addComponent<Transform>(transformBox);
 			box->addComponent<Mesh>(mesh);
-			box->addComponent<MeshRenderer>(meshRenderer);
+			box->addComponent<Renderer>(meshRenderer);
 
 
 			EntityManager::getInstance().addEntity<GameObject>(box);
 		}
 
-		EntityManager::getInstance().addEntity<GameObject>(mainCamera);
+		
 
 
 		while (!glfwWindowShouldClose(m_window)) {
@@ -222,31 +219,39 @@ namespace openge {
 
 			//Input Mouse and Keyboard
 			{
-				//float xpos = Mouse::getInstance().getX();
-				//float ypos = Mouse::getInstance().getY();
-				//float xoffset = xpos - lastX;
-				//float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-				//lastX = xpos;
-				//lastY = ypos;
+				if (firstMouse)
+				{
+					lastX = width / 2.0;
+					lastY = height / 2.0;
+					firstMouse = false;
+				}
 
-				//float sensitivity = 0.1f; // change this value to your liking
-				//xoffset *= sensitivity;
-				//yoffset *= sensitivity;
+				float xpos = Mouse::getInstance().getX();
+				float ypos = Mouse::getInstance().getY();
 
-				//yaw += xoffset;
-				//pitch += yoffset;
+				float xoffset = xpos - lastX;
+				float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+				lastX = xpos;
+				lastY = ypos;
 
-				//// make sure that when pitch is out of bounds, screen doesn't get flipped
-				//if (pitch > 89.0f)
-				//	pitch = 89.0f;
-				//if (pitch < -89.0f)
-				//	pitch = -89.0f;
+				float sensitivity = 0.1f; // change this value to your liking
+				xoffset *= sensitivity;
+				yoffset *= sensitivity;
 
-				//glm::vec3 front;
-				//front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-				//front.y = sin(glm::radians(pitch));
-				//front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-				//mainCamera->getComponent<Camera>()->setFront(glm::normalize(front));
+				yaw += xoffset;
+				pitch += yoffset;
+
+				// make sure that when pitch is out of bounds, screen doesn't get flipped
+				if (pitch > 89.0f)
+					pitch = 89.0f;
+				if (pitch < -89.0f)
+					pitch = -89.0f;
+
+				glm::vec3 front;
+				front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+				front.y = sin(glm::radians(pitch));
+				front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+				mainCamera->getComponent<Camera>()->setFront(glm::normalize(front));
 
 
 				if (Input::IsKeyPressed(KEYCODE_ESCAPE))
@@ -264,7 +269,8 @@ namespace openge {
 
 			}
 
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			GLclampf Red = 0.0f, Green = 0.0f, Blue = 0.0f, Alpha = 0.0f;
+			glClearColor(Red, Green, Blue, Alpha);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -273,7 +279,7 @@ namespace openge {
 			for (const auto& entity : entities)
 			{
 
-				MeshRenderer* render = entity->getComponent<MeshRenderer>().get();
+				Renderer* render = entity->getComponent<Renderer>().get();
 
 				render->bind();
 				render->render();

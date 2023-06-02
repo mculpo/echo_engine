@@ -12,11 +12,13 @@ namespace openge {
 	class Engine
 	{
 	public:
-		Engine(int width, int height, const char* title, bool fullWidth);
+		Engine(float width, float height, const char* title, bool fullWidth);
 		~Engine();
 		void run();
 	private:
 		GLFWwindow* m_window;
+		float width;
+		float height;
 	};
 }
 

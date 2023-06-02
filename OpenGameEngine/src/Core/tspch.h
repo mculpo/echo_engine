@@ -35,6 +35,9 @@
 #define Matrix3 glm::mat3
 
 #include <stb_image.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
-#include "Base.h"
+#include "base.h"
 

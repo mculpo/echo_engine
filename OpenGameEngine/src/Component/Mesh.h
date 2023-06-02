@@ -5,6 +5,8 @@
 #include <Renderer/ElementBufferObject.h>
 #include <Renderer/VertexBufferObject.h>
 #include <Renderer/VertexArrayObject.h>
+#include <Core/Vertex.h>
+#include <Core/Vertex.h>
 
 
 namespace openge {
@@ -20,10 +22,11 @@ namespace openge {
 		~Mesh() {};
 
 		void setup();
+		void disableVertexAttribArray();
 
 		void setMeshData(MeshData& meshData);
 		void setIndices(std::vector<unsigned int>& indices);
-		void setVertices(std::vector<float>& vertices);
+		void setVertices(std::vector<Vertex>& vertices);
 
 		void setVAO(std::shared_ptr<VertexArrayObject> vao);
 		void setVBO(std::shared_ptr<VertexBufferObject> vbo);
@@ -37,7 +40,7 @@ namespace openge {
 		std::vector<glm::vec3> m_normals;
 		std::vector<glm::vec2> m_texCoords;
 		std::vector<unsigned int> m_indices;
-		std::vector<float> m_vertices;
+		std::vector<Vertex> m_vertices;
 
 		std::shared_ptr<VertexArrayObject> m_vao;
 		std::shared_ptr<VertexBufferObject> m_vbo;

@@ -1,5 +1,4 @@
 #include "VertexBufferObject.h"
-#include "Engine.h"
 namespace openge {
 	VertexBufferObject::VertexBufferObject(const void* data, unsigned int size ,unsigned int glEnum)
 	{

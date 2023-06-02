@@ -35,6 +35,7 @@ namespace openge {
 		int _size = 0;
 		Bind();
 		for (auto& l : m_layout) {
+			glEnableVertexAttribArray(_layoutCount);
 			glVertexAttribPointer(	_layoutCount, 
 									l.getSize(), 
 									VertexAttribPointerLayout::getGLType(l.getType()), 
@@ -42,9 +43,16 @@ namespace openge {
 									m_stride * sizeof(float), 
 									(void*) (_size * sizeof(float))
 			);
-			glEnableVertexAttribArray(_layoutCount);
 			_layoutCount++;
 			_size += l.getSize();
+		}
+	}
+	void VertexArrayObject::disableLayout()
+	{
+		int _layoutCount = 0;
+		for (auto& l : m_layout) {
+			glDisableVertexAttribArray(_layoutCount);
+			_layoutCount++;
 		}
 	}
 }
