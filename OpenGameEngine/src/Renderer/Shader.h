@@ -12,7 +12,10 @@ namespace openge {
 		unsigned int getProgram() const;
 		void setUniform4f(std::string name, float v1, float v2, float v3, float v4);
 		void setUniform1i(std::string name, int location);
-		void setUniformMatrix4fv(std::string name, glm::mat4 &mat);
+		void setUniformMatrix4fv(std::string name, Matrix4& mat);
+		void setUniformMatrix3fv(std::string name, Matrix3& mat);
+		void setUniform3fv(std::string name, Vector3& vec);
+		void setUniform3f(std::string name, float x, float y, float z);
 	private:
 		std::string getContentPathShader(const std::string& path);
 		void compileShader();

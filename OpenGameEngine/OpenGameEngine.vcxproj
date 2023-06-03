@@ -181,8 +181,12 @@
     <ClInclude Include="src\Renderer\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\shaders\cube.frag" />
+    <None Include="resources\shaders\cube.vertex" />
     <None Include="resources\shaders\default.frag" />
     <None Include="resources\shaders\default.vertex" />
+    <None Include="resources\shaders\light.frag" />
+    <None Include="resources\shaders\light.vertex" />
     <None Include="resources\shaders\uniform.frag" />
     <None Include="resources\shaders\uniform.vertex" />
   </ItemGroup>

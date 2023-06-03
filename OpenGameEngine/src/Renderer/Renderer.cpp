@@ -10,9 +10,9 @@ namespace openge {
 	void Renderer::bind()
 	{
 		m_material->bind();
-		std::shared_ptr<Camera> camera = gameObjectFindByTag<GameObject>("MainCamera")->getComponent<Camera>();
-		glm::mat4 view = camera->getViewMatrix();
-		glm::mat4 projection = camera->getProjectionMatrix();
+		ref<Camera> camera = gameObjectFindByTag<GameObject>("MainCamera")->getComponent<Camera>();
+		Matrix4 view = camera->getViewMatrix();
+		Matrix4 projection = camera->getProjectionMatrix();
 		m_material->getShader()->setUniformMatrix4fv("view", view);
 		m_material->getShader()->setUniformMatrix4fv("projection", projection);
 		m_mesh->useVAO();
@@ -20,18 +20,30 @@ namespace openge {
 
 	void Renderer::render()
 	{
-		glm::mat4 model = getEntity()->getComponent<Transform>()->getModelMatrix();
+		ref<Transform> transform = getEntity()->getComponent<Transform>();
+		Matrix4 model = transform->getModelMatrix();
+		Matrix3 transpose = transform->getTransposeMatrix();
 		m_material->getShader()->setUniformMatrix4fv("model", model);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		m_material->getShader()->setUniformMatrix3fv("modelTranspose", transpose);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
 
-	void Renderer::setMaterial(std::shared_ptr<Material> material)
+	void Renderer::setMaterial(ref<Material> material)
 	{
 		m_material = material;
 	}
 
-	void Renderer::setMesh(std::shared_ptr<Mesh> mesh)
+	void Renderer::setMesh(ref<Mesh> mesh)
 	{
 		m_mesh = mesh;
+	}
+	ref<Material> Renderer::getMaterial()
+	{
+		return m_material;
+	}
+	ref<Mesh> Renderer::getMesh()
+	{
+		return m_mesh;
 	}
 }

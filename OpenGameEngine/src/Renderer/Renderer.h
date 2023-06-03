@@ -17,8 +17,11 @@ namespace openge {
 		void bind();
 		void render();
 
-		void setMaterial(std::shared_ptr<Material> material);
-		void setMesh(std::shared_ptr<Mesh> mesh);
+		void setMaterial(ref<Material> material);
+		void setMesh(ref<Mesh> mesh);
+
+		ref<Material> getMaterial();
+		ref<Mesh> getMesh();
 
 	private:
 		std::shared_ptr<Material> m_material;

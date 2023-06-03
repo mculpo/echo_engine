@@ -37,9 +37,23 @@ namespace openge {
 		glUniform1i(getUniformLocation(name), location);
 	}
 
-	void Shader::setUniformMatrix4fv(std::string name, glm::mat4& mat)
+	void Shader::setUniform3fv(std::string name, Vector3& vec3) {
+		glUniform3fv(getUniformLocation(name), 1, &vec3[0]);
+	}
+
+	void Shader::setUniform3f(std::string name, float x, float y, float z)
+	{
+		glUniform3f(getUniformLocation(name), x, y, z);
+	}
+
+	void Shader::setUniformMatrix4fv(std::string name, Matrix4& mat)
 	{
 		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+	}
+
+	void Shader::setUniformMatrix3fv(std::string name, Matrix3& mat)
+	{
+		glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]); 
 	}
 
 	unsigned int Shader::createShader(std::string& sourceShader, GLenum type)

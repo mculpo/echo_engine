@@ -16,6 +16,7 @@ namespace openge {
 	private:
 		glm::vec3 m_front;
 		glm::vec3 m_up;
+		Vector3 m_worldUp;
 		float m_fov;
 		float m_aspectRatio;
 		float m_nearPlane;
@@ -35,6 +36,7 @@ namespace openge {
 		void setFarPlane(const float value);
 		void setFront(const glm::vec3& front);
 		void setUp(const glm::vec3& up);
+		void setWorldUp(const Vector3& up);
 
 		CameraType getCameraType() const;
 		float getFov()const;
@@ -43,6 +45,7 @@ namespace openge {
 		float getFarPlane()const;
 		glm::vec3 getFront()const;
 		glm::vec3 getUp()const;
+		Vector3 getWorldUp()const;
 	};
 }
 #endif

@@ -7,19 +7,25 @@ namespace openge {
 	class Component;
 	class Transform : public Component
 	{
+	private:
+		Vector3 m_position;
+		Vector3 m_scale;
+		Quaternion m_rotation;
 	public:
-		glm::vec3 m_position;
-		glm::vec3 m_scale;
-		glm::quat m_rotation;
-
+		
 		Transform(const glm::vec3 position, const glm::vec3 scale, const glm::quat rotation);
 		~Transform();
-		glm::mat4 getModelMatrix();
+		Matrix4 getModelMatrix();
+		Matrix3 getTransposeMatrix();
 
 		void translate(const glm::vec3 translation);
 		void scale(const glm::vec3 scale);
 		void rotate(const glm::quat& angles);
 		void lookAt(const glm::vec3& target, float speed);
+
+		Vector3 getPosition() const;
+		Vector3 getScale() const;
+		Quaternion getRotation() const;
 
 		std::string toString() const;
 	};

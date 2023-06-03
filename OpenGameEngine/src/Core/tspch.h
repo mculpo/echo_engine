@@ -33,6 +33,7 @@
 #define Vector4 glm::vec4
 #define Matrix4 glm::mat4 
 #define Matrix3 glm::mat3
+#define Quaternion glm::quat
 
 #include <stb_image.h>
 #include <assimp/Importer.hpp>

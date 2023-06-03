@@ -9,7 +9,7 @@ namespace openge {
 	glm::mat4 Camera::getViewMatrix()
 	{
 		std::shared_ptr<Transform> transform = getEntity()->getComponent<Transform>();
-		return glm::lookAt(transform->m_position, transform->m_position + m_front, m_up);
+		return glm::lookAt(transform->getPosition(), transform->getPosition() + m_front, m_up);
 	}
 
 	glm::mat4 Camera::getProjectionMatrix()
@@ -60,6 +60,11 @@ namespace openge {
 		m_up = up;
 	}
 
+	void Camera::setWorldUp(const Vector3& up)
+	{
+		m_worldUp = up;
+	}
+
 	CameraType Camera::getCameraType() const
 	{
 		return m_type;
@@ -93,5 +98,9 @@ namespace openge {
 	glm::vec3 Camera::getUp() const
 	{
 		return m_up;
+	}
+	Vector3 Camera::getWorldUp() const
+	{
+		return m_worldUp;
 	}
 }

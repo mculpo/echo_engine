@@ -9,9 +9,9 @@ namespace openge {
 	Transform::~Transform()
 	{}
 
-	glm::mat4 Transform::getModelMatrix()
+	Matrix4 Transform::getModelMatrix()
 	{
-		glm::mat4 model = glm::mat4(1.0f);
+		Matrix4 model = Matrix4(1.0f);
 		model = glm::translate(model, m_position);
 		model = glm::scale(model, m_scale);
 
@@ -21,6 +21,15 @@ namespace openge {
 		model = glm::rotate(model, glm::radians(m_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(m_rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));*/
 		return model;
+	}
+
+	Matrix3 Transform::getTransposeMatrix()
+	{
+		return glm::transpose(
+			glm::inverse(
+				Matrix3(getModelMatrix())
+			)
+		);
 	}
 
 	void Transform::scale(const glm::vec3 scale)
@@ -53,6 +62,21 @@ namespace openge {
 
 		// Interpolar entre a rotação atual e a rotação desejada com base na velocidade de rotação
 		m_rotation = glm::slerp(m_rotation, targetRotation, speed); // Interpolação de quaternions
+	}
+
+	Vector3 Transform::getPosition() const
+	{
+		return m_position;
+	}
+
+	Vector3 Transform::getScale() const
+	{
+		return m_scale;
+	}
+
+	Quaternion Transform::getRotation() const
+	{
+		return m_rotation;
 	}
 
 	std::string Transform::toString() const

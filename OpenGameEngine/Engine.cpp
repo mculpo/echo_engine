@@ -24,43 +24,65 @@
 
 
 namespace openge {
-	
+
 	bool firstMouse = true;
 	float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
 	float pitch = 0.0f;
 	float lastX = 800.0f / 2.0;
 	float lastY = 600.0 / 2.0;
 
-	// Custom implementation of the LookAt function
-	glm::mat4 calculate_lookAt_matrix(glm::vec3 position, glm::vec3 target, glm::vec3 worldUp)
-	{
-		// 1. Position = known
-		// 2. Calculate cameraDirection
-		glm::vec3 zaxis = glm::normalize(position - target);
-		// 3. Get positive right axis vector
-		glm::vec3 xaxis = glm::normalize(glm::cross(glm::normalize(worldUp), zaxis));
-		// 4. Calculate camera up vector
-		glm::vec3 yaxis = glm::cross(zaxis, xaxis);
+	void mouse_input(ref<GameObject> mainCamera, float width, float height, GLFWwindow* m_window) {
+		//Input Mouse and Keyboard
+		{
+			ref<Camera> camera = mainCamera->getComponent<Camera>();
+			if (firstMouse)
+			{
+				lastX = width / 2.0;
+				lastY = height / 2.0;
+				firstMouse = false;
+			}
 
-		// Create translation and rotation matrix
-		// In glm we access elements as mat[col][row] due to column-major layout
-		glm::mat4 translation = glm::mat4(1.0f); // Identity matrix by default
-		translation[3][0] = -position.x; // Third column, first row
-		translation[3][1] = -position.y;
-		translation[3][2] = -position.z;
-		glm::mat4 rotation = glm::mat4(1.0f);
-		rotation[0][0] = xaxis.x; // First column, first row
-		rotation[1][0] = xaxis.y;
-		rotation[2][0] = xaxis.z;
-		rotation[0][1] = yaxis.x; // First column, second row
-		rotation[1][1] = yaxis.y;
-		rotation[2][1] = yaxis.z;
-		rotation[0][2] = zaxis.x; // First column, third row
-		rotation[1][2] = zaxis.y;
-		rotation[2][2] = zaxis.z;
+			float xpos = Mouse::getInstance().getX();
+			float ypos = Mouse::getInstance().getY();
 
-		// Return lookAt matrix as combination of translation and rotation matrix
-		return rotation * translation; // Remember to read from right to left (first translation then rotation)
+			float xoffset = xpos - lastX;
+			float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+			lastX = xpos;
+			lastY = ypos;
+
+			float sensitivity = 0.1f; // change this value to your liking
+			xoffset *= sensitivity;
+			yoffset *= sensitivity;
+
+			yaw += xoffset;
+			pitch += yoffset;
+
+			// make sure that when pitch is out of bounds, screen doesn't get flipped
+			if (pitch > 89.0f)
+				pitch = 89.0f;
+			if (pitch < -89.0f)
+				pitch = -89.0f;
+
+			glm::vec3 front;
+			front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+			front.y = sin(glm::radians(pitch));
+			front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+			camera->setFront(glm::normalize(front));
+
+			if (Input::IsKeyPressed(KEYCODE_ESCAPE))
+				glfwSetWindowShouldClose(m_window, true);
+
+			float cameraSpeed = static_cast<float>(2.5 * Time::getInstance().deltaTime());
+			if (Input::IsKeyHeld(KEYCODE_W))
+				mainCamera->getComponent<Transform>()->translate(cameraSpeed * mainCamera->getComponent<Camera>()->getFront());
+			if (Input::IsKeyHeld(KEYCODE_S))
+				mainCamera->getComponent<Transform>()->translate(-(cameraSpeed * mainCamera->getComponent<Camera>()->getFront()));
+			if (Input::IsKeyHeld(KEYCODE_A))
+				mainCamera->getComponent<Transform>()->translate(-glm::normalize(glm::cross(mainCamera->getComponent<Camera>()->getFront(), mainCamera->getComponent<Camera>()->getUp())) * cameraSpeed);
+			if (Input::IsKeyHeld(KEYCODE_D))
+				mainCamera->getComponent<Transform>()->translate(glm::normalize(glm::cross(mainCamera->getComponent<Camera>()->getFront(), mainCamera->getComponent<Camera>()->getUp())) * cameraSpeed);
+
+		}
 	}
 
 	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -72,7 +94,7 @@ namespace openge {
 		glViewport(0, 0, width, height);
 	}
 
-	Engine::Engine(float width, float height, const char* title, bool fullWidth) : width(width) , height(height)
+	Engine::Engine(float width, float height, const char* title, bool fullWidth) : width(width), height(height)
 	{
 		if (glfwInit()) {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -109,24 +131,65 @@ namespace openge {
 
 	void Engine::run()
 	{
-
-		
-
 		std::vector<Vertex> vertices;
 
-		Vector2 t00 = Vector2(0.0f, 0.0f);  // Bottom left
-		Vector2 t01 = Vector2(0.0f, 1.0f);  // Top left
-		Vector2 t10 = Vector2(1.0f, 0.0f);  // Bottom right
-		Vector2 t11 = Vector2(1.0f, 1.0f);  // Top right
+		Vector2 t00 = Vector2(0.0f, 0.0f);
+		Vector2 t01 = Vector2(0.0f, 1.0f);
+		Vector2 t10 = Vector2(1.0f, 0.0f);
+		Vector2 t11 = Vector2(1.0f, 1.0f);
 
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), t01));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), t10));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), t11));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), t10));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), t01));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), t11));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
+
+		/*std::vector<Vertex> vertices;
+
+		Vector2 t00 = Vector2(0.0f, 0.0f);
+		Vector2 t01 = Vector2(0.0f, 1.0f);
+		Vector2 t10 = Vector2(1.0f, 0.0f);
+		Vector2 t11 = Vector2(1.0f, 1.0f);
+
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f)    ,Vector3(1.0f, 0.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f)  ,Vector3(0.0f, 1.0f, 0.0f), t01));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f)   ,Vector3(-1.0f, 0.0f, 0.0f), t10));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f)  ,Vector3(1.0f, 0.0f, 0.0f), t11));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f) ,Vector3(0.0f, 0.0f, -1.0f), t00));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f)   ,Vector3(0.0f, 0.0f, -1.0f), t10));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f)   ,Vector3(0.0f, 0.0f, 1.0f), t01));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f)  ,Vector3(-1.0f, 0.0f, 0.0f), t11));
 
 
 		std::vector<unsigned int> indices = {
@@ -142,10 +205,9 @@ namespace openge {
 							  7, 4, 3,
 							  2, 1, 4,
 							  0, 2, 7
-		};
+		};*/
 
 		stbi_set_flip_vertically_on_load(true);
-
 
 		ref<GameObject> mainCamera = createRef<GameObject>(0, "MainCamera", "MainCamera");
 
@@ -159,134 +221,115 @@ namespace openge {
 		camera->setNearPlane(0.1f);
 
 		ref<Transform> transformCamera = createRef <Transform>(
-			Vector3(0.0f, 0.0f, 0.0f),
+			Vector3(0.0f, 0.0f, 3.0f),
 			Vector3(1.0f),
 			Vector3(0.0f)
-		);
+			);
 
 		mainCamera->addComponent<Camera>(camera);
 		mainCamera->addComponent<Transform>(transformCamera);
-		
-
-		ref<Mesh> mesh = createRef<Mesh>();
-		ref<Material> material = createRef<Material>();
-
-		mesh->setVertices(vertices);
-		mesh->setIndices(indices);
-		mesh->setup();
-
-		auto texture = createRef<Texture>("resources/texture/container.jpg");
-		auto shader = createRef<Shader>("resources/shaders/default.vertex", "resources/shaders/default.frag");
-
-		material->setTexture("texture0", texture);
-		material->setShader(shader);
-		material->setup();
 		EntityManager::getInstance().addEntity<GameObject>(mainCamera);
 
+		/*
+		*	Configuração do Objeto que vai Iluminar ( Light )
+		*/
+		ref<GameObject> light = createRef<GameObject>(1, "light", "light");
+		{
+			auto shaderLight = createRef<Shader>("resources/shaders/light.vertex", "resources/shaders/light.frag");
 
-		for (int i = 0; i < 20; ++i) {
-			
-			ref<GameObject> box = createRef<GameObject>(i, "Box", "Box");
-			ref<Transform> transformBox = createRef<Transform>(
-				glm::vec3(
-					Random::getInstance().Range(-5.0f, 5.0f), 
-					Random::getInstance().Range(-5.0f, 5.0f), 
-					Random::getInstance().Range(-5.0f, 5.0f)), 
-					Vector3(1.0f), 
-					Vector3(0.0f)
+			ref<Mesh> meshLight = createRef<Mesh>();
+			ref<Material> materialLight = createRef<Material>();
+			ref<Renderer> rendererLight = createRef<Renderer>();
+			ref<Transform> transformLight = createRef<Transform>(
+				Vector3(1.2f, 2.0f, 4.0f),
+				Vector3(0.2f),
+				Vector3(0.0f)
 				);
 
-			std::shared_ptr<Renderer>meshRenderer = createRef<Renderer>();
-			
-			meshRenderer->setMesh(mesh);
-			meshRenderer->setMaterial(material);
+			meshLight->setVertices(vertices);
+			//meshLight->setIndices(indices);
+			meshLight->setup();
 
-			box->addComponent<Transform>(transformBox);
-			box->addComponent<Mesh>(mesh);
-			box->addComponent<Renderer>(meshRenderer);
+			materialLight->setShader(shaderLight);
+			materialLight->setup();
 
+			rendererLight->setMaterial(materialLight);
+			rendererLight->setMesh(meshLight);
 
-			EntityManager::getInstance().addEntity<GameObject>(box);
+			light->addComponent<Transform>(transformLight);
+			light->addComponent<Mesh>(meshLight);
+			light->addComponent<Renderer>(rendererLight);
+			EntityManager::getInstance().addEntity<GameObject>(light);
 		}
 
-		
+		/*
+		*	Configuração do Cubo de Exemplo que vai ser iluminado
+		*/
+		ref<GameObject> cubo = createRef<GameObject>(2, "light", "light");
+		{
+			auto shaderReceptorLight = createRef<Shader>("resources/shaders/cube.vertex", "resources/shaders/cube.frag");
+			ref<Mesh> meshCubo = createRef<Mesh>();
+			ref<Material> materialCubo = createRef<Material>();
+			ref<Renderer> rendererCubo = createRef<Renderer>();
+			ref<Transform> transformCubo = createRef<Transform>(
+				Vector3(1.0f),
+				Vector3(1.0f),
+				Vector3(0.0f)
+			);
 
+			meshCubo->setVertices(vertices);
+			//meshCubo->setIndices(indices);
+			meshCubo->setup();
+
+			materialCubo->setShader(shaderReceptorLight);
+			materialCubo->setup();
+
+			rendererCubo->setMaterial(materialCubo);
+			rendererCubo->setMesh(meshCubo);
+
+			cubo->addComponent<Transform>(transformCubo);
+			cubo->addComponent<Mesh>(meshCubo);
+			cubo->addComponent<Renderer>(rendererCubo);
+			EntityManager::getInstance().addEntity<GameObject>(cubo);
+		}
 
 		while (!glfwWindowShouldClose(m_window)) {
 
 			Time::getInstance().updateDeltaTime();
 			Mouse::getInstance().update();
 
-			//Input Mouse and Keyboard
-			{
-				if (firstMouse)
-				{
-					lastX = width / 2.0;
-					lastY = height / 2.0;
-					firstMouse = false;
-				}
+			mouse_input(mainCamera, width, height, m_window);
 
-				float xpos = Mouse::getInstance().getX();
-				float ypos = Mouse::getInstance().getY();
-
-				float xoffset = xpos - lastX;
-				float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-				lastX = xpos;
-				lastY = ypos;
-
-				float sensitivity = 0.1f; // change this value to your liking
-				xoffset *= sensitivity;
-				yoffset *= sensitivity;
-
-				yaw += xoffset;
-				pitch += yoffset;
-
-				// make sure that when pitch is out of bounds, screen doesn't get flipped
-				if (pitch > 89.0f)
-					pitch = 89.0f;
-				if (pitch < -89.0f)
-					pitch = -89.0f;
-
-				glm::vec3 front;
-				front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-				front.y = sin(glm::radians(pitch));
-				front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-				mainCamera->getComponent<Camera>()->setFront(glm::normalize(front));
-
-
-				if (Input::IsKeyPressed(KEYCODE_ESCAPE))
-					glfwSetWindowShouldClose(m_window, true);
-
-				float cameraSpeed = static_cast<float>(2.5 * Time::getInstance().deltaTime());
-				if (Input::IsKeyHeld(KEYCODE_W))
-					mainCamera->getComponent<Transform>()->translate(cameraSpeed * mainCamera->getComponent<Camera>()->getFront());
-				if (Input::IsKeyHeld(KEYCODE_S))
-					mainCamera->getComponent<Transform>()->translate(-(cameraSpeed * mainCamera->getComponent<Camera>()->getFront()));
-				if (Input::IsKeyHeld(KEYCODE_A))
-					mainCamera->getComponent<Transform>()->translate(-glm::normalize(glm::cross(mainCamera->getComponent<Camera>()->getFront(), mainCamera->getComponent<Camera>()->getUp())) * cameraSpeed);
-				if (Input::IsKeyHeld(KEYCODE_D))
-					mainCamera->getComponent<Transform>()->translate(glm::normalize(glm::cross(mainCamera->getComponent<Camera>()->getFront(), mainCamera->getComponent<Camera>()->getUp())) * cameraSpeed);
-
-			}
-
-			GLclampf Red = 0.0f, Green = 0.0f, Blue = 0.0f, Alpha = 0.0f;
+			GLclampf Red = 0.2f, Green = 0.2f, Blue = 0.2f, Alpha = 0.0f;
 			glClearColor(Red, Green, Blue, Alpha);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-			std::vector<std::shared_ptr<GameObject>> entities = EntityManager::getInstance().findGameObjectsByTag<GameObject>("Box");
-
-			for (const auto& entity : entities)
 			{
+				Vector3 _positionLight = light->getComponent<Transform>()->getPosition();
+				Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
 
-				Renderer* render = entity->getComponent<Renderer>().get();
+				ref<Renderer> cuboRenderer = cubo->getComponent<Renderer>();
+				ref<Transform> cuboTransform = cubo->getComponent<Transform>();
+				Shader* shaderCubo = cuboRenderer->getMaterial()->getShader();
+				shaderCubo->Bind();
+				shaderCubo->setUniform3f("objectColor", 1.0f, 0.5f, 0.31f);
+				shaderCubo->setUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
+				shaderCubo->setUniform3f("lightPos", _positionLight.x, _positionLight.y, _positionLight.z);
+				shaderCubo->setUniform3f("viewPos", _postitionCamera.x, _postitionCamera.y, _postitionCamera.z);
 
-				render->bind();
-				render->render();
+				cuboTransform->rotate(glm::vec3(0.0f, 1.0f, 0.0f) * (float)(0.5f * Time::getInstance().deltaTime()));
+
+				cuboRenderer->bind();
+				cuboRenderer->render();
 			}
 
-			//double fps = 1.0 / deltaTime;
-			//std::cout << "FPS: " << fps << std::endl;
+			{
+				ref<Renderer> lightRenderer = light->getComponent<Renderer>();
+
+				lightRenderer->bind();
+				lightRenderer->render();
+			}
+
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}

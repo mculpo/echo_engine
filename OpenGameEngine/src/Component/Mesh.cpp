@@ -4,9 +4,10 @@ namespace openge {
 	{
 		setVAO(std::make_shared<VertexArrayObject>());
 		setVBO(std::make_shared<VertexBufferObject>(m_vertices.data(), m_vertices.size() * sizeof(Vertex), GL_STATIC_DRAW));
-		setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
+		//setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
 		
 		m_vao->AddLayout(3, VP_FLOAT); // position
+		m_vao->AddLayout(3, VP_FLOAT); // aNormal
 		m_vao->AddLayout(2, VP_FLOAT); // texture
 
 		m_vao->runLayout();
