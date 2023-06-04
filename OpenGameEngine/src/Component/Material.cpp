@@ -51,10 +51,10 @@ namespace openge {
 
 	void openge::Material::setTexture(const std::string& name, std::shared_ptr<Texture> texture)
     {
-		m_textures[name] = std::move(texture);
+		m_textures[name] = texture;
     }
 
-    Texture* openge::Material::getTexture() const
+	ref<Texture> openge::Material::getTexture() const
     {
         return nullptr;
     }
@@ -64,28 +64,27 @@ namespace openge {
 		m_shader = shader;
     }
 
-    Shader* openge::Material::getShader() const
+    ref<Shader> openge::Material::getShader() const
     {
-		return m_shader.get();
+		return m_shader;
     }
 
     void openge::Material::setup()
     {
 		m_shader->Bind();
+		int textureUnit = 0;
 		for (const auto& pair : m_textures) {
 			const std::string& textureName = pair.first;
 			const Texture& texture = *(pair.second);
-
-			char lastChar = textureName.back(); // Obter o último caractere do nome
-			int textureUnit = lastChar - '0'; // Converter o caractere para um valor numérico
-
 			// Set the uniform for the texture
-			m_shader->setUniform1i(textureName, textureUnit - 1);
+			m_shader->setUniform1i(textureName, textureUnit);
+			textureUnit++;
 		}
     }
 
     void openge::Material::bind()
     {
+		m_shader->Bind();
 		int textureUnit = 0;
 		for (const auto& pair : m_textures) {
 			const std::string& textureName = pair.first;
@@ -102,6 +101,5 @@ namespace openge {
 
 			textureUnit++;
 		}
-		m_shader->Bind();
     }
 }

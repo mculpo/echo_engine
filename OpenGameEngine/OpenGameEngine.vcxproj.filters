@@ -155,5 +155,11 @@
     <Image Include="resources\texture\awesomeface.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
+    <Image Include="resources\texture\container2_specular.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\container2.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
   </ItemGroup>
 </Project>

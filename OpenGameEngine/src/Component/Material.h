@@ -14,10 +14,10 @@ namespace openge {
         ~Material();
 
         void setTexture(const std::string& name, std::shared_ptr<Texture> texture);
-        Texture* getTexture() const;
+        ref<Texture> getTexture() const;
 
         void setShader(std::shared_ptr < Shader> shader);
-        Shader* getShader() const;
+        ref<Shader> getShader() const;
 
         void setup();
         void bind();

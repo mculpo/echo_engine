@@ -37,6 +37,11 @@ namespace openge {
 		glUniform1i(getUniformLocation(name), location);
 	}
 
+	void Shader::setUniform1f(std::string name, float value)
+	{
+		glUniform1f(getUniformLocation(name), value);
+	}
+
 	void Shader::setUniform3fv(std::string name, Vector3& vec3) {
 		glUniform3fv(getUniformLocation(name), 1, &vec3[0]);
 	}
@@ -81,7 +86,7 @@ namespace openge {
 		}
 		int location = glGetUniformLocation(m_program, name.c_str());
 		if (location == -1) {
-			std::cout << "Aviso: uniform " << name << "não existe!" << std::endl;
+			std::cout << "Aviso: uniform " << name << " not exist!" << std::endl;
 		}
 		else {
 			return location;

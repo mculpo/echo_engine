@@ -9,7 +9,7 @@ namespace openge {
 		Vector2 _tex;
 	public:
 		Vertex(){}
-		Vertex(const Vector3 pos, const Vector3 normal, const Vector2 tex) \
+		Vertex(const Vector3 pos, const Vector3 normal, const Vector2 tex)
 		{
 			_pos = pos;
 			_normal = normal;

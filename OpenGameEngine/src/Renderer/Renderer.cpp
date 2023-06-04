@@ -13,18 +13,18 @@ namespace openge {
 		ref<Camera> camera = gameObjectFindByTag<GameObject>("MainCamera")->getComponent<Camera>();
 		Matrix4 view = camera->getViewMatrix();
 		Matrix4 projection = camera->getProjectionMatrix();
+		ref<Transform> transform = getEntity()->getComponent<Transform>();
+		Matrix4 model = transform->getModelMatrix();
+
 		m_material->getShader()->setUniformMatrix4fv("view", view);
 		m_material->getShader()->setUniformMatrix4fv("projection", projection);
+		m_material->getShader()->setUniformMatrix4fv("model", model);
+
 		m_mesh->useVAO();
 	}
 
 	void Renderer::render()
 	{
-		ref<Transform> transform = getEntity()->getComponent<Transform>();
-		Matrix4 model = transform->getModelMatrix();
-		Matrix3 transpose = transform->getTransposeMatrix();
-		m_material->getShader()->setUniformMatrix4fv("model", model);
-		m_material->getShader()->setUniformMatrix3fv("modelTranspose", transpose);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}

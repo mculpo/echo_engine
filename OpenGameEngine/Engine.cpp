@@ -133,79 +133,48 @@ namespace openge {
 	{
 		std::vector<Vertex> vertices;
 
-		Vector2 t00 = Vector2(0.0f, 0.0f);
-		Vector2 t01 = Vector2(0.0f, 1.0f);
-		Vector2 t10 = Vector2(1.0f, 0.0f);
-		Vector2 t11 = Vector2(1.0f, 1.0f);
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(0.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f),  Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f),   Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f),   Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f),  Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(0.0f,  0.0f)));
 
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), t00));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f),	Vector2(0.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f),	Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f),		Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f),		Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f),	Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f),	Vector2(0.0f,  0.0f)));
 
-		/*std::vector<Vertex> vertices;
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f),	Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f),	Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f),	Vector2(0.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f),	Vector2(1.0f,  0.0f)));
 
-		Vector2 t00 = Vector2(0.0f, 0.0f);
-		Vector2 t01 = Vector2(0.0f, 1.0f);
-		Vector2 t10 = Vector2(1.0f, 0.0f);
-		Vector2 t11 = Vector2(1.0f, 1.0f);
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f),		Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f),	Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f),	Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f),	Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f),	Vector2(0.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f),		Vector2(1.0f,  0.0f)));
 
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f)    ,Vector3(1.0f, 0.0f, 0.0f), t00));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f)  ,Vector3(0.0f, 1.0f, 0.0f), t01));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f)   ,Vector3(-1.0f, 0.0f, 0.0f), t10));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f)  ,Vector3(1.0f, 0.0f, 0.0f), t11));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f) ,Vector3(0.0f, 0.0f, -1.0f), t00));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f)   ,Vector3(0.0f, 0.0f, -1.0f), t10));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f)   ,Vector3(0.0f, 0.0f, 1.0f), t01));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f)  ,Vector3(-1.0f, 0.0f, 0.0f), t11));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f),	Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f),	Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f),	Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f),	Vector2(0.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(0.0f,  1.0f)));
 
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f),	Vector2(0.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f),	Vector2(1.0f,  1.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f),		Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f),		Vector2(1.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f),	Vector2(0.0f,  0.0f)));
+		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f),	Vector2(0.0f,  1.0f)));
 
-		std::vector<unsigned int> indices = {
-							  0, 1, 2,
-							  1, 3, 4,
-							  5, 6, 3,
-							  7, 3, 6,
-							  2, 4, 7,
-							  0, 7, 6,
-							  0, 5, 1,
-							  1, 5, 3,
-							  5, 0, 6,
-							  7, 4, 3,
-							  2, 1, 4,
-							  0, 2, 7
-		};*/
 
 		stbi_set_flip_vertically_on_load(true);
 
@@ -235,19 +204,18 @@ namespace openge {
 		*/
 		ref<GameObject> light = createRef<GameObject>(1, "light", "light");
 		{
-			auto shaderLight = createRef<Shader>("resources/shaders/light.vertex", "resources/shaders/light.frag");
+			ref<Shader> shaderLight = createRef<Shader>("resources/shaders/light.vertex", "resources/shaders/light.frag");
 
 			ref<Mesh> meshLight = createRef<Mesh>();
 			ref<Material> materialLight = createRef<Material>();
 			ref<Renderer> rendererLight = createRef<Renderer>();
 			ref<Transform> transformLight = createRef<Transform>(
-				Vector3(1.2f, 2.0f, 4.0f),
+				Vector3(1.0f, 1.0f, 3.0f),
 				Vector3(0.2f),
 				Vector3(0.0f)
 				);
 
 			meshLight->setVertices(vertices);
-			//meshLight->setIndices(indices);
 			meshLight->setup();
 
 			materialLight->setShader(shaderLight);
@@ -267,7 +235,9 @@ namespace openge {
 		*/
 		ref<GameObject> cubo = createRef<GameObject>(2, "light", "light");
 		{
-			auto shaderReceptorLight = createRef<Shader>("resources/shaders/cube.vertex", "resources/shaders/cube.frag");
+			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/cube.vertex", "resources/shaders/cube.frag");
+			ref<Texture> diffuse = createRef<Texture>("resources/texture/container2.png", true);
+			ref<Texture> specular = createRef<Texture>("resources/texture/container2_specular.png", true);
 			ref<Mesh> meshCubo = createRef<Mesh>();
 			ref<Material> materialCubo = createRef<Material>();
 			ref<Renderer> rendererCubo = createRef<Renderer>();
@@ -278,10 +248,11 @@ namespace openge {
 			);
 
 			meshCubo->setVertices(vertices);
-			//meshCubo->setIndices(indices);
 			meshCubo->setup();
 
 			materialCubo->setShader(shaderReceptorLight);
+			materialCubo->setTexture("material.diffuse", diffuse);
+			materialCubo->setTexture("material.specular", specular);
 			materialCubo->setup();
 
 			rendererCubo->setMaterial(materialCubo);
@@ -310,14 +281,23 @@ namespace openge {
 
 				ref<Renderer> cuboRenderer = cubo->getComponent<Renderer>();
 				ref<Transform> cuboTransform = cubo->getComponent<Transform>();
-				Shader* shaderCubo = cuboRenderer->getMaterial()->getShader();
+				ref<Shader> shaderCubo = cuboRenderer->getMaterial()->getShader();
 				shaderCubo->Bind();
-				shaderCubo->setUniform3f("objectColor", 1.0f, 0.5f, 0.31f);
-				shaderCubo->setUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
-				shaderCubo->setUniform3f("lightPos", _positionLight.x, _positionLight.y, _positionLight.z);
+
+				shaderCubo->setUniform3f("light.position", _positionLight.x, _positionLight.y, _positionLight.z);
 				shaderCubo->setUniform3f("viewPos", _postitionCamera.x, _postitionCamera.y, _postitionCamera.z);
 
-				cuboTransform->rotate(glm::vec3(0.0f, 1.0f, 0.0f) * (float)(0.5f * Time::getInstance().deltaTime()));
+				// light properties
+				shaderCubo->setUniform3f("light.ambient", 0.2f, 0.2f, 0.2f);
+				shaderCubo->setUniform3f("light.diffuse", 0.5f, 0.5f, 0.5f);
+				shaderCubo->setUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
+
+				// material properties
+				shaderCubo->setUniform1f("material.shininess", 64.0f);
+				
+				Matrix3 transpose = cuboTransform->getTransposeMatrix();
+				shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
+				//cuboTransform->rotate(glm::vec3(0.0f, 1.0f, 0.0f) * (float)(0.5f * Time::getInstance().deltaTime()));
 
 				cuboRenderer->bind();
 				cuboRenderer->render();
@@ -325,6 +305,7 @@ namespace openge {
 
 			{
 				ref<Renderer> lightRenderer = light->getComponent<Renderer>();
+				ref<Shader> shader = lightRenderer->getMaterial()->getShader();
 
 				lightRenderer->bind();
 				lightRenderer->render();
