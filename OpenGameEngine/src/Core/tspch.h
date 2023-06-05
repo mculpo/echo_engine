@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <memory>
 #include <random>
+#include <intrin.h>
 //#include <function>
 
 #include <GL/glew.h>

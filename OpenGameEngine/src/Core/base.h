@@ -1,6 +1,4 @@
 #pragma once
-#include <memory>
-#include <intrin.h>
 
 /*
 * Essa macro é usada para definir um valor numérico que representa a posição de um bit em uma sequência de bits. Ela desloca o número 1 para a esquerda x vezes, onde x é o parâmetro passado para a macro. Essa técnica é frequentemente usada para definir constantes com valores únicos para cada bit em uma sequência.
