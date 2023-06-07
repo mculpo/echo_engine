@@ -87,6 +87,7 @@ namespace openge {
 		int location = glGetUniformLocation(m_program, name.c_str());
 		if (location == -1) {
 			std::cout << "Aviso: uniform " << name << " not exist!" << std::endl;
+			return -1;
 		}
 		else {
 			return location;

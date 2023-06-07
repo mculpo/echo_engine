@@ -11,9 +11,9 @@
 
 namespace openge {
 	struct MeshData {
-		std::vector<glm::vec3> positions;
-		std::vector<glm::vec3> normals;
-		std::vector<glm::vec2> texCoords;
+		std::vector<Vector3> positions;
+		std::vector<Vector3> normals;
+		std::vector<Vector2> texCoords;
 	};
 	class Mesh : public Component
 	{
@@ -28,23 +28,23 @@ namespace openge {
 		void setIndices(std::vector<unsigned int>& indices);
 		void setVertices(std::vector<Vertex>& vertices);
 
-		void setVAO(std::shared_ptr<VertexArrayObject> vao);
-		void setVBO(std::shared_ptr<VertexBufferObject> vbo);
-		void setEBO(std::shared_ptr<ElementBufferObject> ebo);
+		void setVAO(ref<VertexArrayObject> vao);
+		void setVBO(ref<VertexBufferObject> vbo);
+		void setEBO(ref<ElementBufferObject> ebo);
 
 		void useVAO() const;
 		void useVBO() const;
 		void useEBO() const;
 	private:
-		std::vector<glm::vec3> m_positions;
-		std::vector<glm::vec3> m_normals;
-		std::vector<glm::vec2> m_texCoords;
+		std::vector<Vector3> m_positions;
+		std::vector<Vector3> m_normals;
+		std::vector<Vector2> m_texCoords;
 		std::vector<unsigned int> m_indices;
 		std::vector<Vertex> m_vertices;
 
-		std::shared_ptr<VertexArrayObject> m_vao;
-		std::shared_ptr<VertexBufferObject> m_vbo;
-		std::shared_ptr<ElementBufferObject> m_ebo;
+		ref<VertexArrayObject> m_vao;
+		ref<VertexBufferObject> m_vbo;
+		ref<ElementBufferObject> m_ebo;
 	};
 
 }

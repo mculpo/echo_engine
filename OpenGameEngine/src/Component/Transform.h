@@ -13,15 +13,15 @@ namespace openge {
 		Quaternion m_rotation;
 	public:
 		
-		Transform(const glm::vec3 position, const glm::vec3 scale, const glm::quat rotation);
+		Transform(const Vector3 position, const Vector3 scale, const Quaternion rotation);
 		~Transform();
 		Matrix4 getModelMatrix();
 		Matrix3 getTransposeMatrix();
 
-		void translate(const glm::vec3 translation);
-		void scale(const glm::vec3 scale);
-		void rotate(const glm::quat& angles);
-		void lookAt(const glm::vec3& target, float speed);
+		void translate(const Vector3 translation);
+		void scale(const Vector3 scale);
+		void rotate(const Quaternion& angles);
+		void lookAt(const Vector3& target, float speed);
 
 		Vector3 getPosition() const;
 		Vector3 getScale() const;

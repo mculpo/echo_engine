@@ -38,16 +38,16 @@ namespace openge {
 		m_vertices = vertices;
 	}
 
-	void Mesh::setVAO(std::shared_ptr<VertexArrayObject> vao)
+	void Mesh::setVAO(ref<VertexArrayObject> vao)
 	{
 		m_vao = std::move(vao);
 	}
 
-	void Mesh::setVBO(std::shared_ptr<VertexBufferObject> vbo) 
+	void Mesh::setVBO(ref<VertexBufferObject> vbo) 
 	{
 		m_vbo = std::move(vbo);
 	}
-	void Mesh::setEBO(std::shared_ptr<ElementBufferObject> ebo) 
+	void Mesh::setEBO(ref<ElementBufferObject> ebo) 
 	{
 		m_ebo = std::move(ebo);
 	}

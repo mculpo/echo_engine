@@ -41,7 +41,7 @@ namespace openge {
 	{
 	}
 
-	Material::Material(std::shared_ptr<Shader> shader) : m_shader (shader)
+	Material::Material(ref<Shader> shader) : m_shader (shader)
 	{
 	}
 
@@ -49,7 +49,7 @@ namespace openge {
 	{
 	}
 
-	void openge::Material::setTexture(const std::string& name, std::shared_ptr<Texture> texture)
+	void openge::Material::setTexture(const std::string& name, ref<Texture> texture)
     {
 		m_textures[name] = texture;
     }
@@ -59,7 +59,7 @@ namespace openge {
         return nullptr;
     }
 
-    void openge::Material::setShader(std::shared_ptr<Shader> shader)
+    void openge::Material::setShader(ref<Shader> shader)
     {
 		m_shader = shader;
     }

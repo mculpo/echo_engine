@@ -3,9 +3,7 @@
 
 #include <Entity/Entity.h>
 #include <Core/Singleton.h>
-#include <unordered_map>
-#include <string>
-#include <memory>
+#include <Core/tspch.h>
 
 namespace openge {
 
@@ -13,7 +11,7 @@ namespace openge {
 
 	class EntityManager : public Singleton<EntityManager> {
 	private:
-		std::unordered_map<std::string, std::shared_ptr<Entity>> m_entities;
+		std::unordered_map<std::string, ref<Entity>> m_entities;
 
 	public:
 		EntityManager() {};
@@ -21,24 +19,24 @@ namespace openge {
 
 
 		template<typename EntityType>
-		void addEntity(std::shared_ptr<EntityType> entity) {
+		void addEntity(ref<EntityType> entity) {
 			static_assert(std::is_base_of<Entity, EntityType>::value, "EntityType must derive from Entity.");
 
-			std::shared_ptr<Entity> _entity = std::static_pointer_cast<Entity>(entity);
+			ref<Entity> _entity = std::static_pointer_cast<Entity>(entity);
 			std::string sizeString = std::to_string(m_entities.size());
 			m_entities[_entity->getTag() + sizeString] = _entity;
 		}
 
 		template<typename EntityType>
-		std::vector<std::shared_ptr<EntityType>> findGameObjects()
+		std::vector<ref<EntityType>> findGameObjects()
 		{
 			static_assert(std::is_base_of<Entity, EntityType>::value, "EntityType must derive from Component<T>.");
 
-			std::vector<std::shared_ptr<EntityType>> entities;
+			std::vector<ref<EntityType>> entities;
 
 			for (const auto& entity : m_entities)
 			{
-				std::shared_ptr<EntityType> _ent = std::static_pointer_cast<EntityType>(entity.second);
+				ref<EntityType> _ent = std::static_pointer_cast<EntityType>(entity.second);
 				if (_ent)
 				{
 					entities.push_back(_ent);
@@ -49,14 +47,14 @@ namespace openge {
 		}
 
 		template<typename EntityType>
-		std::vector<std::shared_ptr<EntityType>> findGameObjectsByTag(const std::string& tag)
+		std::vector<ref<EntityType>> findGameObjectsByTag(const std::string& tag)
 		{
 			static_assert(std::is_base_of<Entity, EntityType>::value, "EntityType must derive from Entity.");
-			std::vector<std::shared_ptr<EntityType>> entities;
+			std::vector<ref<EntityType>> entities;
 
 			for (const auto& entity : m_entities) {
 				if (entity.second->getTag() == tag) {
-					std::shared_ptr<EntityType> _entity = std::static_pointer_cast<EntityType>(entity.second);
+					ref<EntityType> _entity = std::static_pointer_cast<EntityType>(entity.second);
 					if (_entity) {
 						entities.push_back(_entity);
 					}
@@ -70,7 +68,7 @@ namespace openge {
 		}
 
 		template<typename EntityType>
-		std::shared_ptr<EntityType> findEntityByTag(const std::string& tag) {
+		ref<EntityType> findEntityByTag(const std::string& tag) {
 
 			static_assert(std::is_base_of<Entity, EntityType>::value, "EntityType must derive from Entity.");
 

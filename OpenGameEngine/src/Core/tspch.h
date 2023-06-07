@@ -6,6 +6,7 @@
 #include <string>
 #include <memory>
 #include <cassert>
+#include <cstdint>
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -13,6 +14,7 @@
 #include <memory>
 #include <random>
 #include <intrin.h>
+#include <typeindex>
 //#include <function>
 
 #include <GL/glew.h>

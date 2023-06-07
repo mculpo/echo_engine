@@ -1,10 +1,7 @@
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
 
-#include <cstdint>
-#include <unordered_map>
-#include <typeindex>
-#include <memory>
+#include <Core/tspch.h>
 #include "Component/Component.h"
 
 namespace openge {
@@ -15,7 +12,7 @@ namespace openge {
     class Entity : public std::enable_shared_from_this<Entity> {
     protected:
         std::uint64_t m_id;
-        std::unordered_map<std::type_index, std::shared_ptr<Component>> m_components;
+        std::unordered_map<std::type_index, ref<Component>> m_components;
         std::string m_name;
         std::string m_tag;
 
@@ -33,7 +30,7 @@ namespace openge {
         }
 
         template<typename ComponentType>
-        void addComponent(std::shared_ptr<ComponentType> component)
+        void addComponent(ref<ComponentType> component)
         {
             static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must derive from Component<T>.");
 
@@ -41,13 +38,13 @@ namespace openge {
             if (m_components.count(componentTypeIndex) == 0)
             {
                 component->setEntity(shared_from_this());
-                std::shared_ptr<Component> baseComponent = std::static_pointer_cast<Component>(component);
+                ref<Component> baseComponent = std::static_pointer_cast<Component>(component);
                 m_components[componentTypeIndex] = baseComponent;
             }
         }
 
         template<typename ComponentType>
-        std::shared_ptr<ComponentType> getComponent()
+        ref<ComponentType> getComponent()
         {
             static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must derive from Component<T>.");
 

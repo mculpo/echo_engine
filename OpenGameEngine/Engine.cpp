@@ -233,37 +233,40 @@ namespace openge {
 		/*
 		*	Configuração do Cubo de Exemplo que vai ser iluminado
 		*/
-		ref<GameObject> cubo = createRef<GameObject>(2, "light", "light");
+		
 		{
-			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/default.vertex", "resources/shaders/default.frag");
-			ref<Texture> diffuse = createRef<Texture>("resources/texture/container2.png", true);
-			ref<Texture> specular = createRef<Texture>("resources/texture/container2_specular.png", true);
-			ref<Mesh> meshCubo = createRef<Mesh>();
-			ref<Material> materialCubo = createRef<Material>();
-			ref<Renderer> rendererCubo = createRef<Renderer>();
-			ref<Transform> transformCubo = createRef<Transform>(
-				Vector3(1.0f),
-				Vector3(1.0f),
-				Vector3(0.0f)
-			);
+			for (int i = 0; i < 10; i++) {
+				ref<GameObject> cubo = createRef<GameObject>(2, "cubo", "cubo");
+				ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/default.vertex", "resources/shaders/default.frag");
+				ref<Texture> diffuse = createRef<Texture>("resources/texture/Crystal-diffuse.jpg");
+				ref<Texture> specular = createRef<Texture>("resources/texture/Crystal-spec.jpg");
+				ref<Mesh> meshCubo = createRef<Mesh>();
+				ref<Material> materialCubo = createRef<Material>();
+				ref<Renderer> rendererCubo = createRef<Renderer>();
+				ref<Transform> transformCubo = createRef<Transform>(
+					Vector3(Random::getInstance().Range(-5.0f, 5.0f), Random::getInstance().Range(-5.0f, 5.0f), Random::getInstance().Range(-5.0f, 5.0f)),
+					Vector3(1.0f),
+					Vector3(Random::getInstance().Range(0.0f,360.0f))
+					);
 
-			meshCubo->setVertices(vertices);
-			meshCubo->setup();
+				meshCubo->setVertices(vertices);
+				meshCubo->setup();
 
-			materialCubo->setShader(shaderReceptorLight);
-			materialCubo->setTexture("material.diffuse", diffuse);
-			materialCubo->setTexture("material.specular", specular);
-			materialCubo->setup();
+				materialCubo->setShader(shaderReceptorLight);
+				materialCubo->setTexture("material.diffuse", diffuse);
+				materialCubo->setTexture("material.specular", specular);
+				materialCubo->setup();
 
-			rendererCubo->setMaterial(materialCubo);
-			rendererCubo->setMesh(meshCubo);
+				rendererCubo->setMaterial(materialCubo);
+				rendererCubo->setMesh(meshCubo);
 
-			cubo->addComponent<Transform>(transformCubo);
-			cubo->addComponent<Mesh>(meshCubo);
-			cubo->addComponent<Renderer>(rendererCubo);
-			EntityManager::getInstance().addEntity<GameObject>(cubo);
+				cubo->addComponent<Transform>(transformCubo);
+				cubo->addComponent<Mesh>(meshCubo);
+				cubo->addComponent<Renderer>(rendererCubo);
+				EntityManager::getInstance().addEntity<GameObject>(cubo);
+			}
 		}
-
+		
 		while (!glfwWindowShouldClose(m_window)) {
 
 			Time::getInstance().updateDeltaTime();
@@ -276,40 +279,54 @@ namespace openge {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			{
-				Vector3 _positionLight = light->getComponent<Transform>()->getPosition();
+				Vector3 _directionCamera = mainCamera->getComponent<Camera>()->getFront();
 				Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
+				std::vector<ref<GameObject>> cubos = EntityManager::getInstance().findGameObjectsByTag<GameObject>("cubo");
+				//ref<GameObject> cubo = EntityManager::getInstance().findEntityByTag<GameObject>("cubo");
+				for (int i = 0; i < cubos.size(); i ++) {
+					ref<GameObject> cubo = cubos[i];
+					ref<Renderer> cuboRenderer = cubo->getComponent<Renderer>();
+					ref<Transform> cuboTransform = cubo->getComponent<Transform>();
+					ref<Shader> shaderCubo = cuboRenderer->getMaterial()->getShader();
+					shaderCubo->Bind();
 
-				ref<Renderer> cuboRenderer = cubo->getComponent<Renderer>();
-				ref<Transform> cuboTransform = cubo->getComponent<Transform>();
-				ref<Shader> shaderCubo = cuboRenderer->getMaterial()->getShader();
-				shaderCubo->Bind();
+					shaderCubo->setUniform3fv("viewPos", _postitionCamera);
 
-				shaderCubo->setUniform3f("light.position", _positionLight.x, _positionLight.y, _positionLight.z);
-				shaderCubo->setUniform3f("viewPos", _postitionCamera.x, _postitionCamera.y, _postitionCamera.z);
+					shaderCubo->setUniform3fv("light.position", _postitionCamera);
+					shaderCubo->setUniform3fv("light.direction", _directionCamera);
+					shaderCubo->setUniform1f("light.cutOff", glm::cos(glm::radians(12.5f)));
+					shaderCubo->setUniform1f("light.outerCutOff", glm::cos(glm::radians(17.5f)));
 
-				// light properties
-				shaderCubo->setUniform3f("light.ambient", 0.2f, 0.2f, 0.2f);
-				shaderCubo->setUniform3f("light.diffuse", 0.5f, 0.5f, 0.5f);
-				shaderCubo->setUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
+					shaderCubo->setUniform1f("light.constant", 1.0f);
+					shaderCubo->setUniform1f("light.linear", 0.09f);
+					shaderCubo->setUniform1f("light.quadratic", 0.032f);
 
-				// material properties
-				shaderCubo->setUniform1f("material.shininess", 32.0f);
-				
-				Matrix3 transpose = cuboTransform->getTransposeMatrix();
-				shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
-				cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::getInstance().deltaTime()));
+					// light properties
+					shaderCubo->setUniform3f("light.color", 1.0f, 1.0f, 1.0f);
+					shaderCubo->setUniform3f("light.ambient", 0.2f, 0.2f, 0.2f);
+					shaderCubo->setUniform3f("light.diffuse", 0.5f, 0.5f, 0.5f);
+					shaderCubo->setUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
 
-				cuboRenderer->bind();
-				cuboRenderer->render();
+					// material properties
+					shaderCubo->setUniform1f("material.shininess", 64.0f);
+
+					Matrix3 transpose = cuboTransform->getTransposeMatrix();
+					shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
+					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::getInstance().deltaTime()));
+
+					cuboRenderer->bind();
+					cuboRenderer->render();
+				}
 			}
-
 			{
-				ref<Renderer> lightRenderer = light->getComponent<Renderer>();
+				/*ref<Renderer> lightRenderer = light->getComponent<Renderer>();
 				ref<Shader> shader = lightRenderer->getMaterial()->getShader();
-
+				shader->Bind();
+				shader->setUniform3f("color", 1.0f, 0.0f, 0.0f);
 				lightRenderer->bind();
-				lightRenderer->render();
+				lightRenderer->render();*/
 			}
+			
 
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();

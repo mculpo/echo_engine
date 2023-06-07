@@ -1,8 +1,8 @@
 #ifndef __GAME_OBJECT_H__
 #define __GAME_OBJECT_H__
 
-#include "Entity.h"
-#include <string>
+#include <Entity/Entity.h>
+#include <Core/tspch.h>
 
 namespace openge {
 

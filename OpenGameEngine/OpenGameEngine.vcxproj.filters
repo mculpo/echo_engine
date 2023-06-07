@@ -159,5 +159,11 @@
     <Image Include="resources\texture\container2.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
+    <Image Include="resources\texture\Crystal-diffuse.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\Crystal-spec.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
   </ItemGroup>
 </Project>
