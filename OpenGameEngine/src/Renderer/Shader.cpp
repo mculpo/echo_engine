@@ -42,7 +42,7 @@ namespace openge {
 		glUniform1f(getUniformLocation(name), value);
 	}
 
-	void Shader::setUniform3fv(std::string name, Vector3& vec3) {
+	void Shader::setUniform3fv(std::string name, const Vector3& vec3) {
 		glUniform3fv(getUniformLocation(name), 1, &vec3[0]);
 	}
 
@@ -51,12 +51,12 @@ namespace openge {
 		glUniform3f(getUniformLocation(name), x, y, z);
 	}
 
-	void Shader::setUniformMatrix4fv(std::string name, Matrix4& mat)
+	void Shader::setUniformMatrix4fv(std::string name, const Matrix4& mat)
 	{
 		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
 	}
 
-	void Shader::setUniformMatrix3fv(std::string name, Matrix3& mat)
+	void Shader::setUniformMatrix3fv(std::string name, const Matrix3& mat)
 	{
 		glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]); 
 	}

@@ -1,9 +1,8 @@
 ﻿  Engine.cpp
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(40,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(41,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(45,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(46,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(103,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(103,32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(286,23): warning C4018: '<': signed/unsigned mismatch
+E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(207,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(208,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(212,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(213,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(270,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(270,32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   OpenGameEngine.vcxproj -> E:\Projetos\C++\open_game_engine\Debug\OpenGameEngine.exe

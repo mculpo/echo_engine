@@ -137,6 +137,9 @@
     <ClInclude Include="src\Core\Random.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="src\Component\Light.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\uniform.frag" />

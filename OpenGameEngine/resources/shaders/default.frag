@@ -45,7 +45,7 @@ struct SpotLight {
     vec3 color;
 };
 
-#define NR_POINT_LIGHTS 4
+#define NR_POINT_LIGHTS 8
 
 in vec3 FragPos;  
 in vec3 Normal;  
@@ -55,6 +55,7 @@ uniform vec3 viewPos;
 uniform Material material;
 uniform DirLight dirLight;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
+uniform int numPointLights;
 uniform SpotLight spotLight;
 
 // function prototypes
@@ -76,7 +77,7 @@ void main()
     // phase 1: directional lighting
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
     // phase 2: point lights
-    for(int i = 0; i < NR_POINT_LIGHTS; i++)
+    for(int i = 0; i < numPointLights; i++)
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
     // phase 3: spot light
     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);    
@@ -97,7 +98,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
     vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
     vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
     vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
-    return (ambient + (diffuse + specular) * light.color);
+    return (ambient + ((diffuse + specular) * light.color));
 }
 
 // calculates the color when using a point light.
@@ -119,7 +120,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
-    return (ambient + (diffuse + specular) * light.color);
+    return (ambient + ((diffuse + specular) * light.color));
 }
 
 // calculates the color when using a spot light.
@@ -145,5 +146,5 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     ambient *= attenuation * intensity;
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
-    return (ambient + (diffuse + specular) * light.color);
+    return (ambient + ((diffuse + specular) * light.color));
 }

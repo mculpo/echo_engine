@@ -154,6 +154,7 @@
     <ClCompile Include="src\Renderer\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Component\Light.h" />
     <ClInclude Include="src\Core\base.h" />
     <ClInclude Include="src\Core\Random.h" />
     <ClInclude Include="src\Core\tspch.h" />
