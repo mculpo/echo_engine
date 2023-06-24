@@ -4,7 +4,7 @@ namespace openge {
 	{
 		setVAO(std::make_shared<VertexArrayObject>());
 		setVBO(std::make_shared<VertexBufferObject>(m_vertices.data(), m_vertices.size() * sizeof(Vertex), GL_STATIC_DRAW));
-		//setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
+		setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
 		
 		m_vao->AddLayout(3, VP_FLOAT); // aPos
 		m_vao->AddLayout(3, VP_FLOAT); // aNormal
@@ -19,13 +19,6 @@ namespace openge {
 	void Mesh::disableVertexAttribArray()
 	{
 		m_vao->runLayout();
-	}
-
-	void Mesh::setMeshData(MeshData& meshData)
-	{
-		m_positions = meshData.positions;
-		m_normals = meshData.normals;
-		m_texCoords = meshData.texCoords;
 	}
 
 	void Mesh::setIndices(std::vector<unsigned int>& indices)

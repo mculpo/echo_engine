@@ -31,6 +31,7 @@ namespace openge {
 	float pitch = 0.0f;
 	float lastX = 800.0f / 2.0;
 	float lastY = 600.0 / 2.0;
+
 	void create_cube_vertex() {
 		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(0.0f, 0.0f)));
 		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(1.0f, 0.0f)));
@@ -84,17 +85,17 @@ namespace openge {
 		{
 			ref<GameObject> light = createRef<GameObject>(1, "light", "light");
 			ref<Light> dirLight = createRef<Light>(LightType::Directional);
-			
+
 			dirLight->setDirection(Vector3(-0.2f, -1.0f, -0.3f));
 			dirLight->setAmbient(Vector3(0.05f, 0.05f, 0.05f));
 			dirLight->setDiffuse(Vector3(0.4f, 0.4f, 0.4f));
 			dirLight->setSpecular(Vector3(0.5f, 0.5f, 0.5f));
-			dirLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
+			dirLight->setColor(Vector3(0.0f, 0.0f, 1.0f));
 
 			ref<Mesh> meshLight = createRef<Mesh>();
 			ref<Material> materialLight = createRef<Material>();
 			ref<Renderer> rendererLight = createRef<Renderer>();
-			ref<Transform> transformLight = createRef<Transform>(Vector3(0.7f, 0.2f, 2.0f),Vector3(0.2f),Vector3(0.0f));
+			ref<Transform> transformLight = createRef<Transform>(Vector3(0.7f, 0.2f, 2.0f), Vector3(0.2f), Vector3(0.0f));
 
 			meshLight->setVertices(vertices);
 			meshLight->setup();
@@ -118,7 +119,7 @@ namespace openge {
 		{
 			ref<GameObject> light = createRef<GameObject>(1, "light", "light");
 			ref<Light> spotLight = createRef<Light>(LightType::Spot);
-		
+
 			ref<Mesh> meshLight = createRef<Mesh>();
 			ref<Material> materialLight = createRef<Material>();
 			ref<Renderer> rendererLight = createRef<Renderer>();
@@ -302,7 +303,7 @@ namespace openge {
 	void Engine::run()
 	{
 		create_cube_vertex();
-	
+
 		stbi_set_flip_vertically_on_load(true);
 
 		ref<GameObject> mainCamera = createRef<GameObject>(0, "MainCamera", "MainCamera");
@@ -329,10 +330,10 @@ namespace openge {
 		create_lights();
 
 		/*
-		*	Configuração do Cubo de Exemplo que vai ser iluminado
+		*	Configuração dos Cubos de Exemplo que vai ser iluminado
 		*/
 		{
-			
+
 			// positions all containers
 			Vector3 cubePositions[] = {
 				Vector3(0.0f,  0.0f,  0.0f),
@@ -352,7 +353,7 @@ namespace openge {
 			ref<Texture> specular = createRef<Texture>("resources/texture/Crystal-spec.jpg");
 
 			for (unsigned int i = 0; i < 10; i++) {
-				
+
 				ref<GameObject> cubo = createRef<GameObject>(2, "cubo", "cubo");
 				ref<Mesh> meshCubo = createRef<Mesh>();
 				ref<Material> materialCubo = createRef<Material>();
@@ -360,7 +361,7 @@ namespace openge {
 				ref<Transform> transformCubo = createRef<Transform>(
 					Vector3(cubePositions[i]),
 					Vector3(1.0f),
-					Vector3(Random::getInstance().Range(0.0f,360.0f))
+					Vector3(Random::getInstance().Range(0.0f, 360.0f))
 					);
 
 				meshCubo->setVertices(vertices);
@@ -379,7 +380,7 @@ namespace openge {
 				EntityManager::getInstance().addEntity<GameObject>(cubo);
 			}
 		}
-		
+
 		while (!glfwWindowShouldClose(m_window)) {
 
 			Time::getInstance().updateDeltaTime();
@@ -391,14 +392,16 @@ namespace openge {
 			glClearColor(Red, Green, Blue, Alpha);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			
+
 			std::vector<ref<GameObject>> lights = EntityManager::getInstance().findGameObjectsByTag<GameObject>("light");
 			ref<Light> dirLight;
 			ref<Light> spotLight;
 			std::vector<ref<Light>> pointLight;
 			/**
-			* Configuration e registers all lights in scene
+			* Configuration and registers all lights in scene
 			*/
+			{
+
 				for (const auto& gameObject : lights) {
 					ref<Light> lightComponent = gameObject->getComponent<Light>();
 
@@ -412,7 +415,7 @@ namespace openge {
 						dirLight = lightComponent;
 					}
 				}
-
+			}
 			/**
 			* Renderer Box's GameObject
 			*/
@@ -421,7 +424,7 @@ namespace openge {
 				Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
 				std::vector<ref<GameObject>> cubos = EntityManager::getInstance().findGameObjectsByTag<GameObject>("cubo");
 				//ref<GameObject> cubo = EntityManager::getInstance().findEntityByTag<GameObject>("cubo");
-				for (unsigned int i = 0; i < cubos.size(); i ++) {
+				for (unsigned int i = 0; i < cubos.size(); i++) {
 					ref<GameObject> cubo = cubos[i];
 					ref<Renderer> cuboRenderer = cubo->getComponent<Renderer>();
 					ref<Transform> cuboTransform = cubo->getComponent<Transform>();
@@ -453,7 +456,7 @@ namespace openge {
 					shaderCubo->setUniform1f("spotLight.cutOff", spotLight->getCutOff());
 					shaderCubo->setUniform1f("spotLight.outerCutOff", spotLight->getOuterCutOff());
 					shaderCubo->setUniform3fv("spotLight.color", spotLight->getColor());
-					
+
 					// shader point
 					for (unsigned int i = 0; i < pointLight.size(); i++) {
 
@@ -466,10 +469,10 @@ namespace openge {
 						shaderCubo->setUniform1f("pointLights[" + std::to_string(i) + "].quadratic", pointLight[i]->getQuadratic());
 						shaderCubo->setUniform3fv("pointLights[" + std::to_string(i) + "].color", pointLight[i]->getColor());
 					}
-				
+
 					Matrix3 transpose = cuboTransform->getTransposeMatrix();
 					shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
-					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::getInstance().deltaTime()));
+					//cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::getInstance().deltaTime()));
 
 					cuboRenderer->bind();
 					cuboRenderer->render();
@@ -489,7 +492,7 @@ namespace openge {
 					lightRenderer->render();
 				}
 			}
-			
+
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}

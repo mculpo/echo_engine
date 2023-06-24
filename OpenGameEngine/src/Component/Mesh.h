@@ -10,11 +10,6 @@
 
 
 namespace openge {
-	struct MeshData {
-		std::vector<Vector3> positions;
-		std::vector<Vector3> normals;
-		std::vector<Vector2> texCoords;
-	};
 	class Mesh : public Component
 	{
 	public:
@@ -24,7 +19,6 @@ namespace openge {
 		void setup();
 		void disableVertexAttribArray();
 
-		void setMeshData(MeshData& meshData);
 		void setIndices(std::vector<unsigned int>& indices);
 		void setVertices(std::vector<Vertex>& vertices);
 
@@ -36,9 +30,6 @@ namespace openge {
 		void useVBO() const;
 		void useEBO() const;
 	private:
-		std::vector<Vector3> m_positions;
-		std::vector<Vector3> m_normals;
-		std::vector<Vector2> m_texCoords;
 		std::vector<unsigned int> m_indices;
 		std::vector<Vertex> m_vertices;
 

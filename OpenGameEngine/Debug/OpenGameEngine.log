@@ -1,8 +1,2 @@
-﻿  Engine.cpp
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(207,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(208,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(212,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(213,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(270,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-E:\Projetos\C++\open_game_engine\OpenGameEngine\Engine.cpp(270,32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+﻿  Mesh.cpp
   OpenGameEngine.vcxproj -> E:\Projetos\C++\open_game_engine\Debug\OpenGameEngine.exe
