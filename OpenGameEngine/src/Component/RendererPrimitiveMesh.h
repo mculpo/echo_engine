@@ -4,7 +4,7 @@
 #include <Core/tspch.h>
 #include <Component/Mesh.h>
 #include <Component/Material.h>
-#include <Renderer/Renderer.h>
+#include <Component/Renderer.h>
 
 namespace openge {
 	class RendererPrimitiveMesh : public Renderer

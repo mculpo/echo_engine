@@ -90,7 +90,7 @@ namespace openge {
 			dirLight->setAmbient(Vector3(0.05f, 0.05f, 0.05f));
 			dirLight->setDiffuse(Vector3(0.4f, 0.4f, 0.4f));
 			dirLight->setSpecular(Vector3(0.5f, 0.5f, 0.5f));
-			dirLight->setColor(Vector3(0.0f, 0.0f, 1.0f));
+			dirLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
 
 			ref<Mesh> meshLight = createRef<Mesh>();
 			ref<Material> materialLight = createRef<Material>();
@@ -240,7 +240,7 @@ namespace openge {
 			if (Input::IsKeyPressed(KEYCODE_ESCAPE))
 				glfwSetWindowShouldClose(m_window, true);
 
-			float cameraSpeed = static_cast<float>(2.5 * Time::getInstance().deltaTime());
+			float cameraSpeed = static_cast<float>(5 * Time::getInstance().deltaTime());
 
 			if (Input::IsKeyHeld(KEYCODE_W))
 				cameraTranform->translate(cameraSpeed * camera->getFront());
@@ -488,7 +488,7 @@ namespace openge {
 			}
 
 			// Exibe o FPS e o MS no console
-			std::cout << "FPS: " << 1000/Time::getInstance().deltaTime() << ", MS: " << Time::getInstance().deltaTime() << std::endl;
+			/*std::cout << "FPS: " << 1000 / Time::getInstance().deltaTime() << ", MS: " << Time::getInstance().deltaTime() << std::endl;*/
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}
