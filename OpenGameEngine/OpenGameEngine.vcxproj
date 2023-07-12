@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Users\mculpo\Downloads\glad\src\glad.c" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="src\Renderer\RendererPrimitiveMesh.cpp" />
     <ClCompile Include="src\Renderer\Camera.cpp" />
     <ClCompile Include="src\Component\Material.cpp" />
     <ClCompile Include="src\Engine.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="src\Renderer\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer\RendererPrimitiveMesh.h" />
     <ClInclude Include="src\Component\Light.h" />
     <ClInclude Include="src\Core\base.h" />
     <ClInclude Include="src\Core\Random.h" />

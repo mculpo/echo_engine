@@ -1,16 +1,31 @@
 #include "Texture.h"
 namespace openge {
-	Texture::Texture(const std::string& path)
+	Texture::Texture(const std::string& path) : m_path(path), m_isRGBA(false), m_textureType(TextureType::Diffuse)
 	{
-		m_isRGBA = false;
 		CreateTexture(path);
 	}
-	Texture::Texture(const std::string& path, bool rgba) : m_isRGBA(rgba)
+	Texture::Texture(const std::string& path, TextureType textureType) : m_path(path), m_isRGBA(false), m_textureType(textureType)
+	{
+		CreateTexture(path);
+	}
+	Texture::Texture(const std::string& path, bool rgba) : m_path(path), m_isRGBA(rgba), m_textureType(TextureType::Diffuse)
 	{
 		CreateTexture(path);
 	}
 	Texture::~Texture()
 	{
+	}
+	const TextureType Texture::GetTextureType() const
+	{
+		return m_textureType;
+	}
+	const String Texture::GetName() const
+	{
+		return m_name;
+	}
+	void Texture::SetName(String& name)
+	{
+		m_name = name;
 	}
 	void Texture::CreateTexture(const std::string& path)
 	{

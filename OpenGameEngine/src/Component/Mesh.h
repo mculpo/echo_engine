@@ -7,6 +7,8 @@
 #include <Renderer/VertexArrayObject.h>
 #include <Core/Vertex.h>
 #include <Core/Vertex.h>
+#include <Renderer/Texture.h>
+#include <Component/Material.h>
 
 
 namespace openge {
@@ -21,17 +23,22 @@ namespace openge {
 
 		void setIndices(std::vector<unsigned int>& indices);
 		void setVertices(std::vector<Vertex>& vertices);
+		void setTextures(std::vector<ref<Texture>> textures);
+		void addTexture(ref <Texture> texture, String name);
+		void addTexture(ref <Texture> texture);
 
 		void setVAO(ref<VertexArrayObject> vao);
 		void setVBO(ref<VertexBufferObject> vbo);
 		void setEBO(ref<ElementBufferObject> ebo);
 
+		void bindTexture(ref<Material> material) const;
 		void useVAO() const;
 		void useVBO() const;
 		void useEBO() const;
 	private:
 		std::vector<unsigned int> m_indices;
 		std::vector<Vertex> m_vertices;
+		std::vector<ref<Texture>> m_textures;
 
 		ref<VertexArrayObject> m_vao;
 		ref<VertexBufferObject> m_vbo;

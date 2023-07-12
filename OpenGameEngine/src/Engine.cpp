@@ -4,7 +4,6 @@
 #include <Renderer/VertexBufferObject.h>
 #include <Renderer/Texture.h>
 #include <Renderer/ElementBufferObject.h>
-#include <Renderer/Renderer.h>
 #include <Renderer/Camera.h>
 #include <Renderer/Shader.h>
 
@@ -14,13 +13,15 @@
 #include <Component/Mesh.h>
 #include <Component/Material.h>
 #include <Component/Transform.h>
+#include <Component/Light.h>
+#include <Component/RendererPrimitiveMesh.h>
+#include <Component/Renderer.h>
 
 #include <Core/Input.h>
 #include <Core/Mouse.h>
 #include <Core/Time.h>
 #include <Core/Vertex.h>
 #include <Core/Random.h>
-#include <Component/Light.h>
 
 
 namespace openge {
@@ -93,17 +94,16 @@ namespace openge {
 
 			ref<Mesh> meshLight = createRef<Mesh>();
 			ref<Material> materialLight = createRef<Material>();
-			ref<Renderer> rendererLight = createRef<Renderer>();
+			ref<Renderer> rendererLight = createRef<RendererPrimitiveMesh>();
 			ref<Transform> transformLight = createRef<Transform>(Vector3(0.7f, 0.2f, 2.0f), Vector3(0.2f), Vector3(0.0f));
 
 			meshLight->setVertices(vertices);
 			meshLight->setup();
 
 			materialLight->setShader(shaderLight);
-			materialLight->setup();
 
 			rendererLight->setMaterial(materialLight);
-			rendererLight->setMesh(meshLight);
+			rendererLight->addMesh(meshLight);
 
 			light->addComponent<Transform>(transformLight);
 			light->addComponent<Light>(dirLight);
@@ -121,7 +121,7 @@ namespace openge {
 
 			ref<Mesh> meshLight = createRef<Mesh>();
 			ref<Material> materialLight = createRef<Material>();
-			ref<Renderer> rendererLight = createRef<Renderer>();
+			ref<Renderer> rendererLight = createRef<RendererPrimitiveMesh>();
 			ref<Transform> transformLight = createRef<Transform>(Vector3(0.0f, 0.0f, -3.0f), Vector3(0.2f), Vector3(0.0f));
 
 			spotLight->setAmbient(Vector3(0.0f, 0.0f, 0.0f));
@@ -139,10 +139,9 @@ namespace openge {
 			meshLight->setup();
 
 			materialLight->setShader(shaderLight);
-			materialLight->setup();
 
 			rendererLight->setMaterial(materialLight);
-			rendererLight->setMesh(meshLight);
+			rendererLight->addMesh(meshLight);
 
 			light->addComponent<Transform>(transformLight);
 			light->addComponent<Light>(spotLight);
@@ -169,7 +168,7 @@ namespace openge {
 
 				ref<Mesh> meshLight = createRef<Mesh>();
 				ref<Material> materialLight = createRef<Material>();
-				ref<Renderer> rendererLight = createRef<Renderer>();
+				ref<Renderer> rendererLight = createRef<RendererPrimitiveMesh>();
 				ref<Transform> transformLight = createRef<Transform>(pointLightPositions[i], Vector3(0.2f), Vector3(0.0f));
 
 				pointLight->setPosition(pointLightPositions[i]);
@@ -185,10 +184,9 @@ namespace openge {
 				meshLight->setup();
 
 				materialLight->setShader(shaderLight);
-				materialLight->setup();
 
 				rendererLight->setMaterial(materialLight);
-				rendererLight->setMesh(meshLight);
+				rendererLight->addMesh(meshLight);
 
 				light->addComponent<Transform>(transformLight);
 				light->addComponent<Light>(pointLight);
@@ -326,7 +324,6 @@ namespace openge {
 		EntityManager::getInstance().addEntity<GameObject>(mainCamera);
 
 		create_lights();
-
 		/*
 		*	Configuração dos Cubos de Exemplo que vai ser iluminado
 		*/
@@ -347,15 +344,15 @@ namespace openge {
 			};
 
 			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/default.vertex", "resources/shaders/default.frag");
-			ref<Texture> diffuse = createRef<Texture>("resources/texture/Crystal-diffuse.jpg");
-			ref<Texture> specular = createRef<Texture>("resources/texture/Crystal-spec.jpg");
+			ref<Texture> diffuse = createRef<Texture>("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
+			ref<Texture> specular = createRef<Texture>("resources/texture/Crystal-spec.jpg", TextureType::Specular);
 
 			for (unsigned int i = 0; i < 10; i++) {
 
 				ref<GameObject> cubo = createRef<GameObject>(2, "cubo", "cubo");
 				ref<Mesh> meshCubo = createRef<Mesh>();
 				ref<Material> materialCubo = createRef<Material>();
-				ref<Renderer> rendererCubo = createRef<Renderer>();
+				ref<Renderer> rendererCubo = createRef<RendererPrimitiveMesh>();
 				ref<Transform> transformCubo = createRef<Transform>(
 					Vector3(cubePositions[i]),
 					Vector3(1.0f),
@@ -363,14 +360,13 @@ namespace openge {
 					);
 
 				meshCubo->setVertices(vertices);
+				meshCubo->addTexture(diffuse, "material.diffuse");
+				meshCubo->addTexture(specular, "material.diffuse");
 				meshCubo->setup();
 				materialCubo->setShader(shaderReceptorLight);
-				materialCubo->setTexture("material.diffuse", diffuse);
-				materialCubo->setTexture("material.specular", specular);
-				materialCubo->setup();
 
 				rendererCubo->setMaterial(materialCubo);
-				rendererCubo->setMesh(meshCubo);
+				rendererCubo->addMesh(meshCubo);
 
 				cubo->addComponent<Transform>(transformCubo);
 				cubo->addComponent<Mesh>(meshCubo);
