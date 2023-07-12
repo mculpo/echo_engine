@@ -1,3 +1,6 @@
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include <set>
 #include <map>
 #include <unordered_map>
@@ -17,9 +20,6 @@
 #include <typeindex>
 //#include <function>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 //GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -37,11 +37,9 @@
 #define Matrix4 glm::mat4 
 #define Matrix3 glm::mat3
 #define Quaternion glm::quat
+#define String std::string
 
 #include <stb_image.h>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 #include "base.h"
 

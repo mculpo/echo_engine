@@ -10,11 +10,11 @@ namespace openge {
     class EntityManager;
 
     class Entity : public std::enable_shared_from_this<Entity> {
-    protected:
+    private:
         std::uint64_t m_id;
         std::unordered_map<std::type_index, ref<Component>> m_components;
-        std::string m_name;
-        std::string m_tag;
+        String m_name;
+        String m_tag;
 
     public:
         Entity(std::uint64_t id, std::string name, std::string tag)
@@ -25,6 +25,7 @@ namespace openge {
         std::string getName() const {
             return m_name;
         }
+
         std::string getTag() const {
             return m_tag;
         }

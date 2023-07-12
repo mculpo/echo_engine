@@ -11,7 +11,7 @@ namespace openge {
 
 	class EntityManager : public Singleton<EntityManager> {
 	private:
-		std::unordered_map<std::string, ref<Entity>> m_entities;
+		std::unordered_map<int, ref<Entity>> m_entities;
 
 	public:
 		EntityManager() {};
@@ -23,8 +23,7 @@ namespace openge {
 			static_assert(std::is_base_of<Entity, EntityType>::value, "EntityType must derive from Entity.");
 
 			ref<Entity> _entity = std::static_pointer_cast<Entity>(entity);
-			std::string sizeString = std::to_string(m_entities.size());
-			m_entities[_entity->getTag() + sizeString] = _entity;
+			m_entities[m_entities.size() + 1] = _entity;
 		}
 
 		template<typename EntityType>
@@ -34,7 +33,7 @@ namespace openge {
 
 			std::vector<ref<EntityType>> entities;
 
-			for (const auto& entity : m_entities)
+			for (const std::pair<const std::string, std::reference_wrapper<Entity>>& entity : m_entities)
 			{
 				ref<EntityType> _ent = std::static_pointer_cast<EntityType>(entity.second);
 				if (_ent)
@@ -63,7 +62,7 @@ namespace openge {
 			return entities;
 		}
 
-		void removeEntity(const std::string& tag) {
+		void removeEntity(const int tag) {
 			m_entities.erase(tag);
 		}
 
