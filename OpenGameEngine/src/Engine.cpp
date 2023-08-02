@@ -178,7 +178,7 @@ namespace openge {
 				pointLight->setConstant(1.0f);
 				pointLight->setLinear(0.09f);
 				pointLight->setQuadratic(0.032f);
-				pointLight->setColor(Vector3(1.0f, 0.0f, 0.0f));
+				pointLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
 
 				meshLight->setVertices(vertices);
 				meshLight->setup();
@@ -280,8 +280,6 @@ namespace openge {
 		// tell GLFW to capture our mouse
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-		glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
-
 		// configure global opengl state
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -330,24 +328,28 @@ namespace openge {
 		{
 
 			// positions all containers
-			Vector3 cubePositions[] = {
-				Vector3(0.0f,  0.0f,  0.0f),
-				Vector3(2.0f,  5.0f, -15.0f),
-				Vector3(-1.5f, -2.2f, -2.5f),
-				Vector3(-3.8f, -2.0f, -12.3f),
-				Vector3(2.4f, -0.4f, -3.5f),
-				Vector3(-1.7f,  3.0f, -7.5f),
-				Vector3(1.3f, -2.0f, -2.5f),
-				Vector3(1.5f,  2.0f, -2.5f),
-				Vector3(1.5f,  0.2f, -1.5f),
-				Vector3(-1.3f,  1.0f, -1.5f)
-			};
+			std::vector<Vector3> cubePositions;
+
+			// Generate 40 new random positions
+			const int totalNewPositions = 5;
+			const float range = 3.0f; // The range for random values
+
+			for (int i = 0; i < totalNewPositions; ++i) {
+				// Generate random values for x, y, and z within the given range
+				float x = static_cast<float>(rand()) / RAND_MAX * range - range / 2.0f;
+				float y = static_cast<float>(rand()) / RAND_MAX * range - range / 2.0f;
+				float z = static_cast<float>(rand()) / RAND_MAX * range - range / 2.0f;
+				Vector3 newPosition(x, y, z);
+
+				// Add the new position to the vector
+				cubePositions.push_back(newPosition);
+			}
 
 			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/default.vertex", "resources/shaders/default.frag");
 			ref<Texture> diffuse = createRef<Texture>("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
 			ref<Texture> specular = createRef<Texture>("resources/texture/Crystal-spec.jpg", TextureType::Specular);
 
-			for (unsigned int i = 0; i < 10; i++) {
+			for (unsigned int i = 0; i < cubePositions.size(); i++) {
 
 				ref<GameObject> cubo = createRef<GameObject>(2, "cubo", "cubo");
 				ref<Mesh> meshCubo = createRef<Mesh>();
@@ -488,7 +490,7 @@ namespace openge {
 			}
 
 			// Exibe o FPS e o MS no console
-			/*std::cout << "FPS: " << 1000 / Time::getInstance().deltaTime() << ", MS: " << Time::getInstance().deltaTime() << std::endl;*/
+			//std::cout << "FPS: " << 1000 / Time::getInstance().deltaTime() << ", MS: " << Time::getInstance().deltaTime() << std::endl;
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}

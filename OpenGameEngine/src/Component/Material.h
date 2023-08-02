@@ -13,9 +13,6 @@ namespace openge {
         Material(ref<Shader> shader);
         ~Material();
 
-        void setTexture(const std::string& name, ref<Texture> texture);
-        ref<Texture> getTexture() const;
-
         void setShader(ref < Shader> shader);
         ref<Shader> getShader() const;
 
@@ -25,7 +22,6 @@ namespace openge {
         // Propriedades adicionais
         std::string m_name;
         ref<Shader> m_shader;
-        std::map<std::string, ref<Texture>> m_textures;
     };
 }
 #endif

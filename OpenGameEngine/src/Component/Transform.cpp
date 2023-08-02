@@ -14,7 +14,6 @@ namespace openge {
 		Matrix4 model = Matrix4(1.0f);
 		model = glm::translate(model, m_position);
 		model = glm::scale(model, m_scale);
-
 		model = model * glm::mat4_cast(m_rotation);
 
 		/*model = glm::rotate(model, glm::radians(m_rotation.x), Vector3(1.0f, 0.0f, 0.0f));

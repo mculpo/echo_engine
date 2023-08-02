@@ -8,7 +8,7 @@ namespace openge {
 	}
 	glm::mat4 Camera::getViewMatrix()
 	{
-		std::shared_ptr<Transform> transform = getEntity()->getComponent<Transform>();
+		ref<Transform> transform = getEntity()->getComponent<Transform>();
 		return glm::lookAt(transform->getPosition(), transform->getPosition() + m_front, m_up);
 	}
 
