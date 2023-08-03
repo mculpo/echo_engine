@@ -5,7 +5,6 @@
 #include <Component/Mesh.h>
 #include <Component/Transform.h>
 #include <Renderer/Camera.h>
-#include <Entity/GameObject.h>
 namespace openge {
 	class Renderer : public Component
 	{
@@ -19,6 +18,8 @@ namespace openge {
 		void addMesh(ref<Mesh> mesh);
 		void setMeshs(std::vector<ref<Mesh>> mesh);
 		void setMaterial(ref<Material> material);
+		void setTransform(ref<Transform> transform);
+		void setMainCamera(ref<Camera> camera);
 
 		std::vector<ref<Mesh>> getMeshs();
 		ref<Material> getMaterial();
@@ -26,6 +27,8 @@ namespace openge {
 	protected:
 		std::vector<ref<Mesh>> m_meshs;
 		ref<Material> m_material;
+		ref<Camera> m_mainCamera;
+		ref<Transform> m_transform;
 	};
 }
 #endif

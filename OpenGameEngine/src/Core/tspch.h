@@ -39,6 +39,9 @@
 #define Quaternion glm::quat
 #define String std::string
 
+#define WIDTH 1280
+#define HEIGHT 720
+
 #include <stb_image.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

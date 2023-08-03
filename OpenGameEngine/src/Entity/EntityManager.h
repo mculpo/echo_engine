@@ -12,11 +12,19 @@ namespace openge {
 	class EntityManager : public Singleton<EntityManager> {
 	private:
 		std::unordered_map<int, ref<Entity>> m_entities;
+		ref<Entity> m_mainCamera;
 
 	public:
 		EntityManager() {};
 		~EntityManager() {};
 
+		void setMainCamera(ref<Entity> camera) {
+			m_mainCamera = camera;
+		}
+
+		ref<Entity> getMainCamera() {
+			return m_mainCamera;
+		}
 
 		template<typename EntityType>
 		void addEntity(ref<EntityType> entity) {

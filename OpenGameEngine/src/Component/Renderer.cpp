@@ -17,6 +17,16 @@ namespace openge {
 		m_material = material;
 	}
 
+	void Renderer::setTransform(ref<Transform> transform)
+	{
+		m_transform = transform;
+	}
+
+	void Renderer::setMainCamera(ref<Camera> camera)
+	{
+		m_mainCamera = camera;
+	}
+
 	std::vector<ref<Mesh>> Renderer::getMeshs()
 	{
 		return m_meshs;
