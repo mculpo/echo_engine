@@ -195,6 +195,8 @@
     <None Include="resources\shaders\default.vertex" />
     <None Include="resources\shaders\light.frag" />
     <None Include="resources\shaders\light.vertex" />
+    <None Include="resources\shaders\standard.frag" />
+    <None Include="resources\shaders\standard.vertex" />
     <None Include="resources\shaders\uniform.frag" />
     <None Include="resources\shaders\uniform.vertex" />
   </ItemGroup>
