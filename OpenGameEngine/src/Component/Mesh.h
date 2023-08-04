@@ -16,6 +16,7 @@ namespace openge {
 	{
 	public:
 		Mesh() {};
+		Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures);
 		~Mesh() {};
 
 		void setup();
@@ -23,13 +24,18 @@ namespace openge {
 
 		void setIndices(std::vector<unsigned int>& indices);
 		void setVertices(std::vector<Vertex>& vertices);
-		void setTextures(std::vector<ref<Texture>> textures);
-		void addTexture(ref <Texture> texture, String name);
-		void addTexture(ref <Texture> texture);
+		void setTextures(std::vector<Texture> textures);
+		void addTexture(Texture texture, String name);
+		void addTexture(Texture texture);
 
 		void setVAO(ref<VertexArrayObject> vao);
 		void setVBO(ref<VertexBufferObject> vbo);
 		void setEBO(ref<ElementBufferObject> ebo);
+
+		const std::vector<unsigned int>& GetIndices() const;
+		const std::vector<Vertex>& GetVertices() const;
+		const std::vector<Texture>& GetTextures() const;
+
 
 		void bindTexture(ref<Material> material) const;
 		void useVAO() const;
@@ -38,7 +44,7 @@ namespace openge {
 	private:
 		std::vector<unsigned int> m_indices;
 		std::vector<Vertex> m_vertices;
-		std::vector<ref<Texture>> m_textures;
+		std::vector<Texture> m_textures;
 
 		ref<VertexArrayObject> m_vao;
 		ref<VertexBufferObject> m_vbo;

@@ -19,6 +19,7 @@ namespace openge {
 		
 		const TextureType GetTextureType() const;
 		const String GetName() const;
+		const String GetPath() const;
 
 		void SetName(String& name);
 

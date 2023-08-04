@@ -1,5 +1,10 @@
 #include "Mesh.h"
 namespace openge {
+	Mesh::Mesh(std::vector<unsigned int> indices, std::vector<Vertex> vertices, std::vector<Texture> textures) :
+		m_indices(indices), m_vertices(vertices), m_textures(textures)
+	{
+		setup();
+	}
 	void Mesh::setup()
 	{
 		setVAO(std::make_shared<VertexArrayObject>());
@@ -31,18 +36,18 @@ namespace openge {
 		m_vertices = vertices;
 	}
 
-	void Mesh::setTextures(std::vector<ref<Texture>> textures)
+	void Mesh::setTextures(std::vector<Texture> textures)
 	{
 		m_textures = textures;
 	}
 
-	void Mesh::addTexture(ref<Texture> texture, String name)
+	void Mesh::addTexture(Texture texture, String name)
 	{
-		texture->SetName(name);
+		texture.SetName(name);
 		m_textures.push_back(texture);
 	}
 
-	void Mesh::addTexture(ref<Texture> texture)
+	void Mesh::addTexture(Texture texture)
 	{
 		m_textures.push_back(texture);
 	}
@@ -61,6 +66,20 @@ namespace openge {
 		m_ebo = std::move(ebo);
 	}
 
+	const std::vector<unsigned int>& Mesh::GetIndices() const {
+		return m_indices;
+	}
+
+	// Implementação do método GetVertices()
+	const std::vector<Vertex>& Mesh::GetVertices() const {
+		return m_vertices;
+	}
+
+	// Implementação do método GetTextures()
+	const std::vector<Texture>& Mesh::GetTextures() const {
+		return m_textures;
+	}
+
 	void Mesh::bindTexture(ref<Material> material) const
 	{
 		// bind appropriate textures
@@ -73,7 +92,7 @@ namespace openge {
 			glActiveTexture(GL_TEXTURE0 + i); 
 			
 			String number;
-			TextureType textureType = m_textures[i]->GetTextureType();
+			TextureType textureType = m_textures[i].GetTextureType();
 			if (textureType == TextureType::Diffuse)
 				number = std::to_string(diffuseNr++);
 			else if (textureType == TextureType::Specular)
@@ -83,8 +102,8 @@ namespace openge {
 			else if (textureType == TextureType::Height)
 				number = std::to_string(heightNr++); // transfer unsigned int to string
 
-			material->getShader()->setUniform1i(m_textures[i]->GetName(), i);
-			glBindTexture(GL_TEXTURE_2D, m_textures[i]->GetTexture());
+			material->getShader()->setUniform1i(m_textures[i].GetName(), i);
+			glBindTexture(GL_TEXTURE_2D, m_textures[i].GetTexture());
 		}
 	}
 

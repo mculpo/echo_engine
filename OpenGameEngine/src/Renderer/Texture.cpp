@@ -23,6 +23,10 @@ namespace openge {
 	{
 		return m_name;
 	}
+	const String Texture::GetPath() const
+	{
+		return m_path;
+	}
 	void Texture::SetName(String& name)
 	{
 		m_name = name;

@@ -13,8 +13,8 @@ namespace openge {
     void RendererPrimitiveMesh::render()
     {
         for (const auto& mesh: m_meshs) {
-            mesh->bindTexture(m_material);
-            mesh->useVAO();
+            mesh.bindTexture(m_material);
+            mesh.useVAO();
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
     }
