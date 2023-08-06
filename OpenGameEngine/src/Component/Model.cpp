@@ -5,11 +5,6 @@ namespace openge {
         loadModel(path);
     }
 
-    void openge::Model::Draw(Shader& shader)
-    {
-      
-    }
-
     void openge::Model::loadModel(String const& path)
     {
         Assimp::Importer importer;
@@ -25,6 +20,7 @@ namespace openge {
 
         // process ASSIMP's root node recursively
         processNode(scene->mRootNode, scene);
+        std::cout << m_textures_loaded.size() << std::endl;
     }
 
     void openge::Model::processNode(aiNode* node, const aiScene* scene)
@@ -41,7 +37,6 @@ namespace openge {
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
             processNode(node->mChildren[i], scene);
-            std::cout << i << std::endl;
         }
     }
 
@@ -80,18 +75,18 @@ namespace openge {
                 vec.y = mesh->mTextureCoords[0][i].y;
                 vertex.setTex(vec);
                 // tangent
-                /*vector.x = mesh->mTangents[i].x;
+                vector.x = mesh->mTangents[i].x;
                 vector.y = mesh->mTangents[i].y;
                 vector.z = mesh->mTangents[i].z;
-                vertex.Tangent = vector;
+                vertex.setTangent(vector);
                 // bitangent
                 vector.x = mesh->mBitangents[i].x;
                 vector.y = mesh->mBitangents[i].y;
                 vector.z = mesh->mBitangents[i].z;
-                vertex.Bitangent = vector;*/
+                vertex.setBitangent(vector);
             }
             else
-                vertex.setTex(Vector2(0.0f, 0.0f));
+                vertex.setTex(Vector2(0.0f));
 
             vertices.push_back(vertex);
         }
@@ -105,42 +100,37 @@ namespace openge {
         }
         // process materials
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
-        // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
-        // Same applies to other texture as the following list summarizes:
-        // diffuse: texture_diffuseN
-        // specular: texture_specularN
-        // normal: texture_normalN
 
         // 1. diffuse maps
-        /*
-        std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::Diffuse);
+        std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::Diffuse, "diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
         // 2. specular maps
-        std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::Specular);
+        std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::Specular, "specular");
         textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
         // 3. normal maps
-        std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, TextureType::Normal);
+        std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, TextureType::Normal, "normal");
         textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
         // 4. height maps
-        std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, TextureType::Height);
-        textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());*/
+        std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, TextureType::Height, "height");
+        textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
         
         return Mesh(indices,vertices,textures);
     }
 
-    std::vector<Texture> openge::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName)
+    std::vector<Texture> openge::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName, String nameTexture)
     {
         std::vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
             mat->GetTexture(type, i, &str);
+            String filename = String(str.C_Str());
+            filename = m_directory + '/' + filename;
             // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
             bool skip = false;
             for (unsigned int j = 0; j < m_textures_loaded.size(); j++)
             {
-                if (std::strcmp(m_textures_loaded[j].GetPath().data(), str.C_Str()) == 0)
+                if (std::strcmp(m_textures_loaded[j].GetPath().data(), filename.c_str()) == 0)
                 {
                     textures.push_back(m_textures_loaded[j]);
                     skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
@@ -149,9 +139,9 @@ namespace openge {
             }
             if (!skip)
             {   // if texture hasn't been loaded already, load it
-                String filename = String(str.C_Str());
-                filename = m_directory + '/' + filename;
+                
                 Texture texture(filename, typeName);
+                texture.SetName(nameTexture);
                 textures.push_back(texture);
                 m_textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecessary load duplicate textures.
             }

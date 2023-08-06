@@ -9,6 +9,8 @@ namespace openge {
 		Vector3 _pos;
 		Vector3 _normal;
 		Vector2 _tex;
+        Vector3 _tangent;
+        Vector3 _bitangent;
 	public:
 		Vertex() : _pos(Vector3()), _normal(Vector3()), _tex(Vector2()){
         }
@@ -31,6 +33,15 @@ namespace openge {
             return _tex;
         }
 
+
+        Vector3 getTangent() const {
+            return _tangent;
+        }
+
+
+        Vector3 getBitangent() const {
+            return _bitangent;
+        }
        
 
         // Setters
@@ -46,6 +57,13 @@ namespace openge {
             _tex = tex;
         }
 
+        void setTangent(const Vector3& tangent) {
+            _tangent = tangent;
+        }
+
+        void setBitangent(const Vector3& bitangent) {
+            _bitangent = bitangent;
+        }
       
 	};
 }

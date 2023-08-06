@@ -27,7 +27,7 @@ namespace openge {
 	{
 		return m_path;
 	}
-	void Texture::SetName(String& name)
+	void Texture::SetName(String name)
 	{
 		m_name = name;
 	}

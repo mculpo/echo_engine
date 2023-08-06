@@ -21,7 +21,7 @@ namespace openge {
 		const String GetName() const;
 		const String GetPath() const;
 
-		void SetName(String& name);
+		void SetName(String name);
 
 		void Bind();
 		void Unbind();

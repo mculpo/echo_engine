@@ -39,6 +39,7 @@ namespace openge {
 
 		void bindTexture(ref<Material> material) const;
 		void useVAO() const;
+		void unbindVAO() const;
 		void useVBO() const;
 		void useEBO() const;
 	private:

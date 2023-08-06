@@ -22,7 +22,10 @@
 #include <Core/Time.h>
 #include <Core/Vertex.h>
 #include <Core/Random.h>
+#include <Core/FileSystem.h>
+
 #include <Component/Model.h>
+#include <Component/RendererModelMesh.h>
 
 
 namespace openge {
@@ -331,7 +334,7 @@ namespace openge {
 		std::vector<ref<GameObject>> cubos;
 		stbi_set_flip_vertically_on_load(true);
 		create_cube_vertex();
-		create_lights();
+		//create_lights();
 		/*
 		*	Configuração dos Cubos de Exemplo que vai ser iluminado
 		*/
@@ -339,8 +342,8 @@ namespace openge {
 			// positions all containers
 			std::vector<Vector3> cubePositions;
 
-			const int totalNewPositions = 100;
-			const float range = 10.0f;
+			const int totalNewPositions = 1;
+			const float range = 1.0f;
 
 			for (int i = 0; i < totalNewPositions; ++i) {
 				float x = Random::getInstance().Range(-range, range);
@@ -353,24 +356,25 @@ namespace openge {
 			}
 
 
+			ref<Model> modelo = createRef<Model>(FileSystem::path("resources/models/backpack/backpack.obj"));
 			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/standard.vertex", "resources/shaders/standard.frag");
 			Texture diffuse("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
-			ref<Texture> specular = createRef<Texture>("resources/texture/Crystal-spec.jpg", TextureType::Specular);
-			Mesh meshCubo;
+			Texture specular("resources/texture/Crystal-spec.jpg", TextureType::Specular);
+			/*Mesh meshCubo;
 			meshCubo.setVertices(vertices);
-			meshCubo.addTexture(diffuse, "diffuse");
-			//meshCubo->addTexture(specular, "material.diffuse");
-			meshCubo.setup();
+			meshCubo.addTexture(diffuse, "material.diffuse");
+			meshCubo.addTexture(specular, "material.specular");
+			meshCubo.setup();*/
 			for (unsigned int i = 0; i < cubePositions.size(); i++) {
 
 				ref<GameObject> cubo = createRef<GameObject>(2, "cubo", "cubo");
 				
 				ref<Material> materialCubo = createRef<Material>();
-				ref<Renderer> rendererCubo = createRef<RendererPrimitiveMesh>();
+				ref<Renderer> rendererCubo = createRef<RendererModelMesh>();
 				ref<Transform> transformCubo = createRef<Transform>(
-					Vector3(cubePositions[i]),
 					Vector3(1.0f),
-					Vector3(Random::getInstance().Range(0.0f, 360.0f))
+					Vector3(0.5f),
+					Vector3(0.0f)
 				);
 				//
 				
@@ -379,8 +383,7 @@ namespace openge {
 				rendererCubo->setMaterial(materialCubo);
 				rendererCubo->setTransform(transformCubo);
 				rendererCubo->setMainCamera(camera);
-				//rendererCubo->setMeshs(meshCubo->m_meshs);
-				rendererCubo->addMesh(meshCubo);
+				rendererCubo->setMeshs(modelo->m_meshs);
 
 				cubo->addComponent<Transform>(transformCubo);
 				cubo->addComponent<Renderer>(rendererCubo);
@@ -481,8 +484,8 @@ namespace openge {
 						shaderCubo->setUniform3fv("pointLights[" + std::to_string(i) + "].color", pointLight[i]->getColor());
 					}
 					*/
-					Matrix3 transpose = cuboTransform->getTransposeMatrix();
-					shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
+					//Matrix3 transpose = cuboTransform->getTransposeMatrix();
+					//shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
 					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::getInstance().deltaTime()));
 
 					cuboRenderer->bind();

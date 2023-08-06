@@ -15,6 +15,9 @@ namespace openge {
 		m_vao->AddLayout(3, VP_FLOAT); // aNormal
 		m_vao->AddLayout(2, VP_FLOAT); // aTexCoords
 
+		m_vao->AddLayout(3, VP_FLOAT); // aTangent
+		m_vao->AddLayout(3, VP_FLOAT); // aBitangent
+
 		m_vao->runLayout();
 
 		m_vbo->Unbind();
@@ -109,7 +112,11 @@ namespace openge {
 
 	void Mesh::useVAO() const
 	{
-		m_vao.get()->Bind();
+		m_vao->Bind();
+	}
+	void Mesh::unbindVAO() const
+	{
+		m_vao->Unbind();
 	}
 	void Mesh::useVBO() const
 	{
