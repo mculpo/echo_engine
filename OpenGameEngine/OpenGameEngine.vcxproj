@@ -146,7 +146,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="src\component\RendererModelMesh.cpp" />
     <ClCompile Include="src\base\Model.cpp" />
-    <ClCompile Include="src\component\RendererPrimitiveMesh.cpp" />
+    <ClCompile Include="src\component\RendererCube.cpp" />
     <ClCompile Include="src\component\Camera.cpp" />
     <ClCompile Include="src\base\Material.cpp" />
     <ClCompile Include="src\Engine.cpp" />
@@ -164,7 +164,7 @@
   <ItemGroup>
     <ClInclude Include="header\component\RendererModelMesh.h" />
     <ClInclude Include="header\base\Model.h" />
-    <ClInclude Include="header\component\RendererPrimitiveMesh.h" />
+    <ClInclude Include="header\component\RendererCube.h" />
     <ClInclude Include="header\component\Light.h" />
     <ClInclude Include="header\core\base.h" />
     <ClInclude Include="header\core\FileSystem.h" />

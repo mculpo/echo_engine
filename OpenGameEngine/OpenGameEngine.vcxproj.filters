@@ -60,7 +60,7 @@
     <ClCompile Include="..\..\..\..\Users\mculpo\Downloads\glad\src\glad.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\RendererPrimitiveMesh.cpp">
+    <ClCompile Include="src\component\RendererCube.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="src\base\Model.cpp">
@@ -149,7 +149,7 @@
     <ClInclude Include="header\component\Light.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="header\component\RendererPrimitiveMesh.h">
+    <ClInclude Include="header\component\RendererCube.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="header\math\Vector2.h">

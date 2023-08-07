@@ -22,8 +22,9 @@ namespace openge {
 			m_mainCamera = camera;
 		}
 
-		ref<Entity> getMainCamera() {
-			return m_mainCamera;
+		template<typename EntityType>
+		ref<EntityType> getMainCamera() {
+			return std::static_pointer_cast<EntityType>(m_mainCamera);
 		}
 
 		template<typename EntityType>

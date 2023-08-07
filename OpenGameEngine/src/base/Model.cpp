@@ -134,8 +134,7 @@ namespace openge {
                 textures.push_back(index_texture);
             }
             else {
-                ref<Texture> texture =  createRef<Texture>(filename, typeName);
-                texture->SetName(nameTexture);
+                ref<Texture> texture =  createRef<Texture>(filename, typeName, nameTexture, false);
                 tm.add(texture, index_texture);
                 textures.push_back(index_texture);
             }

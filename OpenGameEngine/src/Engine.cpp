@@ -19,7 +19,7 @@
 #include <component/Transform.h>
 #include <component/Light.h>
 #include <component/Renderer.h>
-#include <component/RendererPrimitiveMesh.h>
+#include <component/RendererCube.h>
 #include <component/RendererModelMesh.h>
 
 #include <core/Input.h>
@@ -36,156 +36,6 @@ namespace openge {
 	float pitch = 0.0f;
 	float lastX = WIDTH / 2.0;
 	float lastY = HEIGHT / 2.0;
-
-	void create_lights() {
-		ref<Shader> shaderLight = createRef<Shader>("resources/shaders/light.vertex", "resources/shaders/light.frag");
-		ref<Camera> camera = EntityManager::getInstance().getMainCamera()->getComponent<Camera>();
-		std::vector<Vertex> vertices = ShapeVerticesManager::getInstance().getCubeVertices();
-		/*
-		* Directional Light Configuration
-		*/
-		{
-			ref<GameObject> light = createRef<GameObject>(1, "light", "light");
-			ref<Light> dirLight = createRef<Light>(LightType::Directional);
-
-			dirLight->setDirection(Vector3(-0.2f, -1.0f, -0.3f));
-			dirLight->setAmbient(Vector3(0.05f, 0.05f, 0.05f));
-			dirLight->setDiffuse(Vector3(0.4f, 0.4f, 0.4f));
-			dirLight->setSpecular(Vector3(0.5f, 0.5f, 0.5f));
-			dirLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
-
-			Mesh meshLight;
-			ref<Material> materialLight = createRef<Material>();
-			ref<Renderer> rendererLight = createRef<RendererPrimitiveMesh>();
-			ref<Transform> transformLight = createRef<Transform>(Vector3(0.7f, 0.2f, 2.0f), Vector3(0.2f), Vector3(0.0f));
-
-			meshLight.setVertices(vertices);
-			meshLight.setup();
-
-			materialLight->setShader(shaderLight);
-
-			rendererLight->setMaterial(materialLight);
-			rendererLight->setTransform(transformLight);
-			rendererLight->setMainCamera(camera);
-			rendererLight->addMesh(meshLight);
-
-			light->addComponent<Transform>(transformLight);
-			light->addComponent<Light>(dirLight);
-			light->addComponent<Renderer>(rendererLight);
-			EntityManager::getInstance().addEntity<GameObject>(light);
-		}
-
-		/*
-		* SpotLight Configuration
-		*/
-		{
-			ref<GameObject> light = createRef<GameObject>(1, "light", "light");
-			ref<Light> spotLight = createRef<Light>(LightType::Spot);
-
-			Mesh meshLight;
-			ref<Material> materialLight = createRef<Material>();
-			ref<Renderer> rendererLight = createRef<RendererPrimitiveMesh>();
-			ref<Transform> transformLight = createRef<Transform>(Vector3(0.0f, 0.0f, -3.0f), Vector3(0.2f), Vector3(0.0f));
-
-			spotLight->setAmbient(Vector3(0.0f, 0.0f, 0.0f));
-			spotLight->setDiffuse(Vector3(1.0f, 1.0f, 1.0f));
-			spotLight->setSpecular(Vector3(1.0f, 1.0f, 1.0f));
-			spotLight->setConstant(1.0f);
-			spotLight->setLinear(0.09f);
-			spotLight->setQuadratic(0.032f);
-			spotLight->setCutOff(glm::cos(glm::radians(0.0f)));
-			spotLight->setOuterCutOff(glm::cos(glm::radians(0.0f)));
-			spotLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
-
-
-			meshLight.setVertices(vertices);
-			meshLight.setup();
-
-			materialLight->setShader(shaderLight);
-
-			rendererLight->setMaterial(materialLight);
-			rendererLight->setTransform(transformLight);
-			rendererLight->setMainCamera(camera);
-			rendererLight->addMesh(meshLight);
-
-			light->addComponent<Transform>(transformLight);
-			light->addComponent<Light>(spotLight);
-			light->addComponent<Renderer>(rendererLight);
-			EntityManager::getInstance().addEntity<GameObject>(light);
-		}
-
-		/**
-		* PointLights Configuration ( Four Lights )
-		*/
-		{
-
-			std::vector<Vector3> pointLightPositions = {
-					   Vector3(0.7f,  0.2f,  2.0f),
-					   Vector3(2.3f, -3.3f, -4.0f),
-					   Vector3(-4.0f,  2.0f, -12.0f),
-					   Vector3(0.0f,  0.0f, -3.0f)
-			};
-
-			for (unsigned int i = 0; i < pointLightPositions.size(); i++) {
-				ref<GameObject> light = createRef<GameObject>(1, "light", "light");
-				ref<Light> pointLight = createRef<Light>(LightType::Point);
-
-				Mesh meshLight;
-				ref<Material> materialLight = createRef<Material>();
-				ref<Renderer> rendererLight = createRef<RendererPrimitiveMesh>();
-				ref<Transform> transformLight = createRef<Transform>(pointLightPositions[i], Vector3(0.2f), Vector3(0.0f));
-
-				pointLight->setPosition(pointLightPositions[i]);
-				pointLight->setAmbient(Vector3(0.05f, 0.05f, 0.05f));
-				pointLight->setDiffuse(Vector3(0.8f, 0.8f, 0.8f));
-				pointLight->setSpecular(Vector3(1.0f, 1.0f, 1.0f));
-				pointLight->setConstant(1.0f);
-				pointLight->setLinear(0.09f);
-				pointLight->setQuadratic(0.032f);
-				pointLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
-
-				meshLight.setVertices(vertices);
-				meshLight.setup();
-
-				materialLight->setShader(shaderLight);
-
-				rendererLight->setMaterial(materialLight);
-				rendererLight->setTransform(transformLight);
-				rendererLight->setMainCamera(camera);
-				rendererLight->addMesh(meshLight);
-
-				light->addComponent<Transform>(transformLight);
-				light->addComponent<Light>(pointLight);
-				light->addComponent<Renderer>(rendererLight);
-				EntityManager::getInstance().addEntity<GameObject>(light);
-			}
-		}
-	}
-
-	ref<GameObject> create_camera(float width, float height) {
-		ref<GameObject> mainCamera = createRef<GameObject>(0, "MainCamera", "MainCamera");
-
-		ref<Camera> camera = createRef<Camera>();
-		camera->setCameraType(CameraType::Perpective);
-		camera->setAspectRatio(width / height);
-		camera->setFov(45.0f);
-		camera->setFront(Vector3(0.0f, 0.0f, -1.0f));
-		camera->setUp(Vector3(0.0f, 1.0f, 0.0f));
-		camera->setFarPlane(100.0f);
-		camera->setNearPlane(0.1f);
-
-		ref<Transform> transformCamera = createRef <Transform>(
-			Vector3(0.0f, 0.0f, 3.0f),
-			Vector3(1.0f),
-			Vector3(0.0f)
-		);
-
-		mainCamera->addComponent<Camera>(camera);
-		mainCamera->addComponent<Transform>(transformCamera);
-		EntityManager::getInstance().addEntity<GameObject>(mainCamera);
-		EntityManager::getInstance().setMainCamera(mainCamera);
-		return mainCamera;
-	}
 
 	void mouse_input(ref<GameObject> mainCamera, float width, float height, GLFWwindow* m_window) {
 		//Input Mouse and Keyboard
@@ -290,81 +140,16 @@ namespace openge {
 
 	void Engine::run()
 	{
-
-		ref<GameObject> mainCamera = create_camera(width, height);
+		initializeCamera();
+		ref<GameObject> mainCamera = EntityManager::getInstance().getMainCamera<GameObject>();
 		ref<Camera> camera = mainCamera->getComponent<Camera>();
-		std::vector<ref<GameObject>> cubos;
-
+		
 		stbi_set_flip_vertically_on_load(true);
-		create_lights();
-		/*
-		*	Configuração dos Cubos de Exemplo que vai ser iluminado
-		*/
-		{
-			// positions all containers
-			std::vector<Vector3> cubePositions;
-
-			const int totalNewPositions = 10;
-			const float range = 3.0f;
-
-			for (int i = 0; i < totalNewPositions; ++i) {
-				float x = Random::Range(-range, range);
-				float y = Random::Range(-range, range);
-				float z = Random::Range(-range, range);
-				Vector3 newPosition(x, y, z);
-
-				// Add the new position to the vector
-				cubePositions.push_back(newPosition);
-			}
-
-
-			//ref<Model> modelo = createRef<Model>(FileSystem::path("resources/models/backpack/backpack.obj"));
-			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/uniform.vertex", "resources/shaders/uniform.frag");
-			ref<Texture> textureDiffuse = createRef<Texture>("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
-			textureDiffuse->SetName("diffuse");
-			unsigned int textureDiffuseIndex;
-
-			TextureManager::getInstance().add(textureDiffuse, textureDiffuseIndex);
-			//Texture diffuse("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
-			//Texture specular("resources/texture/Crystal-spec.jpg", TextureType::Specular);
-			Mesh meshCubo;
-			std::vector<unsigned int> array_index = { textureDiffuseIndex };
-			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
-			meshCubo.setTextures(array_index);
-			meshCubo.setup();
-			for (unsigned int i = 0; i < cubePositions.size(); i++) {
-
-				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
-				
-				ref<Material> materialCubo = createRef<Material>();
-				ref<Renderer> rendererCubo = createRef<RendererPrimitiveMesh>();
-				ref<Transform> transformCubo = createRef<Transform>(
-					Vector3(cubePositions[i]),
-					Vector3(1.0f),
-					Vector3(0.0f)
-				);
-				//
-				materialCubo->setShader(shaderReceptorLight);
-
-				rendererCubo->setMaterial(materialCubo);
-				rendererCubo->setTransform(transformCubo);
-				rendererCubo->setMainCamera(camera);
-				rendererCubo->addMesh(meshCubo);
-				//rendererCubo->setMeshs(modelo->m_meshs);
-
-				cubo->addComponent<Transform>(transformCubo);
-				cubo->addComponent<Renderer>(rendererCubo);
-				cubo->setTransform(transformCubo);
-				cubo->setRenderer(rendererCubo);
-				EntityManager::getInstance().addEntity<GameObject>(cubo);
-
-				cubos.push_back(cubo);
-			}
-		}
+		initializeObjects();
 
 		Vector3 _directionCamera = camera->getFront();
 		Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
-		std::vector<ref<GameObject>> lights = EntityManager::getInstance().findGameObjectsByTag<GameObject>("light");
+		std::vector<ref<GameObject>> cubos = EntityManager::getInstance().findGameObjectsByTag<GameObject>("cubo");
 
 		while (!glfwWindowShouldClose(m_window)) {
 
@@ -376,29 +161,6 @@ namespace openge {
 			glClearColor(Red, Green, Blue, Alpha);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			ref<Light> dirLight;
-			ref<Light> spotLight;
-			std::vector<ref<Light>> pointLight;
-
-			/**
-			* Configuration and registers all lights in scene
-			*/
-			{
-
-				for (const auto& gameObject : lights) {
-					ref<Light> lightComponent = gameObject->getComponent<Light>();
-
-					if (lightComponent && lightComponent->getLightType() == LightType::Point) {
-						pointLight.push_back(lightComponent);
-					}
-					else if (lightComponent && lightComponent->getLightType() == LightType::Spot) {
-						spotLight = lightComponent;
-					}
-					else if (lightComponent && lightComponent->getLightType() == LightType::Directional) {
-						dirLight = lightComponent;
-					}
-				}
-			}
 			/**
 			* Renderer Box's GameObject
 			*/
@@ -409,74 +171,347 @@ namespace openge {
 					ref<Transform> cuboTransform = cubo->getTransform();
 					ref<Shader> shaderCubo = cuboRenderer->getMaterial()->getShader();
 					shaderCubo->Bind();
-					/*
-					// material properties
-					shaderCubo->setUniform3fv("viewPos", _postitionCamera);
-					shaderCubo->setUniform1i("numPointLights", pointLight.size());
-
-					shaderCubo->setUniform1f("material.shininess", 32.0f);
-
-					// shader directional
-					shaderCubo->setUniform3fv("dirLight.direction", dirLight->getDirection());
-					shaderCubo->setUniform3fv("dirLight.ambient", dirLight->getAmbient());
-					shaderCubo->setUniform3fv("dirLight.diffuse", dirLight->getDiffuse());
-					shaderCubo->setUniform3fv("dirLight.specular", dirLight->getSpecular());
-					shaderCubo->setUniform3fv("dirLight.color", dirLight->getColor());
-
-					// shader spot
-					shaderCubo->setUniform3fv("spotLight.position", _postitionCamera);
-					shaderCubo->setUniform3fv("spotLight.direction", _directionCamera);
-					shaderCubo->setUniform3fv("spotLight.ambient", spotLight->getAmbient());
-					shaderCubo->setUniform3fv("spotLight.diffuse", spotLight->getDiffuse());
-					shaderCubo->setUniform3fv("spotLight.specular", spotLight->getSpecular());
-					shaderCubo->setUniform1f("spotLight.constant", spotLight->getConstant());
-					shaderCubo->setUniform1f("spotLight.linear", spotLight->getLinear());
-					shaderCubo->setUniform1f("spotLight.quadratic", spotLight->getQuadratic());
-					shaderCubo->setUniform1f("spotLight.cutOff", spotLight->getCutOff());
-					shaderCubo->setUniform1f("spotLight.outerCutOff", spotLight->getOuterCutOff());
-					shaderCubo->setUniform3fv("spotLight.color", spotLight->getColor());
-
-					// shader point
-					for (unsigned int i = 0; i < pointLight.size(); i++) {
-
-						shaderCubo->setUniform3fv("pointLights[" + std::to_string(i) + "].position", pointLight[i]->getPosition());
-						shaderCubo->setUniform3fv("pointLights[" + std::to_string(i) + "].ambient", pointLight[i]->getAmbient());
-						shaderCubo->setUniform3fv("pointLights[" + std::to_string(i) + "].diffuse", pointLight[i]->getDiffuse());
-						shaderCubo->setUniform3fv("pointLights[" + std::to_string(i) + "].specular", pointLight[i]->getSpecular());
-						shaderCubo->setUniform1f("pointLights[" + std::to_string(i) + "].constant", pointLight[i]->getConstant());
-						shaderCubo->setUniform1f("pointLights[" + std::to_string(i) + "].linear", pointLight[i]->getLinear());
-						shaderCubo->setUniform1f("pointLights[" + std::to_string(i) + "].quadratic", pointLight[i]->getQuadratic());
-						shaderCubo->setUniform3fv("pointLights[" + std::to_string(i) + "].color", pointLight[i]->getColor());
-					}
-					*/
-					//Matrix3 transpose = cuboTransform->getTransposeMatrix();
-					//shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
-					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
+					//cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
 
 					cuboRenderer->bind();
 					cuboRenderer->render();
 				}
 			}
 
-			/**
-			* Renderer Light's GameObject
-			
-			{
-				for (unsigned int i = 0; i < lights.size(); i++) {
-					ref<Renderer> lightRenderer = lights[i]->getComponent<Renderer>();
-					ref<Shader> shader = lightRenderer->getMaterial()->getShader();
-					shader->Bind();
-					shader->setUniform3f("color", 1.0f, 1.0f, 1.0f);
-					lightRenderer->bind();
-					lightRenderer->render();
-				}
-			}*/
-
-			// Exibe o FPS e o MS no console
 			Time::toStringFpsAndMs();
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}
+	}
+	void Engine::initializeObjects()
+	{
+		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
+		ref<Shader> shader = createRef<Shader>(
+			"resources/shaders/uniform.vertex",
+			"resources/shaders/uniform.frag"
+		);
+
+		ref<Shader> shaderModel = createRef<Shader>(
+			"resources/shaders/standard.vertex",
+			"resources/shaders/standard.frag"
+		);
+		/*
+		*	Configuração dos Cubos com Crystal-diffuse
+		*/
+		{
+			// positions all containers
+			std::vector<Vector3> cubePositions;
+
+			const int totalNewPositions = 10;
+			const float range = 4.0f;
+
+			for (int i = 0; i < totalNewPositions; ++i) {
+				float x = Random::Range(-range, range);
+				float y = Random::Range(-range, range);
+				float z = Random::Range(-range, range);
+				Vector3 newPosition(x, y, z);
+
+				cubePositions.push_back(newPosition);
+			}
+			
+			ref<Texture> textureDiffuse = createRef<Texture>(
+				"resources/texture/Crystal-diffuse.jpg", 
+				TextureType::Diffuse,
+				"diffuse",
+				false
+			);
+			unsigned int textureDiffuseIndex;
+
+			TextureManager::getInstance().add(textureDiffuse, textureDiffuseIndex);
+
+			Mesh meshCubo;
+			std::vector<unsigned int> array_index = { textureDiffuseIndex };
+			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
+			meshCubo.setTextures(array_index);
+			meshCubo.setup();
+			for (unsigned int i = 0; i < cubePositions.size(); i++) {
+
+				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
+
+				ref<Material> materialCubo = createRef<Material>();
+				ref<Renderer> rendererCubo = createRef<RendererCube>();
+				ref<Transform> transformCubo = createRef<Transform>(
+					Vector3(cubePositions[i]),
+					Vector3(1.0f),
+					Vector3(0.0f)
+				);
+				//
+				materialCubo->setShader(shader);
+
+				rendererCubo->setMaterial(materialCubo);
+				rendererCubo->setTransform(transformCubo);
+				rendererCubo->setMainCamera(camera);
+				rendererCubo->addMesh(meshCubo);
+
+				cubo->addComponent<Transform>(transformCubo);
+				cubo->addComponent<Renderer>(rendererCubo);
+				cubo->setTransform(transformCubo);
+				cubo->setRenderer(rendererCubo);
+				EntityManager::getInstance().addEntity<GameObject>(cubo);
+			}
+		}
+		
+		/*
+		*	Configuração dos Cubos com Container2
+		*/
+		{
+			// positions all containers
+			std::vector<Vector3> cubePositions;
+
+			const int totalNewPositions = 10;
+			const float range = 4.0f;
+
+			for (int i = 0; i < totalNewPositions; ++i) {
+				float x = Random::Range(-range, range);
+				float y = Random::Range(-range, range);
+				float z = Random::Range(-range, range);
+				Vector3 newPosition(x, y, z);
+
+				cubePositions.push_back(newPosition);
+			}
+
+			ref<Texture> textureDiffuse = createRef<Texture>(
+				"resources/texture/container2.png",
+				TextureType::Diffuse,
+				"diffuse",
+				true
+			);
+
+			unsigned int textureDiffuseIndex;
+			TextureManager::getInstance().add(textureDiffuse, textureDiffuseIndex);
+			std::vector<unsigned int> array_index = { textureDiffuseIndex };
+			Mesh meshCubo;
+			
+			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
+			meshCubo.setTextures(array_index);
+			meshCubo.setup();
+			for (unsigned int i = 0; i < cubePositions.size(); i++) {
+
+				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
+
+				ref<Material> materialCubo = createRef<Material>();
+				ref<Renderer> rendererCubo = createRef<RendererCube>();
+				ref<Transform> transformCubo = createRef<Transform>(
+					Vector3(cubePositions[i]),
+					Vector3(1.0f),
+					Vector3(0.0f)
+				);
+				//
+				materialCubo->setShader(shader);
+
+				rendererCubo->setMaterial(materialCubo);
+				rendererCubo->setTransform(transformCubo);
+				rendererCubo->setMainCamera(camera);
+				rendererCubo->addMesh(meshCubo);
+
+				cubo->addComponent<Transform>(transformCubo);
+				cubo->addComponent<Renderer>(rendererCubo);
+				cubo->setTransform(transformCubo);
+				cubo->setRenderer(rendererCubo);
+				EntityManager::getInstance().addEntity<GameObject>(cubo);
+			}
+		}
+
+		{
+			// positions all containers
+			std::vector<Vector3> cubePositions;
+
+			const int totalNewPositions = 1;
+			const float range = 5.0f;
+
+			for (int i = 0; i < totalNewPositions; ++i) {
+				float x = Random::Range(-range, range);
+				float y = Random::Range(-range, range);
+				float z = Random::Range(-range, range);
+				Vector3 newPosition(x, y, z);
+
+				cubePositions.push_back(newPosition);
+			}
+
+			ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/spider/Only_Spider_with_Animations_Export.obj"));
+
+			for (unsigned int i = 0; i < cubePositions.size(); i++) {
+
+				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
+
+				ref<Material> materialCubo = createRef<Material>();
+				ref<Renderer> rendererCubo = createRef<RendererModelMesh>();
+				ref<Transform> transformCubo = createRef<Transform>(
+					Vector3(cubePositions[i]),
+					Vector3(0.01f),
+					Vector3(0.0f)
+				);
+				//
+				materialCubo->setShader(shaderModel);
+
+				rendererCubo->setMaterial(materialCubo);
+				rendererCubo->setTransform(transformCubo);
+				rendererCubo->setMainCamera(camera);
+				rendererCubo->setMeshs(ourModel->m_meshs);
+
+				cubo->addComponent<Transform>(transformCubo);
+				cubo->addComponent<Renderer>(rendererCubo);
+				cubo->setTransform(transformCubo);
+				cubo->setRenderer(rendererCubo);
+				EntityManager::getInstance().addEntity<GameObject>(cubo);
+			}
+		}
+	}
+
+	void Engine::initializeLights()
+	{
+		ref<Shader> shaderLight = createRef<Shader>("resources/shaders/light.vertex", "resources/shaders/light.frag");
+		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
+		std::vector<Vertex> vertices = ShapeVerticesManager::getInstance().getCubeVertices();
+		/*
+		* Directional Light Configuration
+		*/
+		{
+			ref<GameObject> light = createRef<GameObject>(1, "light", "light");
+			ref<Light> dirLight = createRef<Light>(LightType::Directional);
+
+			dirLight->setDirection(Vector3(-0.2f, -1.0f, -0.3f));
+			dirLight->setAmbient(Vector3(0.05f, 0.05f, 0.05f));
+			dirLight->setDiffuse(Vector3(0.4f, 0.4f, 0.4f));
+			dirLight->setSpecular(Vector3(0.5f, 0.5f, 0.5f));
+			dirLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
+
+			Mesh meshLight;
+			ref<Material> materialLight = createRef<Material>();
+			ref<Renderer> rendererLight = createRef<RendererCube>();
+			ref<Transform> transformLight = createRef<Transform>(Vector3(0.7f, 0.2f, 2.0f), Vector3(0.2f), Vector3(0.0f));
+
+			meshLight.setVertices(vertices);
+			meshLight.setup();
+
+			materialLight->setShader(shaderLight);
+
+			rendererLight->setMaterial(materialLight);
+			rendererLight->setTransform(transformLight);
+			rendererLight->setMainCamera(camera);
+			rendererLight->addMesh(meshLight);
+
+			light->addComponent<Transform>(transformLight);
+			light->addComponent<Light>(dirLight);
+			light->addComponent<Renderer>(rendererLight);
+			EntityManager::getInstance().addEntity<GameObject>(light);
+		}
+
+		/*
+		* SpotLight Configuration
+		*/
+		{
+			ref<GameObject> light = createRef<GameObject>(1, "light", "light");
+			ref<Light> spotLight = createRef<Light>(LightType::Spot);
+
+			Mesh meshLight;
+			ref<Material> materialLight = createRef<Material>();
+			ref<Renderer> rendererLight = createRef<RendererCube>();
+			ref<Transform> transformLight = createRef<Transform>(Vector3(0.0f, 0.0f, -3.0f), Vector3(0.2f), Vector3(0.0f));
+
+			spotLight->setAmbient(Vector3(0.0f, 0.0f, 0.0f));
+			spotLight->setDiffuse(Vector3(1.0f, 1.0f, 1.0f));
+			spotLight->setSpecular(Vector3(1.0f, 1.0f, 1.0f));
+			spotLight->setConstant(1.0f);
+			spotLight->setLinear(0.09f);
+			spotLight->setQuadratic(0.032f);
+			spotLight->setCutOff(glm::cos(glm::radians(0.0f)));
+			spotLight->setOuterCutOff(glm::cos(glm::radians(0.0f)));
+			spotLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
+
+
+			meshLight.setVertices(vertices);
+			meshLight.setup();
+
+			materialLight->setShader(shaderLight);
+
+			rendererLight->setMaterial(materialLight);
+			rendererLight->setTransform(transformLight);
+			rendererLight->setMainCamera(camera);
+			rendererLight->addMesh(meshLight);
+
+			light->addComponent<Transform>(transformLight);
+			light->addComponent<Light>(spotLight);
+			light->addComponent<Renderer>(rendererLight);
+			EntityManager::getInstance().addEntity<GameObject>(light);
+		}
+
+		/**
+		* PointLights Configuration ( Four Lights )
+		*/
+		{
+
+			std::vector<Vector3> pointLightPositions = {
+					   Vector3(0.7f,  0.2f,  2.0f),
+					   Vector3(2.3f, -3.3f, -4.0f),
+					   Vector3(-4.0f,  2.0f, -12.0f),
+					   Vector3(0.0f,  0.0f, -3.0f)
+			};
+
+			for (unsigned int i = 0; i < pointLightPositions.size(); i++) {
+				ref<GameObject> light = createRef<GameObject>(1, "light", "light");
+				ref<Light> pointLight = createRef<Light>(LightType::Point);
+
+				Mesh meshLight;
+				ref<Material> materialLight = createRef<Material>();
+				ref<Renderer> rendererLight = createRef<RendererCube>();
+				ref<Transform> transformLight = createRef<Transform>(pointLightPositions[i], Vector3(0.2f), Vector3(0.0f));
+
+				pointLight->setPosition(pointLightPositions[i]);
+				pointLight->setAmbient(Vector3(0.05f, 0.05f, 0.05f));
+				pointLight->setDiffuse(Vector3(0.8f, 0.8f, 0.8f));
+				pointLight->setSpecular(Vector3(1.0f, 1.0f, 1.0f));
+				pointLight->setConstant(1.0f);
+				pointLight->setLinear(0.09f);
+				pointLight->setQuadratic(0.032f);
+				pointLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
+
+				meshLight.setVertices(vertices);
+				meshLight.setup();
+
+				materialLight->setShader(shaderLight);
+
+				rendererLight->setMaterial(materialLight);
+				rendererLight->setTransform(transformLight);
+				rendererLight->setMainCamera(camera);
+				rendererLight->addMesh(meshLight);
+
+				light->addComponent<Transform>(transformLight);
+				light->addComponent<Light>(pointLight);
+				light->addComponent<Renderer>(rendererLight);
+				EntityManager::getInstance().addEntity<GameObject>(light);
+			}
+		}
+	}
+
+	void Engine::initializeCamera()
+	{
+		ref<GameObject> mainCamera = createRef<GameObject>(0, "MainCamera", "MainCamera");
+
+		ref<Camera> camera = createRef<Camera>();
+		camera->setCameraType(CameraType::Perpective);
+		camera->setAspectRatio(width / height);
+		camera->setFov(45.0f);
+		camera->setFront(Vector3(0.0f, 0.0f, -1.0f));
+		camera->setUp(Vector3(0.0f, 1.0f, 0.0f));
+		camera->setFarPlane(100.0f);
+		camera->setNearPlane(0.1f);
+
+		ref<Transform> transformCamera = createRef <Transform>(
+			Vector3(0.0f, 0.0f, 3.0f),
+			Vector3(1.0f),
+			Vector3(0.0f)
+		);
+
+		mainCamera->addComponent<Camera>(camera);
+		mainCamera->addComponent<Transform>(transformCamera);
+		EntityManager::getInstance().addEntity<GameObject>(mainCamera);
+		EntityManager::getInstance().setMainCamera(mainCamera);
 	}
 }
 

@@ -12,6 +12,10 @@ namespace openge {
 	{
 		CreateTexture(path);
 	}
+	Texture::Texture(const std::string& path, TextureType textureType, const std::string& name, bool rgba) : m_path(path), m_isRGBA(rgba), m_textureType(textureType), m_name(name)
+	{
+		CreateTexture(path);
+	}
 	Texture::Texture(const std::string& path, bool rgba) : m_path(path), m_isRGBA(rgba), m_textureType(TextureType::Diffuse)
 	{
 		CreateTexture(path);

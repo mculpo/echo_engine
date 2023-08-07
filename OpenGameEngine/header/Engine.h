@@ -7,6 +7,9 @@ namespace openge {
 		Engine(float width, float height, const char* title, bool fullWidth);
 		~Engine();
 		void run();
+		void initializeObjects();
+		void initializeLights();
+		void initializeCamera();
 	private:
 		GLFWwindow* m_window;
 		float width;

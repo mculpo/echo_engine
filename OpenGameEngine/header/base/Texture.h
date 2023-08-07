@@ -15,6 +15,7 @@ namespace openge {
 		Texture(const std::string& path);
 		Texture(const std::string& path, TextureType textureType);
 		Texture(const std::string& path, TextureType textureType, bool rgba);
+		Texture(const std::string& path, TextureType textureType, const std::string& name ,bool rgba);
 		Texture(const std::string& path, bool rgba);
 		~Texture();
 		
