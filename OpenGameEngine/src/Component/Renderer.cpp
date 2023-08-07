@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include <component/Renderer.h>
 
 namespace openge {
 

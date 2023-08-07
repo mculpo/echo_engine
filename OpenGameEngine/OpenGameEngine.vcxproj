@@ -111,7 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\src;$(SolutionDir)dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)OpenGameEngine\vendor\glad\include;$(SolutionDir)dependencies\Assimp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\src;$(SolutionDir)dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)OpenGameEngine\vendor\glad\include;$(SolutionDir)dependencies\Assimp\include;$(SolutionDir)OpenGameEngine\header</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -129,7 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\src;$(SolutionDir)dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)OpenGameEngine\vendor\glad\include;$(SolutionDir)dependencies\Assimp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGameEngine\vendor;$(SolutionDir)OpenGameEngine\src;$(SolutionDir)dependencies\GLEW\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)OpenGameEngine\vendor\glad\include;$(SolutionDir)dependencies\Assimp\include;$(SolutionDir)OpenGameEngine\header</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -144,59 +144,60 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Users\mculpo\Downloads\glad\src\glad.c" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="src\Component\RendererModelMesh.cpp" />
-    <ClCompile Include="src\Component\Model.cpp" />
-    <ClCompile Include="src\Component\RendererPrimitiveMesh.cpp" />
-    <ClCompile Include="src\Renderer\Camera.cpp" />
-    <ClCompile Include="src\Component\Material.cpp" />
+    <ClCompile Include="src\component\RendererModelMesh.cpp" />
+    <ClCompile Include="src\base\Model.cpp" />
+    <ClCompile Include="src\component\RendererPrimitiveMesh.cpp" />
+    <ClCompile Include="src\component\Camera.cpp" />
+    <ClCompile Include="src\base\Material.cpp" />
     <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Renderer\ElementBufferObject.cpp" />
-    <ClCompile Include="src\Renderer\Texture.cpp" />
-    <ClCompile Include="src\Core\Time.cpp" />
-    <ClCompile Include="src\Component\Transform.cpp" />
-    <ClCompile Include="src\Entity\GameObject.cpp" />
-    <ClCompile Include="src\Component\Mesh.cpp" />
-    <ClCompile Include="src\Component\Renderer.cpp" />
+    <ClCompile Include="src\base\Shader.cpp" />
+    <ClCompile Include="src\gl\ElementBufferObject.cpp" />
+    <ClCompile Include="src\base\Texture.cpp" />
+    <ClCompile Include="src\component\Transform.cpp" />
+    <ClCompile Include="src\entity\GameObject.cpp" />
+    <ClCompile Include="src\base\Mesh.cpp" />
+    <ClCompile Include="src\component\Renderer.cpp" />
     <ClCompile Include="vendor\stb_image.cpp" />
-    <ClCompile Include="src\Renderer\VertexBufferObject.cpp" />
-    <ClCompile Include="src\Renderer\VertexArrayObject.cpp" />
+    <ClCompile Include="src\gl\VertexBufferObject.cpp" />
+    <ClCompile Include="src\gl\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Component\RendererModelMesh.h" />
-    <ClInclude Include="src\Component\Model.h" />
-    <ClInclude Include="src\Component\RendererPrimitiveMesh.h" />
-    <ClInclude Include="src\Component\Light.h" />
-    <ClInclude Include="src\Core\base.h" />
-    <ClInclude Include="src\Core\FileSystem.h" />
-    <ClInclude Include="src\Core\Random.h" />
-    <ClInclude Include="src\Core\tspch.h" />
-    <ClInclude Include="src\Core\Vertex.h" />
-    <ClInclude Include="src\Math\Matrix4.h" />
-    <ClInclude Include="src\Math\Vector3.h" />
-    <ClInclude Include="src\Math\Vector4.h" />
-    <ClInclude Include="src\Renderer\Camera.h" />
-    <ClInclude Include="src\Component\Component.h" />
-    <ClInclude Include="src\Entity\EntityManager.h" />
-    <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\Core\Input.h" />
-    <ClInclude Include="src\Core\Mouse.h" />
-    <ClInclude Include="src\Renderer\Shader.h" />
-    <ClInclude Include="src\Renderer\ElementBufferObject.h" />
-    <ClInclude Include="src\Core\Singleton.h" />
-    <ClInclude Include="src\Renderer\VertexAttribPointerLayout.h" />
-    <ClInclude Include="src\Renderer\Texture.h" />
-    <ClInclude Include="src\Entity\Entity.h" />
-    <ClInclude Include="src\Core\Time.h" />
-    <ClInclude Include="src\Component\Transform.h" />
-    <ClInclude Include="src\Entity\GameObject.h" />
-    <ClInclude Include="src\Component\Mesh.h" />
-    <ClInclude Include="src\Component\Material.h" />
-    <ClInclude Include="src\Component\Renderer.h" />
-    <ClInclude Include="src\Math\Vector2.h" />
+    <ClInclude Include="header\component\RendererModelMesh.h" />
+    <ClInclude Include="header\base\Model.h" />
+    <ClInclude Include="header\component\RendererPrimitiveMesh.h" />
+    <ClInclude Include="header\component\Light.h" />
+    <ClInclude Include="header\core\base.h" />
+    <ClInclude Include="header\core\FileSystem.h" />
+    <ClInclude Include="header\core\Random.h" />
+    <ClInclude Include="header\core\core.h" />
+    <ClInclude Include="header\core\Vertex.h" />
+    <ClInclude Include="header\manager\ShapeVerticesManager.h" />
+    <ClInclude Include="header\manager\TextureManager.h" />
+    <ClInclude Include="header\math\Matrix4.h" />
+    <ClInclude Include="header\math\Vector3.h" />
+    <ClInclude Include="header\math\Vector4.h" />
+    <ClInclude Include="header\component\Camera.h" />
+    <ClInclude Include="header\component\Component.h" />
+    <ClInclude Include="header\manager\EntityManager.h" />
+    <ClInclude Include="header\Engine.h" />
+    <ClInclude Include="header\core\Input.h" />
+    <ClInclude Include="header\core\Mouse.h" />
+    <ClInclude Include="header\base\Shader.h" />
+    <ClInclude Include="header\gl\ElementBufferObject.h" />
+    <ClInclude Include="header\core\Singleton.h" />
+    <ClInclude Include="header\gl\VertexAttribPointerLayout.h" />
+    <ClInclude Include="header\base\Texture.h" />
+    <ClInclude Include="header\entity\Entity.h" />
+    <ClInclude Include="header\core\Time.h" />
+    <ClInclude Include="header\component\Transform.h" />
+    <ClInclude Include="header\entity\GameObject.h" />
+    <ClInclude Include="header\base\Mesh.h" />
+    <ClInclude Include="header\base\Material.h" />
+    <ClInclude Include="header\component\Renderer.h" />
+    <ClInclude Include="header\math\Vector2.h" />
     <ClInclude Include="vendor\stb_image.h" />
-    <ClInclude Include="src\Renderer\VertexBufferObject.h" />
-    <ClInclude Include="src\Renderer\VertexArrayObject.h" />
+    <ClInclude Include="header\gl\VertexBufferObject.h" />
+    <ClInclude Include="header\gl\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\default.frag" />

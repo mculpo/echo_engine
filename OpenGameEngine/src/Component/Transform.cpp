@@ -1,4 +1,4 @@
-#include "Transform.h"
+#include <component/Transform.h>
 namespace openge {
 
 

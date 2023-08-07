@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include <entity/GameObject.h>
 
 namespace openge {
     GameObject::GameObject() : Entity(0, "", "") {}

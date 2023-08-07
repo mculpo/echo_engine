@@ -1,4 +1,4 @@
-#include "RendererPrimitiveMesh.h"
+#include <component/RendererPrimitiveMesh.h>
 namespace openge {
     void RendererPrimitiveMesh::bind()
     {

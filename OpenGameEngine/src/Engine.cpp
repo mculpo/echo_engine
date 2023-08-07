@@ -1,88 +1,46 @@
-#include "Engine.h"
+#include <Engine.h>
 
-#include <Renderer/VertexArrayObject.h>
-#include <Renderer/VertexBufferObject.h>
-#include <Renderer/Texture.h>
-#include <Renderer/ElementBufferObject.h>
-#include <Renderer/Camera.h>
-#include <Renderer/Shader.h>
+#include <gl/VertexArrayObject.h>
+#include <gl/VertexBufferObject.h>
+#include <gl/ElementBufferObject.h>
 
-#include <Entity/GameObject.h>
-#include <Entity/EntityManager.h>
+#include <base/Mesh.h>
+#include <base/Material.h>
+#include <base/Shader.h>
+#include <base/Texture.h>
+#include <base/Model.h>
 
-#include <Component/Mesh.h>
-#include <Component/Material.h>
-#include <Component/Transform.h>
-#include <Component/Light.h>
-#include <Component/RendererPrimitiveMesh.h>
-#include <Component/Renderer.h>
+#include <entity/GameObject.h>
 
-#include <Core/Input.h>
-#include <Core/Mouse.h>
-#include <Core/Time.h>
-#include <Core/Vertex.h>
-#include <Core/Random.h>
-#include <Core/FileSystem.h>
+#include <manager/EntityManager.h>
+#include <manager/ShapeVerticesManager.h>
 
-#include <Component/Model.h>
-#include <Component/RendererModelMesh.h>
+#include <component/Camera.h>
+#include <component/Transform.h>
+#include <component/Light.h>
+#include <component/Renderer.h>
+#include <component/RendererPrimitiveMesh.h>
+#include <component/RendererModelMesh.h>
+
+#include <core/Input.h>
+#include <core/Mouse.h>
+#include <core/Time.h>
+#include <core/Vertex.h>
+#include <core/Random.h>
+#include <core/FileSystem.h>
 
 
 namespace openge {
-	std::vector<Vertex> vertices;
 	bool firstMouse = true;
 	float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
 	float pitch = 0.0f;
 	float lastX = WIDTH / 2.0;
 	float lastY = HEIGHT / 2.0;
 
-	void create_cube_vertex() {
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(0.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, 0.0f, -1.0f), Vector2(0.0f, 0.0f)));
-
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), Vector2(0.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, 0.0f, 1.0f), Vector2(0.0f, 0.0f)));
-
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(0.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(-1.0f, 0.0f, 0.0f), Vector2(1.0f, 0.0f)));
-
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(1.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), Vector2(0.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(1.0f, 0.0f, 0.0f), Vector2(1.0f, 0.0f)));
-
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(0.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.0f, -1.0f, 0.0f), Vector2(0.0f, 1.0f)));
-
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(1.0f, 1.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)));
-		vertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 1.0f)));
-	}
-
 	void create_lights() {
 		ref<Shader> shaderLight = createRef<Shader>("resources/shaders/light.vertex", "resources/shaders/light.frag");
 		ref<Camera> camera = EntityManager::getInstance().getMainCamera()->getComponent<Camera>();
+		std::vector<Vertex> vertices = ShapeVerticesManager::getInstance().getCubeVertices();
 		/*
 		* Directional Light Configuration
 		*/
@@ -272,7 +230,7 @@ namespace openge {
 			if (Input::IsKeyPressed(KEYCODE_ESCAPE))
 				glfwSetWindowShouldClose(m_window, true);
 
-			float cameraSpeed = static_cast<float>(5 * Time::getInstance().deltaTime());
+			float cameraSpeed = static_cast<float>(5 * Time::deltaTime());
 
 			if (Input::IsKeyHeld(KEYCODE_W))
 				cameraTranform->translate(cameraSpeed * camera->getFront());
@@ -318,7 +276,11 @@ namespace openge {
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
 
+		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glEnable.xhtml
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	Engine::~Engine()
@@ -332,9 +294,9 @@ namespace openge {
 		ref<GameObject> mainCamera = create_camera(width, height);
 		ref<Camera> camera = mainCamera->getComponent<Camera>();
 		std::vector<ref<GameObject>> cubos;
+
 		stbi_set_flip_vertically_on_load(true);
-		create_cube_vertex();
-		//create_lights();
+		create_lights();
 		/*
 		*	Configuração dos Cubos de Exemplo que vai ser iluminado
 		*/
@@ -342,13 +304,13 @@ namespace openge {
 			// positions all containers
 			std::vector<Vector3> cubePositions;
 
-			const int totalNewPositions = 1;
-			const float range = 1.0f;
+			const int totalNewPositions = 10;
+			const float range = 3.0f;
 
 			for (int i = 0; i < totalNewPositions; ++i) {
-				float x = Random::getInstance().Range(-range, range);
-				float y = Random::getInstance().Range(-range, range);
-				float z = Random::getInstance().Range(-range, range);
+				float x = Random::Range(-range, range);
+				float y = Random::Range(-range, range);
+				float z = Random::Range(-range, range);
 				Vector3 newPosition(x, y, z);
 
 				// Add the new position to the vector
@@ -356,34 +318,39 @@ namespace openge {
 			}
 
 
-			ref<Model> modelo = createRef<Model>(FileSystem::path("resources/models/backpack/backpack.obj"));
-			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/standard.vertex", "resources/shaders/standard.frag");
-			Texture diffuse("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
-			Texture specular("resources/texture/Crystal-spec.jpg", TextureType::Specular);
-			/*Mesh meshCubo;
-			meshCubo.setVertices(vertices);
-			meshCubo.addTexture(diffuse, "material.diffuse");
-			meshCubo.addTexture(specular, "material.specular");
-			meshCubo.setup();*/
+			//ref<Model> modelo = createRef<Model>(FileSystem::path("resources/models/backpack/backpack.obj"));
+			ref<Shader> shaderReceptorLight = createRef<Shader>("resources/shaders/uniform.vertex", "resources/shaders/uniform.frag");
+			ref<Texture> textureDiffuse = createRef<Texture>("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
+			textureDiffuse->SetName("diffuse");
+			unsigned int textureDiffuseIndex;
+
+			TextureManager::getInstance().add(textureDiffuse, textureDiffuseIndex);
+			//Texture diffuse("resources/texture/Crystal-diffuse.jpg", TextureType::Diffuse);
+			//Texture specular("resources/texture/Crystal-spec.jpg", TextureType::Specular);
+			Mesh meshCubo;
+			std::vector<unsigned int> array_index = { textureDiffuseIndex };
+			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
+			meshCubo.setTextures(array_index);
+			meshCubo.setup();
 			for (unsigned int i = 0; i < cubePositions.size(); i++) {
 
-				ref<GameObject> cubo = createRef<GameObject>(2, "cubo", "cubo");
+				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
 				
 				ref<Material> materialCubo = createRef<Material>();
-				ref<Renderer> rendererCubo = createRef<RendererModelMesh>();
+				ref<Renderer> rendererCubo = createRef<RendererPrimitiveMesh>();
 				ref<Transform> transformCubo = createRef<Transform>(
+					Vector3(cubePositions[i]),
 					Vector3(1.0f),
-					Vector3(0.5f),
 					Vector3(0.0f)
 				);
 				//
-				
 				materialCubo->setShader(shaderReceptorLight);
 
 				rendererCubo->setMaterial(materialCubo);
 				rendererCubo->setTransform(transformCubo);
 				rendererCubo->setMainCamera(camera);
-				rendererCubo->setMeshs(modelo->m_meshs);
+				rendererCubo->addMesh(meshCubo);
+				//rendererCubo->setMeshs(modelo->m_meshs);
 
 				cubo->addComponent<Transform>(transformCubo);
 				cubo->addComponent<Renderer>(rendererCubo);
@@ -401,16 +368,14 @@ namespace openge {
 
 		while (!glfwWindowShouldClose(m_window)) {
 
-			Time::getInstance().updateDeltaTime();
+			Time::updateDeltaTime();
 			Mouse::getInstance().update();
-
 			mouse_input(mainCamera, width, height, m_window);
 
-			GLclampf Red = 0.2f, Green = 0.2f, Blue = 0.2f, Alpha = 0.0f;
+			GLclampf Red = 0.1f, Green = 0.1f, Blue = 0.1f, Alpha = 0.0f;
 			glClearColor(Red, Green, Blue, Alpha);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			
 			ref<Light> dirLight;
 			ref<Light> spotLight;
 			std::vector<ref<Light>> pointLight;
@@ -486,7 +451,7 @@ namespace openge {
 					*/
 					//Matrix3 transpose = cuboTransform->getTransposeMatrix();
 					//shaderCubo->setUniformMatrix3fv("modelTranspose", transpose);
-					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::getInstance().deltaTime()));
+					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
 
 					cuboRenderer->bind();
 					cuboRenderer->render();
@@ -508,7 +473,7 @@ namespace openge {
 			}*/
 
 			// Exibe o FPS e o MS no console
-			Time::getInstance().toStringFpsAndMs();
+			Time::toStringFpsAndMs();
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}

@@ -1,4 +1,4 @@
-#include "RendererModelMesh.h"
+#include <component/RendererModelMesh.h>
 namespace openge {
     void RendererModelMesh::bind()
     {
