@@ -1,6 +1,6 @@
 # Open Game Engine (Motor de Jogo Aberto)
 
-Open Game Engine é um poderoso   motor de jogo desenvolvido com C++ e OpenGL, projetado especificamente para suporte a jogos 3D. Ele utiliza a arquitetura de Componentes e Entidades (Entity Component System - ECS) para proporcionar flexibilidade e modularidade no desenvolvimento de jogos.
+Open Game Engine é um motor de jogo desenvolvido com C++ e OpenGL para fins de conhecimento e estudo, projetado especificamente para suporte a jogos 3D. Ele utiliza a arquitetura de Componentes e Entidades (Entity Component System - ECS) para proporcionar flexibilidade e modularidade no desenvolvimento de jogos.
 
 ## Recursos
 
@@ -27,11 +27,6 @@ O Open Game Engine depende das seguintes bibliotecas:
 - Planejado: uma biblioteca de animação para controlar movimentos e transições.
 
 Certifique-se de instalar as dependências necessárias antes de compilar e executar o Open Game Engine.
-
-
-## Como Começar
-
- ------- ------
 
 ## Documentação
 
