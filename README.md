@@ -1,51 +1,48 @@
-# Open Game Engine (Motor de Jogo Aberto)
+# Open Game Engine
 
-Open Game Engine é um motor de jogo desenvolvido com C++ e OpenGL para fins de conhecimento e estudo, projetado especificamente para suporte a jogos 3D. Ele utiliza a arquitetura de Componentes e Entidades (Entity Component System - ECS) para proporcionar flexibilidade e modularidade no desenvolvimento de jogos.
+The Open Game Engine is a game engine developed using C++ and OpenGL for the purpose of knowledge and study. It is specifically designed to support 3D games and utilizes the Entity Component System (ECS) architecture to provide flexibility and modularity in game development.
 
-## Recursos
+## Features
 
-- Suporte completo para jogos em 3D.
-- Arquitetura de Componentes e Entidades (ECS) para uma estrutura de jogo flexível e modular.
-- Manipulação de entrada de teclado, mouse e gamepad para interatividade do jogador.
-- Implementação de carregamento de modelos 3D para renderização de objetos complexos.
-- Planejado: suporte a jogos 2D.
-- Planejado: física 3D e 2D para simulações realistas de objetos e colisões.
-- Planejado: áudio para efeitos sonoros imersivos.
-- Planejado: animação para movimento fluido de personagens e objetos.
+- Full support for 3D games.
+- Entity Component System (ECS) architecture for a flexible and modular game structure.
+- Handling of keyboard, mouse, and gamepad inputs for player interactivity.
+- Implementation of 3D model loading for rendering complex objects.
+- Planned: support for 2D games.
+- Planned: 3D and 2D physics for realistic object simulations and collisions.
+- Planned: audio for immersive sound effects.
+- Planned: animation for smooth character and object movement.
 
+## Dependencies
 
-## Dependências
+The Open Game Engine relies on the following libraries:
 
-O Open Game Engine depende das seguintes bibliotecas:
+- OpenGL: for 3D graphics rendering.
+- GLFW: for window management and input handling.
+- GLM: for mathematics and vector operations.
+- Assimp: for 3D model importing.
+- Planned: a physics library for object simulation and collisions.
+- Planned: an audio library for sound playback and effects.
+- Planned: an animation library for controlling movements and transitions.
 
-- OpenGL: para renderização de gráficos 3D.
-- GLFW: para gerenciamento de janelas e entrada de dispositivos.
-- GLM: para matemática e operações de vetor.
-- Assimp: para importação de modelos 3d.
-- Planejado: uma biblioteca de física para simulação de objetos e colisões.
-- Planejado: uma biblioteca de áudio para reprodução de sons e efeitos sonoros.
-- Planejado: uma biblioteca de animação para controlar movimentos e transições.
+Make sure to install the necessary dependencies before compiling and running the Open Game Engine.
 
-Certifique-se de instalar as dependências necessárias antes de compilar e executar o Open Game Engine.
+## Documentation
 
-## Documentação
+The documentation for the Open Game Engine can be found in the "docs" directory of the repository. It provides comprehensive guides, tutorials, and API references to help you make the most of the engine's features and functionalities.
 
-A documentação do Open Game Engine pode ser encontrada no diretório docs do repositório. Ela fornece guias abrangentes, tutoriais e referências de API para ajudá-lo a aproveitar ao máximo os recursos e funcionalidades do motor.
+## Contributions
 
-## Contribuições
+Contributions to the Open Game Engine are welcome! If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
 
-Contribuições para o Open Game Engine são bem-vindas! Se você encontrar algum problema ou tiver sugestões de melhorias, abra uma issue ou envie um pull request no repositório do GitHub.
+## License
 
-## Licença
+The Open Game Engine is released under the Apache-2.0 License. Feel free to use, modify, and distribute the engine for both commercial and non-commercial projects.
 
-O Open Game Engine é lançado sob a Licença Apache-2.0. Sinta-se à vontade para usar, modificar e distribuir o motor tanto para projetos comerciais quanto não comerciais.
+## Implementation Resources
 
-## Base de Dados para Implementação
-
-https://docs.gl/
-https://github.com/g-truc/glm/blob/master/manual.md
-https://www.glfw.org/documentation
-https://assimp-docs.readthedocs.io/en/latest/
-
-
-
+- [OpenGL Documentation](https://docs.gl/)
+- [GLM Documentation](https://github.com/g-truc/glm/blob/master/manual.md)
+- [GLAD Documentation](https://github.com/Dav1dde/glad)
+- [GLFW Documentation](https://www.glfw.org/documentation)
+- [Assimp Documentation](https://assimp-docs.readthedocs.io/en/latest/)
