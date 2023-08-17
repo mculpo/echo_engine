@@ -142,13 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Users\mculpo\Downloads\glad\src\glad.c" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="src\component\RendererModelMesh.cpp" />
+    <ClCompile Include="src\component\RendererModel.cpp" />
     <ClCompile Include="src\base\Model.cpp" />
     <ClCompile Include="src\component\RendererCube.cpp" />
     <ClCompile Include="src\component\Camera.cpp" />
     <ClCompile Include="src\base\Material.cpp" />
+    <ClCompile Include="src\component\RendererPlane.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\base\Shader.cpp" />
     <ClCompile Include="src\gl\ElementBufferObject.cpp" />
@@ -157,20 +157,29 @@
     <ClCompile Include="src\entity\GameObject.cpp" />
     <ClCompile Include="src\base\Mesh.cpp" />
     <ClCompile Include="src\component\Renderer.cpp" />
+    <ClCompile Include="src\gl\FrameBufferObject.cpp" />
+    <ClCompile Include="src\gl\RenderBufferObject.cpp" />
+    <ClCompile Include="src\gl\TextureColorBuffer.cpp" />
+    <ClCompile Include="vendor\glad\src\glad.c" />
     <ClCompile Include="vendor\stb_image.cpp" />
     <ClCompile Include="src\gl\VertexBufferObject.cpp" />
     <ClCompile Include="src\gl\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\component\RendererModelMesh.h" />
+    <ClInclude Include="header\base\FrameBufferTexture.h" />
+    <ClInclude Include="header\component\RendererModel.h" />
     <ClInclude Include="header\base\Model.h" />
     <ClInclude Include="header\component\RendererCube.h" />
     <ClInclude Include="header\component\Light.h" />
+    <ClInclude Include="header\component\RendererPlane.h" />
     <ClInclude Include="header\core\base.h" />
     <ClInclude Include="header\core\FileSystem.h" />
     <ClInclude Include="header\core\Random.h" />
     <ClInclude Include="header\core\core.h" />
     <ClInclude Include="header\core\Vertex.h" />
+    <ClInclude Include="header\gl\FrameBufferObject.h" />
+    <ClInclude Include="header\gl\RenderBufferObject.h" />
+    <ClInclude Include="header\gl\TextureColorBuffer.h" />
     <ClInclude Include="header\manager\ShapeVerticesManager.h" />
     <ClInclude Include="header\manager\TextureManager.h" />
     <ClInclude Include="header\math\Matrix4.h" />
@@ -216,6 +225,7 @@
     <Image Include="resources\texture\container2_specular.png" />
     <Image Include="resources\texture\Crystal-diffuse.jpg" />
     <Image Include="resources\texture\Crystal-spec.jpg" />
+    <Image Include="resources\texture\grass.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

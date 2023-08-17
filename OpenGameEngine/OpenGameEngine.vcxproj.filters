@@ -57,16 +57,28 @@
     <ClCompile Include="src\base\Material.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Users\mculpo\Downloads\glad\src\glad.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="src\component\RendererCube.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="src\base\Model.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\RendererModelMesh.cpp">
+    <ClCompile Include="src\component\RendererModel.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\RendererPlane.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\glad\src\glad.c">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gl\FrameBufferObject.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gl\TextureColorBuffer.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gl\RenderBufferObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,7 +179,7 @@
     <ClInclude Include="header\base\Model.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="header\component\RendererModelMesh.h">
+    <ClInclude Include="header\component\RendererModel.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="header\core\FileSystem.h">
@@ -177,6 +189,21 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="header\manager\ShapeVerticesManager.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="header\component\RendererPlane.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="header\gl\FrameBufferObject.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="header\gl\TextureColorBuffer.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="header\gl\RenderBufferObject.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="header\base\FrameBufferTexture.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
@@ -207,6 +234,9 @@
       <Filter>Arquivos de Recurso</Filter>
     </Image>
     <Image Include="resources\texture\Crystal-spec.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\grass.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
   </ItemGroup>

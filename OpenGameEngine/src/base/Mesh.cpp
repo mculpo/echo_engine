@@ -13,7 +13,7 @@ namespace openge {
 		setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
 		
 		m_vao->AddLayout(3, VP_FLOAT); // aPos
-		m_vao->AddLayout(3, VP_FLOAT); // aNormal
+		m_vao->AddLayout(3, VP_FLOAT); // aNormal or aColor
 		m_vao->AddLayout(2, VP_FLOAT); // aTexCoords
 
 		m_vao->AddLayout(3, VP_FLOAT); // aTangent

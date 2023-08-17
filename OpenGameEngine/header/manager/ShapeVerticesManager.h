@@ -51,15 +51,12 @@ namespace openge {
 			cubeVertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 1.0f)));
 
 			// Plane
-			// 
-			// First
-			planeVertices.push_back(Vertex(Vector3(-0.5f, -0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(0.0f, 0.0f)));
-			planeVertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 0.0f)));
-			planeVertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(0.0f, 1.0f)));
-			// Second
-			planeVertices.push_back(Vertex(Vector3(-0.5f, 0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(0.0f, 1.0f)));
-			planeVertices.push_back(Vertex(Vector3(0.5f, -0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 0.0f)));
-			planeVertices.push_back(Vertex(Vector3(0.5f, 0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 1.0f)));
+			planeVertices.push_back(Vertex(Vector3(0.0f, 0.5f, 0.0f), Vector3(1.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f)));
+			planeVertices.push_back(Vertex(Vector3(0.0f, -0.5f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)));
+			planeVertices.push_back(Vertex(Vector3(1.0f, -0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 0.0f)));
+			planeVertices.push_back(Vertex(Vector3(0.0f, 0.5f, 0.0f), Vector3(1.0f, 1.0f, 0.0f), Vector2(0.0f, 1.0f)));
+			planeVertices.push_back(Vertex(Vector3(1.0f, -0.5f, 0.0f), Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f)));
+			planeVertices.push_back(Vertex(Vector3(1.0f, 0.5f, 0.0f), Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 1.0f)));
 		}
 
 		std::vector<Vertex>& getCubeVertices() {

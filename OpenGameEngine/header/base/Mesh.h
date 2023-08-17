@@ -40,7 +40,6 @@ namespace openge {
 		const std::vector<Vertex>& GetVertices() const;
 		const std::vector<unsigned int>& GetTextures() const;
 
-
 		void bindTexture(ref<Material> material) const;
 		void useVAO() const;
 		void unbindVAO() const;

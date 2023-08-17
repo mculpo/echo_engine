@@ -20,7 +20,7 @@
 #include <component/Light.h>
 #include <component/Renderer.h>
 #include <component/RendererCube.h>
-#include <component/RendererModelMesh.h>
+#include <component/RendererModel.h>
 
 #include <core/Input.h>
 #include <core/Mouse.h>
@@ -28,6 +28,7 @@
 #include <core/Vertex.h>
 #include <core/Random.h>
 #include <core/FileSystem.h>
+#include <component/RendererPlane.h>
 
 
 namespace openge {
@@ -131,6 +132,10 @@ namespace openge {
 		glEnable(GL_BLEND);
 		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		/*
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CW);*/
 	}
 
 	Engine::~Engine()
@@ -157,7 +162,7 @@ namespace openge {
 			Mouse::getInstance().update();
 			mouse_input(mainCamera, width, height, m_window);
 
-			GLclampf Red = 0.1f, Green = 0.1f, Blue = 0.1f, Alpha = 0.0f;
+			GLclampf Red = 0.5f, Green = 0.5f, Blue = 0.5f, Alpha = 0.0f;
 			glClearColor(Red, Green, Blue, Alpha);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -189,79 +194,31 @@ namespace openge {
 		ref<Shader> shader = createRef<Shader>(
 			"resources/shaders/uniform.vertex",
 			"resources/shaders/uniform.frag"
+		);	
+		ref<Texture> grass = createRef<Texture>(
+			FileSystem::path("resources/texture/grass.png"),
+			TextureType::Diffuse,
+			"diffuse",
+			true
 		);
 
-		ref<Shader> shaderModel = createRef<Shader>(
-			"resources/shaders/standard.vertex",
-			"resources/shaders/standard.frag"
+		ref<Texture> crystal = createRef<Texture>(
+			FileSystem::path("resources/texture/Crystal-diffuse.jpg"),
+			TextureType::Diffuse,
+			"diffuse",
+			false
 		);
-		/*
-		*	Configuração dos Cubos com Crystal-diffuse
-		*/
-		{
-			// positions all containers
-			std::vector<Vector3> cubePositions;
 
-			const int totalNewPositions = 10;
-			const float range = 4.0f;
+		unsigned int grassIndex;
 
-			for (int i = 0; i < totalNewPositions; ++i) {
-				float x = Random::Range(-range, range);
-				float y = Random::Range(-range, range);
-				float z = Random::Range(-range, range);
-				Vector3 newPosition(x, y, z);
+		TextureManager::getInstance().add(crystal, grassIndex);
 
-				cubePositions.push_back(newPosition);
-			}
-			
-			ref<Texture> textureDiffuse = createRef<Texture>(
-				"resources/texture/Crystal-diffuse.jpg", 
-				TextureType::Diffuse,
-				"diffuse",
-				false
-			);
-			unsigned int textureDiffuseIndex;
-
-			TextureManager::getInstance().add(textureDiffuse, textureDiffuseIndex);
-
-			Mesh meshCubo;
-			std::vector<unsigned int> array_index = { textureDiffuseIndex };
-			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
-			meshCubo.setTextures(array_index);
-			meshCubo.setup();
-			for (unsigned int i = 0; i < cubePositions.size(); i++) {
-
-				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
-
-				ref<Material> materialCubo = createRef<Material>();
-				ref<Renderer> rendererCubo = createRef<RendererCube>();
-				ref<Transform> transformCubo = createRef<Transform>(
-					Vector3(cubePositions[i]),
-					Vector3(1.0f),
-					Vector3(0.0f)
-				);
-				//
-				materialCubo->setShader(shader);
-
-				rendererCubo->setMaterial(materialCubo);
-				rendererCubo->setTransform(transformCubo);
-				rendererCubo->setMainCamera(camera);
-				rendererCubo->addMesh(meshCubo);
-
-				cubo->addComponent<Transform>(transformCubo);
-				cubo->addComponent<Renderer>(rendererCubo);
-				cubo->setTransform(transformCubo);
-				cubo->setRenderer(rendererCubo);
-				EntityManager::getInstance().addEntity<GameObject>(cubo);
-			}
-		}
-		
 		/*
 		*	Configuração dos Cubos com Container2
 		*/
 		{
 			// positions all containers
-			std::vector<Vector3> cubePositions;
+			std::vector<Vector3> vegetation;
 
 			const int totalNewPositions = 10;
 			const float range = 4.0f;
@@ -272,34 +229,34 @@ namespace openge {
 				float z = Random::Range(-range, range);
 				Vector3 newPosition(x, y, z);
 
-				cubePositions.push_back(newPosition);
+				vegetation.push_back(newPosition);
 			}
 
-			ref<Texture> textureDiffuse = createRef<Texture>(
-				"resources/texture/container2.png",
-				TextureType::Diffuse,
-				"diffuse",
-				true
-			);
+			/*
+			vegetation.push_back(Vector3(-1.5f, 0.0f, -0.48f));
+			vegetation.push_back(Vector3(1.5f, 0.0f, 0.51f));
+			vegetation.push_back(Vector3(0.0f, 0.0f, 0.7f));
+			vegetation.push_back(Vector3(-0.3f, 0.0f, -2.3f));
+			vegetation.push_back(Vector3(0.5f, 0.0f, -0.6f));
+			*/
 
-			unsigned int textureDiffuseIndex;
-			TextureManager::getInstance().add(textureDiffuse, textureDiffuseIndex);
-			std::vector<unsigned int> array_index = { textureDiffuseIndex };
+			std::vector<unsigned int> grass_index = { grassIndex };
+
 			Mesh meshCubo;
-			
 			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
-			meshCubo.setTextures(array_index);
+			meshCubo.setTextures(grass_index);
 			meshCubo.setup();
-			for (unsigned int i = 0; i < cubePositions.size(); i++) {
+
+			for (unsigned int i = 0; i < vegetation.size(); i++) {
 
 				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
 
 				ref<Material> materialCubo = createRef<Material>();
 				ref<Renderer> rendererCubo = createRef<RendererCube>();
 				ref<Transform> transformCubo = createRef<Transform>(
-					Vector3(cubePositions[i]),
+					Vector3(vegetation[i]),
 					Vector3(1.0f),
-					Vector3(0.0f)
+					Vector3(0.0f, 0.0f, 0.0f)
 				);
 				//
 				materialCubo->setShader(shader);
@@ -316,7 +273,10 @@ namespace openge {
 				EntityManager::getInstance().addEntity<GameObject>(cubo);
 			}
 		}
-
+		/*
+		*	Configuração do Model
+		*/
+		/*
 		{
 			// positions all containers
 			std::vector<Vector3> cubePositions;
@@ -333,21 +293,28 @@ namespace openge {
 				cubePositions.push_back(newPosition);
 			}
 
-			ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/spider/Only_Spider_with_Animations_Export.obj"));
+			std::vector<unsigned int> array_index = { textureDiffuseIndex };
+			std::vector<unsigned int> array_index_1 = {  textureContainer2DiffuseIndex };
+
+			ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/M4A1/M4A1.obj"));
+
+			for (Mesh& mesh : ourModel->m_meshs) {
+				mesh.setTextures(Random::Range(0, 10) > 5 ? array_index : array_index_1);
+			}
 
 			for (unsigned int i = 0; i < cubePositions.size(); i++) {
 
 				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
 
 				ref<Material> materialCubo = createRef<Material>();
-				ref<Renderer> rendererCubo = createRef<RendererModelMesh>();
+				ref<Renderer> rendererCubo = createRef<RendererModel>();
 				ref<Transform> transformCubo = createRef<Transform>(
 					Vector3(cubePositions[i]),
-					Vector3(0.01f),
+					Vector3(.5f),
 					Vector3(0.0f)
 				);
 				//
-				materialCubo->setShader(shaderModel);
+				materialCubo->setShader(shader);
 
 				rendererCubo->setMaterial(materialCubo);
 				rendererCubo->setTransform(transformCubo);
@@ -361,6 +328,7 @@ namespace openge {
 				EntityManager::getInstance().addEntity<GameObject>(cubo);
 			}
 		}
+		*/
 	}
 
 	void Engine::initializeLights()
