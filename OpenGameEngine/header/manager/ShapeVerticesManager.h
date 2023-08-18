@@ -3,6 +3,7 @@
 #include <core/core.h>
 #include <core/Vertex.h>
 #include <core/Singleton.h>
+#include <core/VertexQuad.h>
 
 namespace openge {
 	class ShapeVerticesManager: public Singleton<ShapeVerticesManager> {
@@ -51,12 +52,20 @@ namespace openge {
 			cubeVertices.push_back(Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 1.0f)));
 
 			// Plane
-			planeVertices.push_back(Vertex(Vector3(0.0f, 0.5f, 0.0f), Vector3(1.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f)));
+			planeVertices.push_back(Vertex(Vector3(0.0f, 0.5f,  0.0f), Vector3(1.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f)));
 			planeVertices.push_back(Vertex(Vector3(0.0f, -0.5f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)));
 			planeVertices.push_back(Vertex(Vector3(1.0f, -0.5f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector2(1.0f, 0.0f)));
 			planeVertices.push_back(Vertex(Vector3(0.0f, 0.5f, 0.0f), Vector3(1.0f, 1.0f, 0.0f), Vector2(0.0f, 1.0f)));
 			planeVertices.push_back(Vertex(Vector3(1.0f, -0.5f, 0.0f), Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f)));
 			planeVertices.push_back(Vertex(Vector3(1.0f, 0.5f, 0.0f), Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 1.0f)));
+
+			// Plane
+			quadVertices.push_back(VertexQuad(Vector2(-1.0f, 1.0f), Vector2(0.0f, 1.0f)));
+			quadVertices.push_back(VertexQuad(Vector2(-1.0f, -1.0f), Vector2(0.0f, 0.0f)));
+			quadVertices.push_back(VertexQuad(Vector2(1.0f, -1.0f), Vector2(1.0f, 0.0f)));
+			quadVertices.push_back(VertexQuad(Vector2(-1.0f, 1.0f), Vector2(0.0f, 1.0f)));
+			quadVertices.push_back(VertexQuad(Vector2(1.0f, -1.0f), Vector2(1.0f, 0.0f)));
+			quadVertices.push_back(VertexQuad(Vector2(1.0f, 1.0f), Vector2(1.0f, 1.0f)));
 		}
 
 		std::vector<Vertex>& getCubeVertices() {
@@ -67,9 +76,14 @@ namespace openge {
 			return planeVertices;
 		}
 
+		std::vector<VertexQuad>& getQuadVertices() {
+			return quadVertices;
+		}
+
 	private:
 		std::vector<Vertex> cubeVertices;
 		std::vector<Vertex> planeVertices;
+		std::vector<VertexQuad> quadVertices;
 	};
 }
 

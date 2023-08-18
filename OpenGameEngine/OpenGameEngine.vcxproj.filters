@@ -81,6 +81,9 @@
     <ClCompile Include="src\gl\RenderBufferObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\FrameBufferTexture.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\Engine.h">
@@ -206,6 +209,9 @@
     <ClInclude Include="header\base\FrameBufferTexture.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="header\core\VertexQuad.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\uniform.frag" />
@@ -216,6 +222,10 @@
     <None Include="resources\shaders\default.vertex" />
     <None Include="resources\shaders\standard.frag" />
     <None Include="resources\shaders\standard.vertex" />
+    <None Include="resources\shaders\depth\depth.frag" />
+    <None Include="resources\shaders\depth\depth.vertex" />
+    <None Include="resources\shaders\framebuffer\framebuffer.frag" />
+    <None Include="resources\shaders\framebuffer\framebuffer.vertex" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\texture\container.jpg">

@@ -29,6 +29,7 @@
 #include <core/Random.h>
 #include <core/FileSystem.h>
 #include <component/RendererPlane.h>
+#include <base/FrameBufferTexture.h>
 
 
 namespace openge {
@@ -128,7 +129,7 @@ namespace openge {
 		}
 
 		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glEnable.xhtml
-		glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -152,6 +153,15 @@ namespace openge {
 		stbi_set_flip_vertically_on_load(true);
 		initializeObjects();
 
+		ref<Shader> shaderFrameBuffer = createRef<Shader>(
+			"resources/shaders/framebuffer/framebuffer.vertex",
+			"resources/shaders/framebuffer/framebuffer.frag"
+		);
+		//shaderFrameBuffer->setUniform1f("screenTexture", 0);
+		
+		ref<FrameBufferTexture> framebuffer = createRef<FrameBufferTexture>();
+		framebuffer->setShader(shaderFrameBuffer);
+
 		Vector3 _directionCamera = camera->getFront();
 		Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
 		std::vector<ref<GameObject>> cubos = EntityManager::getInstance().findGameObjectsByTag<GameObject>("cubo");
@@ -161,6 +171,9 @@ namespace openge {
 			Time::updateDeltaTime();
 			Mouse::getInstance().update();
 			mouse_input(mainCamera, width, height, m_window);
+
+			framebuffer->Bind();
+			glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
 
 			GLclampf Red = 0.5f, Green = 0.5f, Blue = 0.5f, Alpha = 0.0f;
 			glClearColor(Red, Green, Blue, Alpha);
@@ -183,11 +196,14 @@ namespace openge {
 				}
 			}
 
+			framebuffer->Draw();
+
 			Time::toStringFpsAndMs();
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 		}
 	}
+
 	void Engine::initializeObjects()
 	{
 		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();

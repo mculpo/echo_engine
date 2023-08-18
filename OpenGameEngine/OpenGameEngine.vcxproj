@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="src\base\FrameBufferTexture.cpp" />
     <ClCompile Include="src\component\RendererModel.cpp" />
     <ClCompile Include="src\base\Model.cpp" />
     <ClCompile Include="src\component\RendererCube.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="header\core\Random.h" />
     <ClInclude Include="header\core\core.h" />
     <ClInclude Include="header\core\Vertex.h" />
+    <ClInclude Include="header\core\VertexQuad.h" />
     <ClInclude Include="header\gl\FrameBufferObject.h" />
     <ClInclude Include="header\gl\RenderBufferObject.h" />
     <ClInclude Include="header\gl\TextureColorBuffer.h" />
@@ -211,6 +213,10 @@
   <ItemGroup>
     <None Include="resources\shaders\default.frag" />
     <None Include="resources\shaders\default.vertex" />
+    <None Include="resources\shaders\depth\depth.frag" />
+    <None Include="resources\shaders\depth\depth.vertex" />
+    <None Include="resources\shaders\framebuffer\framebuffer.frag" />
+    <None Include="resources\shaders\framebuffer\framebuffer.vertex" />
     <None Include="resources\shaders\light.frag" />
     <None Include="resources\shaders\light.vertex" />
     <None Include="resources\shaders\standard.frag" />
