@@ -9,6 +9,8 @@
 #include <base/Shader.h>
 #include <base/Texture.h>
 #include <base/Model.h>
+#include <base/FrameBufferTexture.h>
+#include <base/Skybox.h>
 
 #include <entity/GameObject.h>
 
@@ -21,6 +23,7 @@
 #include <component/Renderer.h>
 #include <component/RendererCube.h>
 #include <component/RendererModel.h>
+#include <component/RendererPlane.h>
 
 #include <core/Input.h>
 #include <core/Mouse.h>
@@ -28,8 +31,6 @@
 #include <core/Vertex.h>
 #include <core/Random.h>
 #include <core/FileSystem.h>
-#include <component/RendererPlane.h>
-#include <base/FrameBufferTexture.h>
 
 
 namespace openge {
@@ -95,8 +96,6 @@ namespace openge {
 		}
 	}
 
-	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-	// ---------------------------------------------------------------------------------------------
 	void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	{
 		// make sure the viewport matches the new window dimensions; note that width and 
@@ -128,6 +127,7 @@ namespace openge {
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
 
+		
 		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glEnable.xhtml
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
@@ -149,9 +149,9 @@ namespace openge {
 		initializeCamera();
 		ref<GameObject> mainCamera = EntityManager::getInstance().getMainCamera<GameObject>();
 		ref<Camera> camera = mainCamera->getComponent<Camera>();
-		
-		stbi_set_flip_vertically_on_load(true);
+
 		initializeObjects();
+		ref<Skybox> skybox = initializeSkybox();
 		ref<FrameBufferTexture> framebuffer = initializeFrameBuffer();
 		
 		Vector3 _directionCamera = camera->getFront();
@@ -179,15 +179,16 @@ namespace openge {
 					ref<GameObject> cubo = cubos[i];
 					ref<Renderer> cuboRenderer = cubo->getRenderer();
 					ref<Transform> cuboTransform = cubo->getTransform();
-					ref<Shader> shaderCubo = cuboRenderer->getMaterial()->getShader();
+					ref<Shader> shaderCubo = cuboRenderer->GetMaterial()->getShader();
 					shaderCubo->Bind();
 					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
 
-					cuboRenderer->bind();
-					cuboRenderer->render();
+					cuboRenderer->Bind();
+					cuboRenderer->Render();
 				}
 			}
 
+			skybox->Draw();
 			framebuffer->Draw();
 			Time::toStringFpsAndMs();
 			glfwSwapBuffers(m_window);
@@ -204,15 +205,14 @@ namespace openge {
 		);	
 
 		ref<Texture> crystal = createRef<Texture>(
-			FileSystem::path("resources/texture/Crystal-diffuse.jpg"),
+			FileSystem::path("resources/texture/container2.png"),
 			TextureType::Diffuse,
-			"diffuse",
-			false
+			"diffuse"
 		);
 
 		unsigned int crystalIndex;
 
-		TextureManager::getInstance().add(crystal, crystalIndex);
+		TextureManager::getInstance().Add(crystal, crystalIndex);
 
 		/*
 		*	Configuração dos Cubos com Container2
@@ -221,7 +221,7 @@ namespace openge {
 			// positions all containers
 			std::vector<Vector3> vegetation;
 
-			const int totalNewPositions = 500;
+			const int totalNewPositions = 100;
 			const float range = 5.0f;
 
 			for (int i = 0; i < totalNewPositions; ++i) {
@@ -253,10 +253,10 @@ namespace openge {
 					Vector3(vegetation[i])
 				);
 				
-				rendererCubo->setMaterial(materialCubo);
-				rendererCubo->setTransform(transformCubo);
-				rendererCubo->setMainCamera(camera);
-				rendererCubo->addMesh(meshCubo);
+				rendererCubo->SetMaterial(materialCubo);
+				rendererCubo->SetTransform(transformCubo);
+				rendererCubo->SetMainCamera(camera);
+				rendererCubo->AddMesh(meshCubo);
 
 				cubo->addComponent<Transform>(transformCubo);
 				cubo->addComponent<Renderer>(rendererCubo);
@@ -332,11 +332,35 @@ namespace openge {
 
 		ref<FrameBufferTexture> framebuffer = createRef<FrameBufferTexture>();
 		framebuffer->setShader(shaderFrameBuffer);
+
+		shaderFrameBuffer->Bind();
+		shaderFrameBuffer->setUniform1i("screenTexture", 0);
+
 		return framebuffer;
 	}
 
-	void Engine::initializeSkybox()
+	ref<Skybox> Engine::initializeSkybox()
 	{
+		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
+		ref<Shader> shader = createRef<Shader>(
+			"resources/shaders/skybox/skybox.vertex",
+			"resources/shaders/skybox/skybox.frag"
+		);
+
+		shader->Bind();
+		shader->setUniform1i("skybox", 0);
+
+		std::vector<String> faces
+		{
+			FileSystem::path("resources/texture/skybox/right.jpg"),
+			FileSystem::path("resources/texture/skybox/left.jpg"),
+			FileSystem::path("resources/texture/skybox/top.jpg"),
+			FileSystem::path("resources/texture/skybox/bottom.jpg"),
+			FileSystem::path("resources/texture/skybox/front.jpg"),
+			FileSystem::path("resources/texture/skybox/back.jpg")
+		};
+		ref<Material> material = createRef<Material>(shader);
+		return createRef<Skybox>(material, faces, camera);
 	}
 
 	void Engine::initializeLights()
@@ -367,10 +391,10 @@ namespace openge {
 
 			materialLight->setShader(shaderLight);
 
-			rendererLight->setMaterial(materialLight);
-			rendererLight->setTransform(transformLight);
-			rendererLight->setMainCamera(camera);
-			rendererLight->addMesh(meshLight);
+			rendererLight->SetMaterial(materialLight);
+			rendererLight->SetTransform(transformLight);
+			rendererLight->SetMainCamera(camera);
+			rendererLight->AddMesh(meshLight);
 
 			light->addComponent<Transform>(transformLight);
 			light->addComponent<Light>(dirLight);
@@ -406,10 +430,10 @@ namespace openge {
 
 			materialLight->setShader(shaderLight);
 
-			rendererLight->setMaterial(materialLight);
-			rendererLight->setTransform(transformLight);
-			rendererLight->setMainCamera(camera);
-			rendererLight->addMesh(meshLight);
+			rendererLight->SetMaterial(materialLight);
+			rendererLight->SetTransform(transformLight);
+			rendererLight->SetMainCamera(camera);
+			rendererLight->AddMesh(meshLight);
 
 			light->addComponent<Transform>(transformLight);
 			light->addComponent<Light>(spotLight);
@@ -452,10 +476,10 @@ namespace openge {
 
 				materialLight->setShader(shaderLight);
 
-				rendererLight->setMaterial(materialLight);
-				rendererLight->setTransform(transformLight);
-				rendererLight->setMainCamera(camera);
-				rendererLight->addMesh(meshLight);
+				rendererLight->SetMaterial(materialLight);
+				rendererLight->SetTransform(transformLight);
+				rendererLight->SetMainCamera(camera);
+				rendererLight->AddMesh(meshLight);
 
 				light->addComponent<Transform>(transformLight);
 				light->addComponent<Light>(pointLight);
@@ -480,7 +504,7 @@ namespace openge {
 
 		ref<Transform> transformCamera = createRef <Transform>(
 			Vector3(0.0f, 0.0f, 3.0f),
-			Vector3(1.0f),
+			Vector3(0.0f),
 			Vector3(0.0f)
 		);
 

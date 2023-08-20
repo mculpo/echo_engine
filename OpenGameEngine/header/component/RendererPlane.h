@@ -9,8 +9,8 @@
 namespace openge {
 	class RendererPlane : public Renderer {
 	public:
-		void bind() override;
-		void render() override;
+		void Bind() override;
+		void Render() override;
 	};
 }
 #endif // !__RENDERERPLANE_H__

@@ -14,9 +14,7 @@ namespace openge {
 	public:
 		Texture(const std::string& path);
 		Texture(const std::string& path, TextureType textureType);
-		Texture(const std::string& path, TextureType textureType, bool rgba);
-		Texture(const std::string& path, TextureType textureType, const std::string& name ,bool rgba);
-		Texture(const std::string& path, bool rgba);
+		Texture(const std::string& path, TextureType textureType, const std::string& name);
 		~Texture();
 		
 		const TextureType GetTextureType() const;
@@ -37,7 +35,7 @@ namespace openge {
 		String m_path;
 		String m_name;
 		TextureType m_textureType;
-		bool m_isRGBA;
+		GLenum m_format;
 	};
 }
 

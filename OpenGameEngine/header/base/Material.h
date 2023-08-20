@@ -17,12 +17,7 @@ namespace openge {
 
         void setShader(ref < Shader> shader);
         ref<Shader> getShader() const;
-
-        void setup();
-        void bind();
     private:
-        // Propriedades adicionais
-        std::string m_name;
         ref<Shader> m_shader;
     };
 }

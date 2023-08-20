@@ -10,8 +10,8 @@ namespace openge {
 	class RendererModel : public Renderer
 	{
 	public:
-		void bind() override;
-		void render() override;
+		void Bind() override;
+		void Render() override;
 	};
 }
 

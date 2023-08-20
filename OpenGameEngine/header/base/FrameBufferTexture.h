@@ -22,6 +22,7 @@ namespace openge {
 		ref<Shader> m_shader;
 	public:
 		FrameBufferTexture();
+		~FrameBufferTexture();
 
 		void Draw();
 		void Bind();

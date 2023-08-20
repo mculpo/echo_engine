@@ -15,17 +15,17 @@ namespace openge {
 		Renderer() {}
 		~Renderer() {}
 
-		virtual void bind() = 0;
-		virtual void render() = 0;
+		virtual void Bind() = 0;
+		virtual void Render() = 0;
 
-		void addMesh(Mesh mesh);
-		void setMeshs(std::vector<Mesh> mesh);
-		void setMaterial(ref<Material> material);
-		void setTransform(ref<Transform> transform);
-		void setMainCamera(ref<Camera> camera);
+		void AddMesh(Mesh mesh);
+		void SetMeshs(std::vector<Mesh> mesh);
+		void SetMaterial(ref<Material> material);
+		void SetTransform(ref<Transform> transform);
+		void SetMainCamera(ref<Camera> camera);
 
-		std::vector<Mesh> getMeshs();
-		ref<Material> getMaterial();
+		std::vector<Mesh> GetMeshs();
+		ref<Material> GetMaterial();
 
 	protected:
 		std::vector<Mesh> m_meshs;

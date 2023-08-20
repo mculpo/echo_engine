@@ -129,13 +129,13 @@ namespace openge {
             String filename = String(str.C_Str());
             filename = m_directory + '/' + filename;
 
-            tm.getTextureByPath(filename.c_str(), index_texture);
+            tm.GetTextureByPath(filename.c_str(), index_texture);
             if (index_texture != -1) {
                 textures.push_back(index_texture);
             }
             else {
-                ref<Texture> texture =  createRef<Texture>(filename, typeName, nameTexture, false);
-                tm.add(texture, index_texture);
+                ref<Texture> texture =  createRef<Texture>(filename, typeName, nameTexture);
+                tm.Add(texture, index_texture);
                 textures.push_back(index_texture);
             }
             /*
