@@ -129,7 +129,7 @@ namespace openge {
 		}
 
 		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glEnable.xhtml
-		//glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glBlendFunc.xhtml
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -152,16 +152,8 @@ namespace openge {
 		
 		stbi_set_flip_vertically_on_load(true);
 		initializeObjects();
-
-		ref<Shader> shaderFrameBuffer = createRef<Shader>(
-			"resources/shaders/framebuffer/framebuffer.vertex",
-			"resources/shaders/framebuffer/framebuffer.frag"
-		);
-		//shaderFrameBuffer->setUniform1f("screenTexture", 0);
+		ref<FrameBufferTexture> framebuffer = initializeFrameBuffer();
 		
-		ref<FrameBufferTexture> framebuffer = createRef<FrameBufferTexture>();
-		framebuffer->setShader(shaderFrameBuffer);
-
 		Vector3 _directionCamera = camera->getFront();
 		Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
 		std::vector<ref<GameObject>> cubos = EntityManager::getInstance().findGameObjectsByTag<GameObject>("cubo");
@@ -173,7 +165,7 @@ namespace openge {
 			mouse_input(mainCamera, width, height, m_window);
 
 			framebuffer->Bind();
-			glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
+			glEnable(GL_DEPTH_TEST);
 
 			GLclampf Red = 0.5f, Green = 0.5f, Blue = 0.5f, Alpha = 0.0f;
 			glClearColor(Red, Green, Blue, Alpha);
@@ -189,7 +181,7 @@ namespace openge {
 					ref<Transform> cuboTransform = cubo->getTransform();
 					ref<Shader> shaderCubo = cuboRenderer->getMaterial()->getShader();
 					shaderCubo->Bind();
-					//cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
+					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
 
 					cuboRenderer->bind();
 					cuboRenderer->render();
@@ -197,7 +189,6 @@ namespace openge {
 			}
 
 			framebuffer->Draw();
-
 			Time::toStringFpsAndMs();
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
@@ -208,15 +199,9 @@ namespace openge {
 	{
 		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
 		ref<Shader> shader = createRef<Shader>(
-			"resources/shaders/uniform.vertex",
-			"resources/shaders/uniform.frag"
+			"resources/shaders/uniform/uniform.vertex",
+			"resources/shaders/uniform/uniform.frag"
 		);	
-		ref<Texture> grass = createRef<Texture>(
-			FileSystem::path("resources/texture/grass.png"),
-			TextureType::Diffuse,
-			"diffuse",
-			true
-		);
 
 		ref<Texture> crystal = createRef<Texture>(
 			FileSystem::path("resources/texture/Crystal-diffuse.jpg"),
@@ -225,9 +210,9 @@ namespace openge {
 			false
 		);
 
-		unsigned int grassIndex;
+		unsigned int crystalIndex;
 
-		TextureManager::getInstance().add(crystal, grassIndex);
+		TextureManager::getInstance().add(crystal, crystalIndex);
 
 		/*
 		*	Configuração dos Cubos com Container2
@@ -236,8 +221,8 @@ namespace openge {
 			// positions all containers
 			std::vector<Vector3> vegetation;
 
-			const int totalNewPositions = 10;
-			const float range = 4.0f;
+			const int totalNewPositions = 500;
+			const float range = 5.0f;
 
 			for (int i = 0; i < totalNewPositions; ++i) {
 				float x = Random::Range(-range, range);
@@ -248,35 +233,26 @@ namespace openge {
 				vegetation.push_back(newPosition);
 			}
 
-			/*
-			vegetation.push_back(Vector3(-1.5f, 0.0f, -0.48f));
-			vegetation.push_back(Vector3(1.5f, 0.0f, 0.51f));
-			vegetation.push_back(Vector3(0.0f, 0.0f, 0.7f));
-			vegetation.push_back(Vector3(-0.3f, 0.0f, -2.3f));
-			vegetation.push_back(Vector3(0.5f, 0.0f, -0.6f));
-			*/
+			std::vector<unsigned int> grass_index = { crystalIndex };
 
-			std::vector<unsigned int> grass_index = { grassIndex };
-
+			ref<Material> materialCubo = createRef<Material>();
 			Mesh meshCubo;
 			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
 			meshCubo.setTextures(grass_index);
 			meshCubo.setup();
 
+			materialCubo->setShader(shader);
+
 			for (unsigned int i = 0; i < vegetation.size(); i++) {
 
 				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
-
-				ref<Material> materialCubo = createRef<Material>();
 				ref<Renderer> rendererCubo = createRef<RendererCube>();
 				ref<Transform> transformCubo = createRef<Transform>(
 					Vector3(vegetation[i]),
 					Vector3(1.0f),
-					Vector3(0.0f, 0.0f, 0.0f)
+					Vector3(vegetation[i])
 				);
-				//
-				materialCubo->setShader(shader);
-
+				
 				rendererCubo->setMaterial(materialCubo);
 				rendererCubo->setTransform(transformCubo);
 				rendererCubo->setMainCamera(camera);
@@ -345,6 +321,22 @@ namespace openge {
 			}
 		}
 		*/
+	}
+
+	ref<FrameBufferTexture> Engine::initializeFrameBuffer()
+	{
+		ref<Shader> shaderFrameBuffer = createRef<Shader>(
+			"resources/shaders/framebuffer/framebuffer.vertex",
+			"resources/shaders/framebuffer/framebuffer.frag"
+			);
+
+		ref<FrameBufferTexture> framebuffer = createRef<FrameBufferTexture>();
+		framebuffer->setShader(shaderFrameBuffer);
+		return framebuffer;
+	}
+
+	void Engine::initializeSkybox()
+	{
 	}
 
 	void Engine::initializeLights()
