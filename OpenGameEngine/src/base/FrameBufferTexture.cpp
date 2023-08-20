@@ -18,6 +18,9 @@ namespace openge {
 
 		Unbind();
 	}
+	FrameBufferTexture::~FrameBufferTexture()
+	{
+	}
 	void FrameBufferTexture::Draw()
 	{
 		Unbind();

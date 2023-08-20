@@ -143,7 +143,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="header\base\TextureCubeMap.h" />
     <ClCompile Include="src\base\FrameBufferTexture.cpp" />
+    <ClCompile Include="src\base\Skybox.cpp" />
+    <ClCompile Include="src\base\TextureCubeMap.cpp" />
     <ClCompile Include="src\component\RendererModel.cpp" />
     <ClCompile Include="src\base\Model.cpp" />
     <ClCompile Include="src\component\RendererCube.cpp" />
@@ -168,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\base\FrameBufferTexture.h" />
+    <ClInclude Include="header\base\Skybox.h" />
     <ClInclude Include="header\component\RendererModel.h" />
     <ClInclude Include="header\base\Model.h" />
     <ClInclude Include="header\component\RendererCube.h" />
@@ -211,15 +215,6 @@
     <ClInclude Include="header\gl\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\models\backpack\backpack - Atalho.lnk" />
-    <None Include="resources\models\backpack\backpack.mtl" />
-    <None Include="resources\models\M4A1\M4A1.3ds" />
-    <None Include="resources\models\M4A1\M4A1.c4d" />
-    <None Include="resources\models\M4A1\M4A1.dae" />
-    <None Include="resources\models\M4A1\M4A1.fbx" />
-    <None Include="resources\models\M4A1\M4A1.mb" />
-    <None Include="resources\models\M4A1\M4A1.mtl" />
-    <None Include="resources\models\spider\Only_Spider_with_Animations_Export.mtl" />
     <None Include="resources\shaders\default\default.frag" />
     <None Include="resources\shaders\default\default.vertex" />
     <None Include="resources\shaders\depth\depth.frag" />
@@ -236,19 +231,6 @@
     <None Include="resources\shaders\uniform\uniform.vertex" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\models\backpack\ao.jpg" />
-    <Image Include="resources\models\backpack\diffuse.jpg" />
-    <Image Include="resources\models\backpack\normal.png" />
-    <Image Include="resources\models\backpack\roughness.jpg" />
-    <Image Include="resources\models\backpack\specular.jpg" />
-    <Image Include="resources\models\M4A1\Chasieboy317.jpg" />
-    <Image Include="resources\models\M4A1\M4A1 render.jpeg" />
-    <Image Include="resources\models\spider\textures\haar_detail_NRM.jpg" />
-    <Image Include="resources\models\spider\textures\SH3.png" />
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex.jpg" />
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex_2.jpg" />
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex_COLOR_.jpg" />
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex_COLOR_.png" />
     <Image Include="resources\texture\awesomeface.png" />
     <Image Include="resources\texture\container.jpg" />
     <Image Include="resources\texture\container2.png" />
@@ -262,15 +244,6 @@
     <Image Include="resources\texture\skybox\left.jpg" />
     <Image Include="resources\texture\skybox\right.jpg" />
     <Image Include="resources\texture\skybox\top.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="resources\models\backpack\backpack.obj" />
-    <Object Include="resources\models\M4A1\M4A1.obj" />
-    <Object Include="resources\models\spider\Only_Spider_with_Animations_Export.obj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="resources\models\backpack\source_attribution.txt" />
-    <Text Include="resources\models\spider\Readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

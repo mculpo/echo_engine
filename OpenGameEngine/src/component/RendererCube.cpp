@@ -1,6 +1,6 @@
 #include <component/RendererCube.h>
 namespace openge {
-    void RendererCube::bind()
+    void RendererCube::Bind()
     {
         Matrix4 view = m_mainCamera->getViewMatrix();
         Matrix4 projection = m_mainCamera->getProjectionMatrix();
@@ -10,7 +10,7 @@ namespace openge {
         m_material->getShader()->setUniformMatrix4fv("projection", projection);
         m_material->getShader()->setUniformMatrix4fv("model", model);
     }
-    void RendererCube::render()
+    void RendererCube::Render()
     {
         for (const auto& mesh: m_meshs) {
             mesh.bindTexture(m_material);

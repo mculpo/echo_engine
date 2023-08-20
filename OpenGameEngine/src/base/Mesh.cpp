@@ -89,7 +89,7 @@ namespace openge {
 		{
 			glActiveTexture(GL_TEXTURE0 + i); 
 			String number;
-			ref<Texture> texture = TextureManager::getInstance().getTextureByIndex(m_index_textures[i]);
+			ref<Texture> texture = TextureManager::getInstance().GetTextureByIndex(m_index_textures[i]);
 			TextureType textureType = texture->GetTextureType();
 			if (textureType == TextureType::Diffuse)
 				number = std::to_string(diffuseNr++);

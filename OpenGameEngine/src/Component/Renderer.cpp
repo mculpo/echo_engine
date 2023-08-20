@@ -2,36 +2,36 @@
 
 namespace openge {
 
-	void Renderer::addMesh(Mesh mesh)
+	void Renderer::AddMesh(Mesh mesh)
 	{
 		m_meshs.push_back(mesh);
 	}
 
-	void Renderer::setMeshs(std::vector<Mesh> mesh)
+	void Renderer::SetMeshs(std::vector<Mesh> mesh)
 	{
 		m_meshs = mesh;
 	}
 
-	void Renderer::setMaterial(ref<Material> material)
+	void Renderer::SetMaterial(ref<Material> material)
 	{
 		m_material = material;
 	}
 
-	void Renderer::setTransform(ref<Transform> transform)
+	void Renderer::SetTransform(ref<Transform> transform)
 	{
 		m_transform = transform;
 	}
 
-	void Renderer::setMainCamera(ref<Camera> camera)
+	void Renderer::SetMainCamera(ref<Camera> camera)
 	{
 		m_mainCamera = camera;
 	}
 
-	std::vector<Mesh> Renderer::getMeshs()
+	std::vector<Mesh> Renderer::GetMeshs()
 	{
 		return m_meshs;
 	}
-	ref<Material> Renderer::getMaterial()
+	ref<Material> Renderer::GetMaterial()
 	{
 		return m_material;
 	}

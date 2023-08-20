@@ -1,6 +1,7 @@
 #pragma once
 #include <core/core.h>
 #include <base/FrameBufferTexture.h>
+#include <base/Skybox.h>
 namespace openge {
 	class Engine
 	{
@@ -10,7 +11,7 @@ namespace openge {
 		void run();
 		void initializeObjects();
 		ref<FrameBufferTexture> initializeFrameBuffer();
-		void initializeSkybox();
+		ref<Skybox> initializeSkybox();
 		void initializeLights();
 		void initializeCamera();
 	private:

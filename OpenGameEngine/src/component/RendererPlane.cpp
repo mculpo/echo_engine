@@ -1,7 +1,7 @@
 #include <component/RendererPlane.h>
 
 namespace openge {
-    void RendererPlane::bind()
+    void RendererPlane::Bind()
     {
         Matrix4 view = m_mainCamera->getViewMatrix();
         Matrix4 projection = m_mainCamera->getProjectionMatrix();
@@ -12,7 +12,7 @@ namespace openge {
         m_material->getShader()->setUniformMatrix4fv("model", model);
     }
 
-    void RendererPlane::render()
+    void RendererPlane::Render()
     {
         for (const auto& mesh : m_meshs) {
             mesh.bindTexture(m_material);

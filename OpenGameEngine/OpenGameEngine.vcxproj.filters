@@ -84,6 +84,15 @@
     <ClCompile Include="src\base\FrameBufferTexture.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="header\base\TextureCubeMap.h">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\TextureCubeMap.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\Skybox.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\Engine.h">
@@ -212,6 +221,9 @@
     <ClInclude Include="header\core\VertexQuad.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="header\base\Skybox.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\uniform\uniform.frag" />
@@ -228,15 +240,6 @@
     <None Include="resources\shaders\framebuffer\framebuffer.vertex" />
     <None Include="resources\shaders\skybox\skybox.frag" />
     <None Include="resources\shaders\skybox\skybox.vertex" />
-    <None Include="resources\models\backpack\backpack - Atalho.lnk" />
-    <None Include="resources\models\backpack\backpack.mtl" />
-    <None Include="resources\models\M4A1\M4A1.3ds" />
-    <None Include="resources\models\M4A1\M4A1.c4d" />
-    <None Include="resources\models\M4A1\M4A1.dae" />
-    <None Include="resources\models\M4A1\M4A1.fbx" />
-    <None Include="resources\models\M4A1\M4A1.mb" />
-    <None Include="resources\models\M4A1\M4A1.mtl" />
-    <None Include="resources\models\spider\Only_Spider_with_Animations_Export.mtl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\texture\container.jpg">
@@ -278,53 +281,5 @@
     <Image Include="resources\texture\skybox\top.jpg">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
-    <Image Include="resources\models\backpack\ao.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\backpack\diffuse.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\backpack\normal.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\backpack\roughness.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\backpack\specular.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\M4A1\Chasieboy317.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\M4A1\M4A1 render.jpeg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\spider\textures\haar_detail_NRM.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\spider\textures\SH3.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex_COLOR_.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex_COLOR_.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="resources\models\spider\textures\Spinnen_Bein_tex_2.jpg">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="resources\models\backpack\backpack.obj" />
-    <Object Include="resources\models\M4A1\M4A1.obj" />
-    <Object Include="resources\models\spider\Only_Spider_with_Animations_Export.obj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="resources\models\backpack\source_attribution.txt" />
-    <Text Include="resources\models\spider\Readme.txt" />
   </ItemGroup>
 </Project>
