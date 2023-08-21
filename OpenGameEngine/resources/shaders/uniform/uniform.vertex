@@ -6,9 +6,15 @@ layout (location = 2) in vec2 aTexCoord;
 out vec2 texCoord;
 out vec3 color;
 
+
+// Define the UBO binding point
+layout(std140, binding = 0) uniform Matrices {
+	// mat4² or mat4 * mat4 < - > size bytes
+    mat4 projection; 
+    mat4 view;  
+};
+
 uniform  mat4 model;
-uniform  mat4 view;
-uniform  mat4 projection;
 
 void main () 
 {

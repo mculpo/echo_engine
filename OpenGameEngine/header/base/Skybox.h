@@ -11,10 +11,6 @@
 namespace openge {
 	class Skybox {
 	public:
-		Skybox();
-		Skybox(ref<Material> material);
-		Skybox(std::vector<String> pathTexture);
-		Skybox(ref<Material> material, std::vector<String> pathTexture);
 		Skybox(ref<Material> material, std::vector<String> pathTexture, ref<Camera> mainCamera);
 		~Skybox();
 

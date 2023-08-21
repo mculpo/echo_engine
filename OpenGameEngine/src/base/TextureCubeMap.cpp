@@ -1,43 +1,25 @@
 #include <base/TextureCubeMap.h>
 
 namespace openge {
-
-	TextureCubeMap::TextureCubeMap()
-	{
-		glGenTextures(1, &m_rendererID);
-	}
-
 	TextureCubeMap::TextureCubeMap(std::vector<String> paths) : m_paths(paths)
 	{
-		glGenTextures(1, &m_rendererID);
+		glGenTextures(1, &m_textureId);
 		Bind();
 		LoadCubeMap();
 	}
 
-	void TextureCubeMap::SetPath(String& path)
-	{
-		m_paths.push_back(path);
-	}
-	void TextureCubeMap::SetPaths(std::vector<String> paths)
-	{
-		m_paths.insert(m_paths.end(), paths.begin(), paths.end());
-	}
+	TextureCubeMap::~TextureCubeMap() {}
+
 	void TextureCubeMap::Bind()
 	{
-		glBindTexture(GL_TEXTURE_CUBE_MAP, m_rendererID);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureId);
 	}
+
 	void TextureCubeMap::Unbind()
 	{
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	}
-	unsigned int TextureCubeMap::GetId()
-	{
-		return m_rendererID;
-	}
-	std::vector<String> TextureCubeMap::GetPaths() const
-	{
-		return m_paths;
-	}
+
 	void TextureCubeMap::LoadCubeMap()
 	{
 		stbi_set_flip_vertically_on_load(false);
@@ -57,7 +39,6 @@ namespace openge {
 			}
 			else
 			{
-				
 				stbi_image_free(data);
 			}
 		}
@@ -66,5 +47,25 @@ namespace openge {
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	}
+
+	unsigned int TextureCubeMap::GetId()
+	{
+		return m_textureId;
+	}
+
+	void TextureCubeMap::SetPath(String& path)
+	{
+		m_paths.push_back(path);
+	}
+
+	void TextureCubeMap::SetPaths(std::vector<String> paths)
+	{
+		m_paths.insert(m_paths.end(), paths.begin(), paths.end());
+	}
+
+	std::vector<String> TextureCubeMap::GetPaths() const
+	{
+		return m_paths;
 	}
 }

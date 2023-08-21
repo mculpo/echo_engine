@@ -1,22 +1,8 @@
 #include <base/Skybox.h>
 namespace openge {
-	Skybox::Skybox()
-	{
-		Setup();
-	}
-	Skybox::Skybox(ref<Material> material) : m_material (material)
-	{
-		Setup();
-	}
-	Skybox::Skybox(std::vector<String> pathTexture) : m_path_textures(pathTexture)
-	{
-		Setup();
-	}
-	Skybox::Skybox(ref<Material> material, std::vector<String> pathTexture) : m_material(material), m_path_textures(pathTexture)
-	{
-		Setup();
-	}
-	Skybox::Skybox(ref<Material> material, std::vector<String> pathTexture, ref<Camera> mainCamera) : m_material(material), m_path_textures(pathTexture), m_mainCamera(mainCamera)
+
+	Skybox::Skybox(ref<Material> material, std::vector<String> pathTexture, ref<Camera> mainCamera) 
+		: m_material(material), m_path_textures(pathTexture), m_mainCamera(mainCamera)
 	{
 		Setup();
 	}
@@ -35,11 +21,8 @@ namespace openge {
 	}
 	void Skybox::Draw()
 	{
-		ref<Shader> shader = m_material->getShader();
+		m_material->getShader()->Bind();
 		glDepthFunc(GL_LEQUAL);// change depth function so depth test passes when values are equal to depth buffer's content
-		shader->Bind();
-		shader->setUniformMatrix4fv("view", Matrix4(Matrix3(m_mainCamera->getViewMatrix())));
-		shader->setUniformMatrix4fv("projection", m_mainCamera->getProjectionMatrix());
 
 		// skybox-cube
 		m_vao->Bind(); 
