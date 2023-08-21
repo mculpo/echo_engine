@@ -5,6 +5,7 @@
 namespace openge {
 	class TextureCubeMap {
 	public:
+		TextureCubeMap();
 		TextureCubeMap(std::vector<String> paths);
 		~TextureCubeMap();
 		

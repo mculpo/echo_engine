@@ -1,7 +1,10 @@
 #include <base/TextureCubeMap.h>
 
 namespace openge {
-	TextureCubeMap::TextureCubeMap(std::vector<String> paths) : m_paths(paths)
+	TextureCubeMap::TextureCubeMap()
+	{
+	}
+	TextureCubeMap::TextureCubeMap(std::vector<String> paths) : m_paths(std::move(paths))
 	{
 		glGenTextures(1, &m_textureId);
 		Bind();
