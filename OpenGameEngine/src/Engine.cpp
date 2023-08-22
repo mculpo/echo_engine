@@ -157,20 +157,13 @@ namespace openge {
 		ref<Skybox> skybox = initializeSkybox();
 		ref<FrameBufferTexture> framebuffer = initializeFrameBuffer();
 		
-		ref<UniformBuffer> ubo_matrix = createRef<UniformBuffer>("Matrices", sizeof(Matrix4) * 2, 0);
+		ref<UniformBuffer> ubo_matrices = createRef<UniformBuffer>("Matrices", sizeof(Matrix4) * 2, 0);
 
-		ubo_matrix->BindToBlock(MaterialManager::GetMaterial("uniform")->getShader()->getProgram());
-		ubo_matrix->BindToBlock(MaterialManager::GetMaterial("skybox")->getShader()->getProgram());
+		ubo_matrices->BindToBlock(MaterialManager::GetMaterial("uniform")->getShader()->getProgram());
+		ubo_matrices->BindToBlock(MaterialManager::GetMaterial("skybox")->getShader()->getProgram());
+		ubo_matrices->BindBufferRange();
 
-		ubo_matrix->BindBufferRange();
-
-		ubo_matrix->Update(
-			0, 
-			sizeof(Matrix4), 
-			glm::value_ptr(
-				camera->getProjectionMatrix()
-			)
-		);
+		ubo_matrices->Update(0, sizeof(Matrix4), glm::value_ptr(camera->getProjectionMatrix()));
 		
 		Vector3 _directionCamera = camera->getFront();
 		Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
@@ -189,7 +182,7 @@ namespace openge {
 			glClearColor(Red, Green, Blue, Alpha);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			ubo_matrix->Update(
+			ubo_matrices->Update(
 				sizeof(Matrix4), 
 				sizeof(Matrix4), 
 				glm::value_ptr(
@@ -213,15 +206,9 @@ namespace openge {
 					cuboRenderer->Render();
 				}
 			}
-			ubo_matrix->Update(
-				sizeof(Matrix4), 
-				sizeof(Matrix4), 
-				glm::value_ptr(
-					Matrix4(
-						Matrix3(camera->getViewMatrix())
-					)
-				)
-			);
+
+			ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(Matrix4(Matrix3(camera->getViewMatrix()))));
+
 			skybox->Draw();
 			framebuffer->Draw();
 			Time::toStringFpsAndMs();
@@ -251,8 +238,8 @@ namespace openge {
 			// positions all containers
 			std::vector<Vector3> positionRandom;
 
-			const int totalNewPositions = 500;
-			const float range = 5.0f;
+			const int totalNewPositions = 300;
+			const float range = 10.0f;
 
 			for (int i = 0; i < totalNewPositions; ++i) {
 				float x = Random::Range(-range, range);

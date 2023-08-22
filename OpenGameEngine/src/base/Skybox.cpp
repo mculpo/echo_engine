@@ -2,7 +2,7 @@
 namespace openge {
 
 	Skybox::Skybox(ref<Material> material, std::vector<String> pathTexture, ref<Camera> mainCamera) 
-		: m_material(material), m_path_textures(pathTexture), m_mainCamera(mainCamera)
+		: m_material(material), m_path_textures(std::move(pathTexture)), m_mainCamera(mainCamera)
 	{
 		Setup();
 	}

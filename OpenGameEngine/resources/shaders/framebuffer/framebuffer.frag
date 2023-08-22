@@ -7,7 +7,7 @@ uniform sampler2D screenTexture; // Textura de cor
 uniform vec2 resolution = vec2(1280, 720); // Tamanho do pixel (largura x altura)
 
 // Tamanho da grade de pixelização
-uniform float pixelSize = 3.5;
+uniform float pixelSize = 3.2;
 
 void main()
 {
