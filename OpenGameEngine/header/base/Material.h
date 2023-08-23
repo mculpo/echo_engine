@@ -15,10 +15,17 @@ namespace openge {
         Material(ref<Shader> shader);
         ~Material();
 
+        void SetInstanced(bool instanced);
         void setShader(ref < Shader> shader);
+        void SetAmountInstancedObject(unsigned int amount);
+
         ref<Shader> getShader() const;
+        bool GetInstanced();
+        unsigned int GetAmountInstancedObject();
     private:
         ref<Shader> m_shader;
+        bool m_isInstanced;
+        unsigned int m_amountInstancedObject;
     };
 }
 #endif

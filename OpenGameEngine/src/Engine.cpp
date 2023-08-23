@@ -11,7 +11,6 @@
 #include <base/Texture.h>
 #include <base/Model.h>
 #include <base/FrameBufferTexture.h>
-#include <base/Skybox.h>
 
 #include <entity/GameObject.h>
 
@@ -33,6 +32,7 @@
 #include <core/Vertex.h>
 #include <core/Random.h>
 #include <core/FileSystem.h>
+#include <base/InstancedBuffer.h>
 
 
 namespace openge {
@@ -154,13 +154,14 @@ namespace openge {
 		ref<Camera> camera = mainCamera->getComponent<Camera>();
 
 		initializeObjects();
-		ref<Skybox> skybox = initializeSkybox();
+		InstancedBuffer::getInstance().Bind();
+		//ref<Skybox> skybox = initializeSkybox();
 		ref<FrameBufferTexture> framebuffer = initializeFrameBuffer();
 		
 		ref<UniformBuffer> ubo_matrices = createRef<UniformBuffer>("Matrices", sizeof(Matrix4) * 2, 0);
 
 		ubo_matrices->BindToBlock(MaterialManager::GetMaterial("uniform")->getShader()->getProgram());
-		ubo_matrices->BindToBlock(MaterialManager::GetMaterial("skybox")->getShader()->getProgram());
+		//ubo_matrices->BindToBlock(MaterialManager::GetMaterial("skybox")->getShader()->getProgram());
 		ubo_matrices->BindBufferRange();
 
 		ubo_matrices->Update(0, sizeof(Matrix4), glm::value_ptr(camera->getProjectionMatrix()));
@@ -178,17 +179,10 @@ namespace openge {
 			framebuffer->Bind();
 			glEnable(GL_DEPTH_TEST);
 
-			GLclampf Red = 0.5f, Green = 0.5f, Blue = 0.5f, Alpha = 0.0f;
-			glClearColor(Red, Green, Blue, Alpha);
+			glClearColor(RED, GREEN, BLUE, ALPHA);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			ubo_matrices->Update(
-				sizeof(Matrix4), 
-				sizeof(Matrix4), 
-				glm::value_ptr(
-					camera->getViewMatrix()
-				)
-			);
+			ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4),glm::value_ptr(camera->getViewMatrix()));
 
 			/**
 			* Renderer Box's GameObject
@@ -197,19 +191,18 @@ namespace openge {
 				for (unsigned int i = 0; i < cubos.size(); i++) {
 					ref<GameObject> cubo = cubos[i];
 					ref<Renderer> cuboRenderer = cubo->getRenderer();
-					ref<Transform> cuboTransform = cubo->getTransform();
 					ref<Shader> shaderCubo = cuboRenderer->GetMaterial()->getShader();
 					shaderCubo->Bind();
-					cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
+					//cuboTransform->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)(Time::deltaTime()));
 
-					cuboRenderer->Bind();
+					//cuboRenderer->Bind();
 					cuboRenderer->Render();
 				}
 			}
 
-			ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(Matrix4(Matrix3(camera->getViewMatrix()))));
+			//ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(Matrix4(Matrix3(camera->getViewMatrix()))));
 
-			skybox->Draw();
+			//skybox->Draw();
 			framebuffer->Draw();
 			Time::toStringFpsAndMs();
 			glfwSwapBuffers(m_window);
@@ -221,8 +214,8 @@ namespace openge {
 	{
 		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
 		ref<Shader> shader = createRef<Shader>(
-			"resources/shaders/uniform/uniform.vertex",
-			"resources/shaders/uniform/uniform.frag"
+			FileSystem::path("resources/shaders/uniform/uniform.vertex"),
+			FileSystem::path("resources/shaders/uniform/uniform.frag")
 		);	
 
 		ref<Texture> crystal = createRef<Texture>(
@@ -238,29 +231,32 @@ namespace openge {
 			// positions all containers
 			std::vector<Vector3> positionRandom;
 
-			const int totalNewPositions = 300;
-			const float range = 10.0f;
+			const int totalNewPositions = 1000;
+			const float range_x = 1.0f;
+			const float range_y = 10.0f;
 
 			for (int i = 0; i < totalNewPositions; ++i) {
-				float x = Random::Range(-range, range);
-				float y = Random::Range(-range, range);
-				float z = Random::Range(-range, range);
+				float x = Random::Range(range_x, range_y);
+				float y = Random::Range(range_x, range_y);
+				float z = Random::Range(range_x, range_y);
 				Vector3 newPosition(x, y, z);
 
 				positionRandom.push_back(newPosition);
 			}
 
 			std::vector<unsigned int> grass_index = { crystalIndex };
-
 			ref<Material> materialCubo = createRef<Material>();
+
 			Mesh meshCubo;
 			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
 			meshCubo.setTextures(grass_index);
 			meshCubo.setup();
 
 			materialCubo->setShader(shader);
+			materialCubo->SetInstanced(true);
 
 			MaterialManager::AddMaterial("uniform", materialCubo);
+			InstancedBuffer::getInstance().SetMaterial(materialCubo);
 
 			for (unsigned int i = 0; i < positionRandom.size(); i++) {
 
@@ -282,6 +278,7 @@ namespace openge {
 				cubo->setTransform(transformCubo);
 				cubo->setRenderer(rendererCubo);
 				EntityManager::getInstance().addEntity<GameObject>(cubo);
+				InstancedBuffer::getInstance().AddGameObject(cubo);
 			}
 		}
 		/*
@@ -357,7 +354,7 @@ namespace openge {
 
 		return framebuffer;
 	}
-
+	/*
 	ref<Skybox> Engine::initializeSkybox()
 	{
 		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
@@ -369,7 +366,7 @@ namespace openge {
 		shader->Bind();
 		shader->setUniform1i("skybox", 0);
 
-		std::vector<String> faces
+		ref<std::vector<String>> sharedFaces = createRef<std::vector<String>>(std::vector<String>
 		{
 			FileSystem::path("resources/texture/skybox/right.jpg"),
 			FileSystem::path("resources/texture/skybox/left.jpg"),
@@ -377,13 +374,15 @@ namespace openge {
 			FileSystem::path("resources/texture/skybox/bottom.jpg"),
 			FileSystem::path("resources/texture/skybox/front.jpg"),
 			FileSystem::path("resources/texture/skybox/back.jpg")
-		};
+		});
+
 		ref<Material> material = createRef<Material>(shader);
 		MaterialManager::AddMaterial("skybox", material);
-		ref<Skybox> skybox = createRef<Skybox>(material, faces, camera);
+		ref<Skybox> skybox = createRef<Skybox>(material, camera);
+		skybox->SetTexture(sharedFaces);
 		return skybox;
 	}
-
+	*/
 	void Engine::initializeLights()
 	{
 		ref<Shader> shaderLight = createRef<Shader>("resources/shaders/light.vertex", "resources/shaders/light.frag");

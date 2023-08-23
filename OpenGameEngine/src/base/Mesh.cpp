@@ -12,13 +12,12 @@ namespace openge {
 		setVBO(std::make_shared<VertexBufferObject>(m_vertices.data(), m_vertices.size() * sizeof(Vertex), GL_STATIC_DRAW));
 		setEBO(std::make_shared<ElementBufferObject>(m_indices.data(), m_indices.size() * sizeof(unsigned int), GL_STATIC_DRAW));
 		
-		m_vao->AddLayout(3, VP_FLOAT); // aPos
-		m_vao->AddLayout(3, VP_FLOAT); // aNormal or aColor
-		m_vao->AddLayout(2, VP_FLOAT); // aTexCoords
+		m_vao->AddLayout(3, VP_FLOAT); // 0 aPos 
+		m_vao->AddLayout(3, VP_FLOAT); // 1 aNormal or aColor
+		m_vao->AddLayout(2, VP_FLOAT); // 2 aTexCoords
 
-		m_vao->AddLayout(3, VP_FLOAT); // aTangent
-		m_vao->AddLayout(3, VP_FLOAT); // aBitangent
-
+		m_vao->AddLayout(3, VP_FLOAT); // 3 aTangent
+		m_vao->AddLayout(3, VP_FLOAT); // 4 aBitangent
 		m_vao->runLayout();
 
 		m_vbo->Unbind();
@@ -62,6 +61,11 @@ namespace openge {
 	void Mesh::setEBO(ref<ElementBufferObject> ebo) 
 	{
 		m_ebo = std::move(ebo);
+	}
+
+	ref<VertexArrayObject> Mesh::GetVAO()
+	{
+		return m_vao;
 	}
 
 	const std::vector<unsigned int>& Mesh::GetIndices() const {
