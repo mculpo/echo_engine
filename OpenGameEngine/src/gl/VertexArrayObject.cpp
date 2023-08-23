@@ -55,4 +55,8 @@ namespace openge {
 			_layoutCount++;
 		}
 	}
+	unsigned int VertexArrayObject::GetId()
+	{
+		return m_rendererID;
+	}
 }

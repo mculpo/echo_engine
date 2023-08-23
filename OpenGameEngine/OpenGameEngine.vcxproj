@@ -143,10 +143,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="header\base\TextureCubeMap.h" />
     <ClCompile Include="src\base\FrameBufferTexture.cpp" />
-    <ClCompile Include="src\base\Skybox.cpp" />
-    <ClCompile Include="src\base\TextureCubeMap.cpp" />
+    <ClCompile Include="src\base\InstancedBuffer.cpp" />
     <ClCompile Include="src\component\RendererModel.cpp" />
     <ClCompile Include="src\base\Model.cpp" />
     <ClCompile Include="src\component\RendererCube.cpp" />
@@ -172,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\base\FrameBufferTexture.h" />
-    <ClInclude Include="header\base\Skybox.h" />
+    <ClInclude Include="header\base\InstancedBuffer.h" />
     <ClInclude Include="header\component\RendererModel.h" />
     <ClInclude Include="header\base\Model.h" />
     <ClInclude Include="header\component\RendererCube.h" />
@@ -188,6 +186,7 @@
     <ClInclude Include="header\gl\RenderBufferObject.h" />
     <ClInclude Include="header\gl\TextureColorBuffer.h" />
     <ClInclude Include="header\gl\UniformBuffer.h" />
+    <ClInclude Include="header\manager\InstancedBufferManager.h" />
     <ClInclude Include="header\manager\MaterialManager.h" />
     <ClInclude Include="header\manager\ShapeVerticesManager.h" />
     <ClInclude Include="header\manager\TextureManager.h" />

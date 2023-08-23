@@ -44,6 +44,11 @@
 #define WIDTH 1280
 #define HEIGHT 720
 
+#define RED 0.2f
+#define GREEN 0.3f
+#define BLUE 0.5f
+#define ALPHA 0.0f
+
 #include <stb_image.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

@@ -36,6 +36,8 @@ namespace openge {
 		void setVBO(ref<VertexBufferObject> vbo);
 		void setEBO(ref<ElementBufferObject> ebo);
 
+		ref<VertexArrayObject> GetVAO();
+
 		const std::vector<unsigned int>& GetIndices() const;
 		const std::vector<Vertex>& GetVertices() const;
 		const std::vector<unsigned int>& GetTextures() const;

@@ -19,6 +19,8 @@ namespace openge {
 		void AddLayout(int size, VertexPointerEnum type);
 		void runLayout();
 		void disableLayout();
+
+		unsigned int GetId();
 	private:
 		unsigned int m_rendererID;
 		/*
