@@ -89,6 +89,11 @@ namespace openge {
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
+
+		//material->getShader()->setUniform1i("normal", 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, TextureManager::getInstance().GetTextureByIndex(m_index_textures[0])->GetTexture());
+		/*
 		for (unsigned int i = 0; i < m_index_textures.size(); i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i); 
@@ -104,9 +109,10 @@ namespace openge {
 			else if (textureType == TextureType::Height)
 				number = std::to_string(heightNr++); // transfer unsigned int to string
 
-			material->getShader()->setUniform1i(texture->GetName(), i);
+			//material->getShader()->setUniform1i(texture->GetName(), i);
 			glBindTexture(GL_TEXTURE_2D, texture->GetTexture());
 		}
+		*/
 	}
 
 	void Mesh::useVAO() const

@@ -186,7 +186,7 @@ namespace openge {
 
 			/**
 			* Renderer Box's GameObject
-			*/
+			
 			{
 				for (unsigned int i = 0; i < cubos.size(); i++) {
 					ref<GameObject> cubo = cubos[i];
@@ -198,8 +198,8 @@ namespace openge {
 					//cuboRenderer->Bind();
 					cuboRenderer->Render();
 				}
-			}
-
+			}*/
+			InstancedBuffer::getInstance().UpdateInstanced();
 			//ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(Matrix4(Matrix3(camera->getViewMatrix()))));
 
 			//skybox->Draw();
@@ -218,60 +218,53 @@ namespace openge {
 			FileSystem::path("resources/shaders/uniform/uniform.frag")
 		);	
 
-		ref<Texture> crystal = createRef<Texture>(
-			FileSystem::path("resources/texture/container2.png"),
-			TextureType::Diffuse,
-			"diffuse"
-		);
-
-		unsigned int crystalIndex;
-
-		TextureManager::getInstance().Add(crystal, crystalIndex);
+		ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/rock/rock.obj"));
 		{
-			// positions all containers
-			std::vector<Vector3> positionRandom;
+			const int totalNewPositions = 100000;
 
-			const int totalNewPositions = 1000;
-			const float range_x = 1.0f;
-			const float range_y = 10.0f;
-
-			for (int i = 0; i < totalNewPositions; ++i) {
-				float x = Random::Range(range_x, range_y);
-				float y = Random::Range(range_x, range_y);
-				float z = Random::Range(range_x, range_y);
-				Vector3 newPosition(x, y, z);
-
-				positionRandom.push_back(newPosition);
-			}
-
-			std::vector<unsigned int> grass_index = { crystalIndex };
 			ref<Material> materialCubo = createRef<Material>();
-
-			Mesh meshCubo;
-			meshCubo.setVertices(ShapeVerticesManager::getInstance().getCubeVertices());
-			meshCubo.setTextures(grass_index);
-			meshCubo.setup();
 
 			materialCubo->setShader(shader);
 			materialCubo->SetInstanced(true);
 
 			MaterialManager::AddMaterial("uniform", materialCubo);
 			InstancedBuffer::getInstance().SetMaterial(materialCubo);
+			InstancedBuffer::getInstance().SetMesh(ourModel->m_meshs);
 
-			for (unsigned int i = 0; i < positionRandom.size(); i++) {
+			srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
+			float radius = 50.0;
+			float offset = 2.5f;
+
+			for (unsigned int i = 0; i < totalNewPositions; i++) {
+
+				// 1. translation: displace along circle with 'radius' in range [-offset, offset]
+				float angle = (float)i / (float)totalNewPositions * 360.0f;
+				float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+				float x = sin(angle) * radius + displacement;
+				displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+				float y = displacement * 0.4f; // keep height of asteroid field smaller compared to width of x and z
+				displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+				float z = cos(angle) * radius + displacement;
+
+				// 2. scale: Scale between 0.05 and 0.25f
+				float scale = static_cast<float>((rand() % 20) / 100.0 + 0.05);
+
+				// 3. rotation: add random rotation around a (semi)randomly picked rotation axis vector
+				float rotAngle = static_cast<float>((rand() % 360));
+
 
 				ref<GameObject> cubo = createRef<GameObject>(i, "cubo", "cubo");
-				ref<Renderer> rendererCubo = createRef<RendererCube>();
+				ref<Renderer> rendererCubo = createRef<RendererModel>();
 				ref<Transform> transformCubo = createRef<Transform>(
-					Vector3(positionRandom[i]),
-					Vector3(1.0f),
-					Vector3(positionRandom[i])
+					Vector3(glm::vec3(x, y, z)),
+					Vector3(glm::vec3(scale)),
+					Vector3(glm::vec3(0.4f, 0.6f, 0.8f) * rotAngle)
 				);
 				
 				rendererCubo->SetMaterial(materialCubo);
 				rendererCubo->SetTransform(transformCubo);
 				rendererCubo->SetMainCamera(camera);
-				rendererCubo->AddMesh(meshCubo);
+				rendererCubo->SetMeshs(ourModel->m_meshs);
 
 				cubo->addComponent<Transform>(transformCubo);
 				cubo->addComponent<Renderer>(rendererCubo);
