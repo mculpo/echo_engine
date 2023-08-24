@@ -28,8 +28,18 @@ namespace openge {
 		m_material->SetAmountInstancedObject(m_object.size());
 	}
 
-	void InstancedBuffer::UpdateInstanced()
+	void InstancedBuffer::UpdateInstanced(float deltaTime)
 	{
+		m_VBO->Bind();
+		Matrix4* instancedModel = (Matrix4*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+		for (unsigned int i = 0; i < m_object.size(); i++) {
+			m_object[i]->getTransform()->rotate(Vector3(0.0f, -0.5f, 0.0f) * (deltaTime));
+			instancedModel[i] = m_object[i]->getTransform()->getModelMatrix();
+		}
+
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+
 		m_material->getShader()->Bind();
 		for (auto& mesh : m_meshs) {
 			mesh.bindTexture(m_material);

@@ -199,7 +199,7 @@ namespace openge {
 					cuboRenderer->Render();
 				}
 			}*/
-			InstancedBuffer::getInstance().UpdateInstanced();
+			InstancedBuffer::getInstance().UpdateInstanced(Time::deltaTime());
 			//ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(Matrix4(Matrix3(camera->getViewMatrix()))));
 
 			//skybox->Draw();
@@ -220,7 +220,7 @@ namespace openge {
 
 		ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/rock/rock.obj"));
 		{
-			const int totalNewPositions = 100000;
+			const int totalNewPositions = 5000;
 
 			ref<Material> materialCubo = createRef<Material>();
 

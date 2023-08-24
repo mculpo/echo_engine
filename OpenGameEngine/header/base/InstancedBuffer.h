@@ -15,7 +15,7 @@ namespace openge {
 		void AddGameObject(ref<GameObject> gameobject);
 
 		void Bind();
-		void UpdateInstanced();
+		void UpdateInstanced(float deltaTime);
 
 	private:
 		ref<VertexBufferObject> m_VBO;
