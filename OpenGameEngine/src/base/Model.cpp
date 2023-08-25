@@ -39,7 +39,7 @@ namespace openge {
         }
     }
 
-    Mesh openge::Model::processMesh(aiMesh* mesh, const aiScene* scene)
+    ref<Mesh> openge::Model::processMesh(aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
         std::vector<Vertex> vertices;
@@ -113,7 +113,7 @@ namespace openge {
         std::vector<unsigned int> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, TextureType::Height, "height");
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
         
-        return Mesh(indices,vertices,textures);
+        return createRef<Mesh>(indices,vertices,textures);
     }
 
     std::vector<unsigned int> openge::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName, String nameTexture)

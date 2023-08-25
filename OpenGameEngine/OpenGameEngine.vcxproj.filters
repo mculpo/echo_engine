@@ -233,19 +233,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\uniform\uniform.frag" />
-    <None Include="resources\shaders\uniform\uniform.vertex" />
+    <None Include="resources\shaders\uniform\uniform.vert" />
     <None Include="resources\shaders\light\light.frag" />
-    <None Include="resources\shaders\light\light.vertex" />
+    <None Include="resources\shaders\light\light.vert" />
     <None Include="resources\shaders\default\default.frag" />
-    <None Include="resources\shaders\default\default.vertex" />
+    <None Include="resources\shaders\default\default.vert" />
     <None Include="resources\shaders\standard\standard.frag" />
-    <None Include="resources\shaders\standard\standard.vertex" />
+    <None Include="resources\shaders\standard\standard.vert" />
     <None Include="resources\shaders\depth\depth.frag" />
-    <None Include="resources\shaders\depth\depth.vertex" />
+    <None Include="resources\shaders\depth\depth.vert" />
     <None Include="resources\shaders\framebuffer\framebuffer.frag" />
-    <None Include="resources\shaders\framebuffer\framebuffer.vertex" />
+    <None Include="resources\shaders\framebuffer\framebuffer.vert" />
     <None Include="resources\shaders\skybox\skybox.frag" />
-    <None Include="resources\shaders\skybox\skybox.vertex" />
+    <None Include="resources\shaders\skybox\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\texture\container.jpg">

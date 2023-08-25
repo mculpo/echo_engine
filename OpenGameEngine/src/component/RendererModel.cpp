@@ -16,31 +16,31 @@ namespace openge {
         if (m_material->GetInstanced())
         {
             for (const auto& mesh : m_meshs) {
-                mesh.bindTexture(m_material);
-                mesh.useVAO();
+                mesh->bindTexture(m_material);
+                mesh->useVAO();
                 glDrawElementsInstanced(
                     GL_TRIANGLES,
-                    static_cast<unsigned int>(mesh.GetIndices().size()),
+                    static_cast<unsigned int>(mesh->GetIndices().size()),
                     GL_UNSIGNED_INT,
                     0,
                     m_material->GetAmountInstancedObject()
                 );
-                mesh.unbindVAO();
+                mesh->unbindVAO();
                 glActiveTexture(GL_TEXTURE0);
             }
         }
         else 
         {
             for (const auto& mesh : m_meshs) {
-                mesh.bindTexture(m_material);
-                mesh.useVAO();
+                mesh->bindTexture(m_material);
+                mesh->useVAO();
                 glDrawElements(
                     GL_TRIANGLES,
-                    static_cast<unsigned int>(mesh.GetIndices().size()),
+                    static_cast<unsigned int>(mesh->GetIndices().size()),
                     GL_UNSIGNED_INT,
                     0
                 );
-                mesh.unbindVAO();
+                mesh->unbindVAO();
                 glActiveTexture(GL_TEXTURE0);
             }
         }

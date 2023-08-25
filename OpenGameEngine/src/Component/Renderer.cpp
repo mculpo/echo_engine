@@ -2,12 +2,12 @@
 
 namespace openge {
 
-	void Renderer::AddMesh(Mesh mesh)
+	void Renderer::AddMesh(ref<Mesh> mesh)
 	{
 		m_meshs.push_back(mesh);
 	}
 
-	void Renderer::SetMeshs(std::vector<Mesh> mesh)
+	void Renderer::SetMeshs(std::vector<ref<Mesh>> mesh)
 	{
 		m_meshs = mesh;
 	}
@@ -27,7 +27,7 @@ namespace openge {
 		m_mainCamera = camera;
 	}
 
-	std::vector<Mesh> Renderer::GetMeshs()
+	std::vector<ref<Mesh>> Renderer::GetMeshs()
 	{
 		return m_meshs;
 	}

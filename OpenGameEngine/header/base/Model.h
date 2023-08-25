@@ -9,7 +9,7 @@ namespace openge {
 	class Model
 	{
 	public:
-		std::vector<Mesh> m_meshs;
+		std::vector<ref<Mesh>> m_meshs;
 		String m_directory;
 
 		Model(String const& path);
@@ -17,7 +17,7 @@ namespace openge {
 		void loadModel(String const& path);
 
         void processNode(aiNode* node, const aiScene* scene);
-		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+		ref<Mesh> processMesh(aiMesh* mesh, const aiScene* scene);
         std::vector<unsigned int> loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName, String stringName);
 	};
 }

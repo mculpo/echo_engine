@@ -129,7 +129,7 @@ namespace openge {
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
 
-		
+
 		//https://registry.khronos.org/OpenGL-Refpages/gl4/html/glEnable.xhtml
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
@@ -154,10 +154,10 @@ namespace openge {
 		ref<Camera> camera = mainCamera->getComponent<Camera>();
 
 		initializeObjects();
-		InstancedBuffer::getInstance().Bind();
+		InstancedBuffer::getInstance().InicializeInstanced();
 		//ref<Skybox> skybox = initializeSkybox();
 		ref<FrameBufferTexture> framebuffer = initializeFrameBuffer();
-		
+
 		ref<UniformBuffer> ubo_matrices = createRef<UniformBuffer>("Matrices", sizeof(Matrix4) * 2, 0);
 
 		ubo_matrices->BindToBlock(MaterialManager::GetMaterial("uniform")->getShader()->getProgram());
@@ -165,7 +165,7 @@ namespace openge {
 		ubo_matrices->BindBufferRange();
 
 		ubo_matrices->Update(0, sizeof(Matrix4), glm::value_ptr(camera->getProjectionMatrix()));
-		
+
 		Vector3 _directionCamera = camera->getFront();
 		Vector3 _postitionCamera = mainCamera->getComponent<Transform>()->getPosition();
 		std::vector<ref<GameObject>> cubos = EntityManager::getInstance().findGameObjectsByTag<GameObject>("cubo");
@@ -182,11 +182,11 @@ namespace openge {
 			glClearColor(RED, GREEN, BLUE, ALPHA);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4),glm::value_ptr(camera->getViewMatrix()));
+			ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(camera->getViewMatrix()));
 
 			/**
 			* Renderer Box's GameObject
-			
+
 			{
 				for (unsigned int i = 0; i < cubos.size(); i++) {
 					ref<GameObject> cubo = cubos[i];
@@ -199,8 +199,23 @@ namespace openge {
 					cuboRenderer->Render();
 				}
 			}*/
+			InstancedBuffer::getInstance().VBOInstancedBind();
+			Matrix4* instanceMatrices = (Matrix4*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+			for (GLuint i = 0; i < cubos.size(); ++i) {
+
+				if (i < 10)
+				{
+
+					cubos[i]->getTransform()->rotate(Vector3(0.0f, -0.5f, 0.0f) * (float)Time::deltaTime());
+					// Atualize a matriz de modelo para cada instância de acordo com sua movimentação
+					instanceMatrices[i] = cubos[i]->getTransform()->getModelMatrix(); // Implemente essa função
+				}
+			}
+			glUnmapBuffer(GL_ARRAY_BUFFER);
+
 			InstancedBuffer::getInstance().UpdateInstanced(Time::deltaTime());
-			//ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(Matrix4(Matrix3(camera->getViewMatrix()))));
+			ubo_matrices->Update(sizeof(Matrix4), sizeof(Matrix4), glm::value_ptr(Matrix4(Matrix3(camera->getViewMatrix()))));
 
 			//skybox->Draw();
 			framebuffer->Draw();
@@ -214,13 +229,13 @@ namespace openge {
 	{
 		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
 		ref<Shader> shader = createRef<Shader>(
-			FileSystem::path("resources/shaders/uniform/uniform.vertex"),
+			FileSystem::path("resources/shaders/uniform/uniform.vert"),
 			FileSystem::path("resources/shaders/uniform/uniform.frag")
-		);	
+			);
 
 		ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/rock/rock.obj"));
 		{
-			const int totalNewPositions = 5000;
+			const int totalNewPositions = 25000;
 
 			ref<Material> materialCubo = createRef<Material>();
 
@@ -232,8 +247,8 @@ namespace openge {
 			InstancedBuffer::getInstance().SetMesh(ourModel->m_meshs);
 
 			srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
-			float radius = 50.0;
-			float offset = 2.5f;
+			float radius = 10.0;
+			float offset = 1.5f;
 
 			for (unsigned int i = 0; i < totalNewPositions; i++) {
 
@@ -259,8 +274,8 @@ namespace openge {
 					Vector3(glm::vec3(x, y, z)),
 					Vector3(glm::vec3(scale)),
 					Vector3(glm::vec3(0.4f, 0.6f, 0.8f) * rotAngle)
-				);
-				
+					);
+
 				rendererCubo->SetMaterial(materialCubo);
 				rendererCubo->SetTransform(transformCubo);
 				rendererCubo->SetMainCamera(camera);
@@ -274,6 +289,8 @@ namespace openge {
 				InstancedBuffer::getInstance().AddGameObject(cubo);
 			}
 		}
+		size_t totalSize = EntityManager::getInstance().findGameObjectsByTag<GameObject>("cubo").size() * sizeof(GameObject);
+		std::cout << "Total size of objects in the list: " << totalSize << " bytes" << std::endl;
 		/*
 		*	Configuração do Model
 		*/
@@ -335,7 +352,7 @@ namespace openge {
 	ref<FrameBufferTexture> Engine::initializeFrameBuffer()
 	{
 		ref<Shader> shaderFrameBuffer = createRef<Shader>(
-			"resources/shaders/framebuffer/framebuffer.vertex",
+			"resources/shaders/framebuffer/framebuffer.vert",
 			"resources/shaders/framebuffer/framebuffer.frag"
 			);
 
@@ -394,13 +411,13 @@ namespace openge {
 			dirLight->setSpecular(Vector3(0.5f, 0.5f, 0.5f));
 			dirLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
 
-			Mesh meshLight;
+			ref<Mesh> meshLight;
 			ref<Material> materialLight = createRef<Material>();
 			ref<Renderer> rendererLight = createRef<RendererCube>();
 			ref<Transform> transformLight = createRef<Transform>(Vector3(0.7f, 0.2f, 2.0f), Vector3(0.2f), Vector3(0.0f));
 
-			meshLight.setVertices(vertices);
-			meshLight.setup();
+			meshLight->setVertices(vertices);
+			meshLight->setup();
 
 			materialLight->setShader(shaderLight);
 
@@ -422,7 +439,7 @@ namespace openge {
 			ref<GameObject> light = createRef<GameObject>(1, "light", "light");
 			ref<Light> spotLight = createRef<Light>(LightType::Spot);
 
-			Mesh meshLight;
+			ref<Mesh> meshLight;
 			ref<Material> materialLight = createRef<Material>();
 			ref<Renderer> rendererLight = createRef<RendererCube>();
 			ref<Transform> transformLight = createRef<Transform>(Vector3(0.0f, 0.0f, -3.0f), Vector3(0.2f), Vector3(0.0f));
@@ -438,8 +455,8 @@ namespace openge {
 			spotLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
 
 
-			meshLight.setVertices(vertices);
-			meshLight.setup();
+			meshLight->setVertices(vertices);
+			meshLight->setup();
 
 			materialLight->setShader(shaderLight);
 
@@ -470,7 +487,7 @@ namespace openge {
 				ref<GameObject> light = createRef<GameObject>(1, "light", "light");
 				ref<Light> pointLight = createRef<Light>(LightType::Point);
 
-				Mesh meshLight;
+				ref<Mesh> meshLight;
 				ref<Material> materialLight = createRef<Material>();
 				ref<Renderer> rendererLight = createRef<RendererCube>();
 				ref<Transform> transformLight = createRef<Transform>(pointLightPositions[i], Vector3(0.2f), Vector3(0.0f));
@@ -484,8 +501,8 @@ namespace openge {
 				pointLight->setQuadratic(0.032f);
 				pointLight->setColor(Vector3(1.0f, 1.0f, 1.0f));
 
-				meshLight.setVertices(vertices);
-				meshLight.setup();
+				meshLight->setVertices(vertices);
+				meshLight->setup();
 
 				materialLight->setShader(shaderLight);
 
@@ -519,7 +536,7 @@ namespace openge {
 			Vector3(0.0f, 0.0f, 3.0f),
 			Vector3(0.0f),
 			Vector3(0.0f)
-		);
+			);
 
 		mainCamera->addComponent<Camera>(camera);
 		mainCamera->addComponent<Transform>(transformCamera);

@@ -10,23 +10,23 @@ namespace openge {
 		InstancedBuffer();
 
 		void SetMaterial(ref<Material> material);
-		void SetMesh(std::vector<Mesh> mesh);
+		void SetMesh(std::vector<ref<Mesh>> mesh);
 		void SetGameObjects(std::vector<ref<GameObject>> gameobjects);
 		void AddGameObject(ref<GameObject> gameobject);
 
-		void Bind();
+		void InicializeInstanced();
+		void VBOInstancedBind();
 		void UpdateInstanced(float deltaTime);
 
 	private:
 		ref<VertexBufferObject> m_VBO;
-		std::vector<Mesh> m_meshs;
+		std::vector<ref<Mesh>> m_meshs;
 		ref<Material> m_material;
 		std::vector<ref<GameObject>> m_object;
-		Matrix4* m_model;
 
 		unsigned int GetAmountModel();
-		void PrepareInstacedObjects();
-		void CreateVBOBuffer();
+		void PrepareInstacedObjects(Matrix4* m_model);
+		void CreateVBOBuffer(Matrix4* m_model);
 		void ConfigureInstancedAttributes();
 	};
 }

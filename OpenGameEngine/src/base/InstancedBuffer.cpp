@@ -7,7 +7,7 @@ namespace openge {
 	{
 		m_material = material;
 	}
-	void InstancedBuffer::SetMesh(std::vector<Mesh> mesh)
+	void InstancedBuffer::SetMesh(std::vector<ref<Mesh>> mesh)
 	{
 		m_meshs = mesh;
 	}
@@ -20,52 +20,47 @@ namespace openge {
 		m_object.push_back(gameobject);
 	}
 
-	void InstancedBuffer::Bind()
+	void InstancedBuffer::InicializeInstanced()
 	{
-		PrepareInstacedObjects();
-		CreateVBOBuffer();
+		Matrix4* m_model = new Matrix4[m_object.size()];
+		PrepareInstacedObjects(m_model);
+		CreateVBOBuffer(m_model);
 		ConfigureInstancedAttributes();
 		m_material->SetAmountInstancedObject(m_object.size());
 	}
 
-	void InstancedBuffer::UpdateInstanced(float deltaTime)
+	void InstancedBuffer::VBOInstancedBind()
 	{
 		m_VBO->Bind();
-		Matrix4* instancedModel = (Matrix4*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+	}
 
-		for (unsigned int i = 0; i < m_object.size(); i++) {
-			m_object[i]->getTransform()->rotate(Vector3(0.0f, -0.5f, 0.0f) * (deltaTime));
-			instancedModel[i] = m_object[i]->getTransform()->getModelMatrix();
-		}
-
-		glUnmapBuffer(GL_ARRAY_BUFFER);
-
+	void InstancedBuffer::UpdateInstanced(float deltaTime)
+	{
 		m_material->getShader()->Bind();
 		for (auto& mesh : m_meshs) {
-			mesh.bindTexture(m_material);
-			mesh.useVAO();
+			mesh->bindTexture(m_material);
+			mesh->useVAO();
 			glDrawElementsInstanced(
 				GL_TRIANGLES,
-				static_cast<unsigned int>(mesh.GetIndices().size()),
+				static_cast<unsigned int>(mesh->GetIndices().size()),
 				GL_UNSIGNED_INT,
 				0,
 				m_material->GetAmountInstancedObject()
 			);
-			mesh.unbindVAO();
+			mesh->unbindVAO();
 			glActiveTexture(GL_TEXTURE0);
 		}
+		m_VBO->Unbind();
 	}
-	void InstancedBuffer::PrepareInstacedObjects()
+	void InstancedBuffer::PrepareInstacedObjects(Matrix4* m_model)
 	{
-		unsigned size = m_object.size();
-		m_model = new Matrix4[size];
-		for (unsigned int i = 0; i < size; i++)
+		for (unsigned int i = 0; i < m_object.size(); i++)
 		{
 			Matrix4 model = m_object[i]->getTransform()->getModelMatrix();
 			m_model[i] = model;
 		}
 	}
-	void InstancedBuffer::CreateVBOBuffer()
+	void InstancedBuffer::CreateVBOBuffer(Matrix4* m_model)
 	{
 		m_VBO = createRef<VertexBufferObject>(&m_model[0], m_object.size() * sizeof(Matrix4), GL_STATIC_DRAW);
 	}
@@ -73,7 +68,7 @@ namespace openge {
 	{
 		for (unsigned int j = 0; j < m_meshs.size(); j++) {
 
-			unsigned int vao = m_meshs[j].GetVAO()->GetId();
+			unsigned int vao = m_meshs[j]->GetVAO()->GetId();
 			glBindVertexArray(vao);
 			// set attribute pointers for matrix (4 times vec4)
 			glEnableVertexAttribArray(3);

@@ -15,10 +15,10 @@ namespace openge {
     void RendererPlane::Render()
     {
         for (const auto& mesh : m_meshs) {
-            mesh.bindTexture(m_material);
-            mesh.useVAO();
+            mesh->bindTexture(m_material);
+            mesh->useVAO();
             glDrawArrays(GL_TRIANGLES, 0, 6);
-            mesh.unbindVAO();
+            mesh->unbindVAO();
             glActiveTexture(GL_TEXTURE0);
         }
     }
