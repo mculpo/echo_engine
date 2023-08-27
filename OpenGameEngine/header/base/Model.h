@@ -2,7 +2,7 @@
 #define __MODEL_H__
 #include <core/core.h>
 
-#include <base/Texture.h>
+#include <base/Texture2D.h>
 #include <base/Mesh.h>
 
 namespace openge {

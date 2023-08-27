@@ -16,7 +16,7 @@ namespace openge {
 
 		void InicializeInstanced();
 		void VBOInstancedBind();
-		void UpdateInstanced(float deltaTime);
+		void UpdateInstanced();
 
 	private:
 		ref<VertexBufferObject> m_VBO;

@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="src\base\Skybox.cpp" />
     <ClCompile Include="src\base\FrameBufferTexture.cpp" />
     <ClCompile Include="src\base\InstancedBuffer.cpp" />
     <ClCompile Include="src\component\RendererModel.cpp" />
@@ -154,7 +155,7 @@
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\base\Shader.cpp" />
     <ClCompile Include="src\gl\ElementBufferObject.cpp" />
-    <ClCompile Include="src\base\Texture.cpp" />
+    <ClCompile Include="src\base\Texture2D.cpp" />
     <ClCompile Include="src\component\Transform.cpp" />
     <ClCompile Include="src\entity\GameObject.cpp" />
     <ClCompile Include="src\base\Mesh.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\gl\RenderBufferObject.cpp" />
     <ClCompile Include="src\gl\TextureColorBuffer.cpp" />
     <ClCompile Include="src\gl\UniformBuffer.cpp" />
+    <ClCompile Include="src\base\TextureCubeMap.cpp" />
     <ClCompile Include="vendor\glad\src\glad.c" />
     <ClCompile Include="vendor\stb_image.cpp" />
     <ClCompile Include="src\gl\VertexBufferObject.cpp" />
@@ -203,7 +205,7 @@
     <ClInclude Include="header\gl\ElementBufferObject.h" />
     <ClInclude Include="header\core\Singleton.h" />
     <ClInclude Include="header\gl\VertexAttribPointerLayout.h" />
-    <ClInclude Include="header\base\Texture.h" />
+    <ClInclude Include="header\base\Texture2D.h" />
     <ClInclude Include="header\entity\Entity.h" />
     <ClInclude Include="header\core\Time.h" />
     <ClInclude Include="header\component\Transform.h" />
@@ -212,6 +214,8 @@
     <ClInclude Include="header\base\Material.h" />
     <ClInclude Include="header\component\Renderer.h" />
     <ClInclude Include="header\math\Vector2.h" />
+    <ClInclude Include="header\base\TextureCubeMap.h" />
+    <ClInclude Include="header\base\Skybox.h" />
     <ClInclude Include="vendor\stb_image.h" />
     <ClInclude Include="header\gl\VertexBufferObject.h" />
     <ClInclude Include="header\gl\VertexArrayObject.h" />

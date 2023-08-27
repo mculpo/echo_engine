@@ -36,7 +36,7 @@
     <ClCompile Include="src\gl\VertexArrayObject.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\Texture.cpp">
+    <ClCompile Include="src\base\Texture2D.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="src\component\Transform.cpp">
@@ -90,6 +90,12 @@
     <ClCompile Include="src\base\InstancedBuffer.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\TextureCubeMap.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\Skybox.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\Engine.h">
@@ -113,7 +119,7 @@
     <ClInclude Include="header\gl\VertexAttribPointerLayout.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="header\base\Texture.h">
+    <ClInclude Include="header\base\Texture2D.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="header\component\Component.h">
@@ -228,6 +234,12 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="header\base\InstancedBuffer.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="header\base\TextureCubeMap.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="header\base\Skybox.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

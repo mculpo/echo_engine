@@ -6,7 +6,7 @@
 
 #include <component/Component.h>
 
-#include <base/Texture.h>
+#include <base/Texture2D.h>
 #include <base/Material.h>
 
 #include <gl/VertexArrayObject.h>

@@ -134,7 +134,7 @@ namespace openge {
                 textures.push_back(index_texture);
             }
             else {
-                ref<Texture> texture =  createRef<Texture>(filename, typeName, nameTexture);
+                ref<Texture2D> texture =  createRef<Texture2D>(filename, typeName, nameTexture);
                 tm.Add(texture, index_texture);
                 textures.push_back(index_texture);
             }

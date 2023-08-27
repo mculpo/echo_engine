@@ -2,12 +2,12 @@
 #define __TEXTUREMANAGER_H__
 #include <core/core.h>
 #include <core/Singleton.h>
-#include <base/Texture.h>
+#include <base/Texture2D.h>
 
 namespace openge {
 	class TextureManager : public Singleton<TextureManager> {
 	public:
-		void Add(ref<Texture> texture, unsigned int& index_texture) {
+		void Add(ref<Texture2D> texture, unsigned int& index_texture) {
 			m_textures[m_index] = texture;
 			index_texture = m_index;
 			m_index++;
@@ -23,7 +23,7 @@ namespace openge {
 			}
 		}
 
-		ref<Texture> GetTextureByIndex(const unsigned int index) {
+		ref<Texture2D> GetTextureByIndex(const unsigned int index) {
 			auto it = m_textures.find(index);
 			if (it != m_textures.end()) {
 				return it->second;
@@ -34,7 +34,7 @@ namespace openge {
 		}
 
 	private:
-		std::map<unsigned int, ref<Texture>> m_textures;
+		std::map<unsigned int, ref<Texture2D>> m_textures;
 		unsigned int m_index = 0;
 
 	};

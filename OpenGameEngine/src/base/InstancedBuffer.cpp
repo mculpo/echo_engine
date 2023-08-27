@@ -34,7 +34,7 @@ namespace openge {
 		m_VBO->Bind();
 	}
 
-	void InstancedBuffer::UpdateInstanced(float deltaTime)
+	void InstancedBuffer::UpdateInstanced()
 	{
 		m_material->getShader()->Bind();
 		for (auto& mesh : m_meshs) {

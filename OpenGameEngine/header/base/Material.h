@@ -2,11 +2,11 @@
 #define __MATERIAL_H__
 #include <core/core.h>
 
-#include <base/Texture.h>
+#include <base/Texture2D.h>
 #include <base/Shader.h>
 
 namespace openge {
-    class Texture;
+    class Texture2D;
     class Shader;
 
     class Material {
