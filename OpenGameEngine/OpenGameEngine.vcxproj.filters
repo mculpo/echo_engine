@@ -96,6 +96,9 @@
     <ClCompile Include="src\base\Skybox.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\Texture.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\Engine.h">
@@ -242,6 +245,9 @@
     <ClInclude Include="header\base\Skybox.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="header\base\Texture.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\uniform\uniform.frag" />
@@ -297,6 +303,114 @@
       <Filter>Arquivos de Recurso</Filter>
     </Image>
     <Image Include="resources\texture\skybox\top.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\ocean\back.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\ocean\bottom.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\ocean\front.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\ocean\left.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\ocean\right.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\ocean\top.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_blue\back.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_blue\bottom.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_blue\front.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_blue\left.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_blue\right.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_blue\top.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_lightblue\back.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_lightblue\bot.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_lightblue\front.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_lightblue\left.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_lightblue\right.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_lightblue\top.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg1_back6.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg1_bottom4.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg1_front5.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg1_left2.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg1_right1.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg1_top3.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg2_back6.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg2_bottom4.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg2_front5.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg2_left2.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg2_right1.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg2_top3.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg3_back6.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg3_bottom4.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg3_front5.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg3_left2.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg3_right1.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="resources\texture\skybox\space_red\bkg3_top3.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
   </ItemGroup>

@@ -120,7 +120,7 @@ namespace openge {
     {
         TextureManager& tm = TextureManager::getInstance();
         std::vector<unsigned int> textures;
-        unsigned int index_texture;
+        unsigned int index_texture = 0;
 
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
@@ -130,7 +130,7 @@ namespace openge {
             filename = m_directory + '/' + filename;
 
             tm.GetTextureByPath(filename.c_str(), index_texture);
-            if (index_texture != -1) {
+            if (index_texture != 0) {
                 textures.push_back(index_texture);
             }
             else {
@@ -138,27 +138,6 @@ namespace openge {
                 tm.Add(texture, index_texture);
                 textures.push_back(index_texture);
             }
-            /*
-            // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
-            bool skip = false;
-            for (unsigned int j = 0; j < m_textures_loaded.size(); j++)
-            {
-                if (std::strcmp(m_textures_loaded[j].GetPath().data(), filename.c_str()) == 0)
-                {
-                    textures.push_back(m_textures_loaded[j]);
-                    skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
-                    break;
-                }
-            }
-            if (!skip)
-            {   // if texture hasn't been loaded already, load it
-                
-                Texture texture(filename, typeName);
-                texture.SetName(nameTexture);
-                textures.push_back(texture);
-                m_textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecessary load duplicate textures.
-            }
-            */
         }
         return textures;
     }

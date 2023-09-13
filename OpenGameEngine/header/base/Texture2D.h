@@ -36,7 +36,7 @@ namespace openge {
 		String m_path;
 		String m_name;
 		TextureType m_textureType;
-		GLenum m_format;
+		unsigned int m_format;
 	};
 }
 

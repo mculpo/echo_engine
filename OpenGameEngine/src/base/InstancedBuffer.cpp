@@ -68,8 +68,8 @@ namespace openge {
 	{
 		for (unsigned int j = 0; j < m_meshs.size(); j++) {
 
-			unsigned int vao = m_meshs[j]->GetVAO()->GetId();
-			glBindVertexArray(vao);
+			ref<VertexArrayObject> vao = m_meshs[j]->GetVAO();
+			vao->Bind();
 			// set attribute pointers for matrix (4 times vec4)
 			glEnableVertexAttribArray(3);
 			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Matrix4), (void*)0);
@@ -85,7 +85,7 @@ namespace openge {
 			glVertexAttribDivisor(5, 1);
 			glVertexAttribDivisor(6, 1);
 
-			glBindVertexArray(0);
+			vao->Unbind();
 		}
 	}
 	unsigned int InstancedBuffer::GetAmountModel()

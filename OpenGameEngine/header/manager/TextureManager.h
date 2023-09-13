@@ -14,7 +14,7 @@ namespace openge {
 		}
 
 		void GetTextureByPath(const std::string& texture, unsigned int& index_texture) const {
-			index_texture = -1;
+			index_texture = 0;
 			for (const auto& texture_pair : m_textures) {
 				if (std::strcmp(texture_pair.second->GetPath().data(), texture.c_str()) == 0 ) {
 					index_texture = texture_pair.first;
@@ -35,7 +35,7 @@ namespace openge {
 
 	private:
 		std::map<unsigned int, ref<Texture2D>> m_textures;
-		unsigned int m_index = 0;
+		unsigned int m_index = 1;
 
 	};
 }

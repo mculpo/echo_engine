@@ -217,7 +217,7 @@ namespace openge {
 
 		ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/rock/rock.obj"));
 		{
-			const int totalNewPositions = 10000;
+			const int totalNewPositions = 100000;
 
 			ref<Material> materialCubo = createRef<Material>();
 
