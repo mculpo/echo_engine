@@ -248,6 +248,9 @@
     <ClInclude Include="header\base\Texture.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="vendor\ecs\ecs.hpp">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\uniform\uniform.frag" />
