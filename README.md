@@ -1,11 +1,11 @@
-# Open Game Engine
+# Echo Engine
 
-The Open Game Engine is a game engine developed using C++ and OpenGL for the purpose of knowledge and study. It is specifically designed to support 3D games and utilizes the Entity Component System (ECS) architecture to provide flexibility and modularity in game development.
+The Echo Engine is a game engine developed using C++ and OpenGL for the purpose of knowledge and study. It is specifically designed to support 3D games and utilizes the Entity Component System (ECS) architecture to provide flexibility and modularity in game development.
 
 ## Features
 
 - Full support for 3D games.
-- Entity Component System (ECS) architecture for a flexible and modular game structure.
+- Entity Component System (Echo ECS) architecture for a flexible and modular game structure.
 - Handling of keyboard, mouse, and gamepad inputs for player interactivity.
 - Implementation of 3D model loading for rendering complex objects.
 - Planned: support for 2D games.
