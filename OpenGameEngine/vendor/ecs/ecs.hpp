@@ -207,50 +207,6 @@ namespace ecs {
 		pComponents[componentType].ptr.push_back(_component);
 	}
 
-	/*template<typename ComponentType>
-	 std::vector<ComponentType*> GetAllComponents(std::unordered_map<size_t, ecs_array<Component>>& pComponents) {
-		static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
-
-		size_t componentType = typeid(ComponentType).hash_code();
-		auto it = pComponents.find(componentType);
-
-		if (it != pComponents.end()) {
-			std::vector<ComponentType*> result;
-			for (auto component : it->second.ptr) {
-				ComponentType* castedComponent = dynamic_cast<ComponentType*>(component);
-				if (castedComponent) {
-					result.push_back(castedComponent);
-				}
-			}
-			return result;
-		}
-
-		return std::vector<ComponentType*>();
-	}*/
-
-	//template<typename ComponentType>
-	//inline _NODISCARD std::vector<ComponentType*> GetAllComponents(std::unordered_map<size_t, ecs_array<Component>>& pComponents) {
-	//	static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
-
-	//	size_t componentType = typeid(ComponentType).hash_code();
-	//	auto it = pComponents.find(componentType);
-
-	//	if (it != pComponents.end()) {
-	//		// Converta os ponteiros do vetor ptr para ComponentType*
-	//		std::vector<ComponentType*> result;
-	//		for (Component* component : it->second.ptr) {
-	//			/*ComponentType* derivedComponent = static_cast<ComponentType*>(component);
-	//			if (derivedComponent) {
-	//				result.push_back(derivedComponent);
-	//			}*/
-	//			result.push_back(static_cast<ComponentType*>(component));
-	//		}
-	//		return result;
-	//	}
-
-	//	return std::vector<ComponentType*>();
-	//}
-
 	template<typename ComponentType>
 	std::vector<ComponentType*> GetAllComponents(std::unordered_map<size_t, ecs_array<Component>>& pComponents) {
 		static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");

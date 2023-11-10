@@ -172,6 +172,8 @@
     <ClCompile Include="src\gl\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\shader.hpp" />
+    <ClInclude Include="core\texture.hpp" />
     <ClInclude Include="header\base\FrameBufferTexture.h" />
     <ClInclude Include="header\base\InstancedBuffer.h" />
     <ClInclude Include="header\component\RendererModel.h" />

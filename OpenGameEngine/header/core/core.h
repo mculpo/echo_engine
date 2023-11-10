@@ -42,6 +42,7 @@
 #define Matrix3 glm::mat3
 #define Quaternion glm::quat
 #define String std::string
+#define UniformLocationCache std::unordered_map<String, int>
 
 #define WIDTH 1280
 #define HEIGHT 720

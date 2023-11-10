@@ -35,6 +35,8 @@
 #include <base/InstancedBuffer.h>
 #include <base/Skybox.h>
 
+#include <../core/shader.hpp>
+
 
 namespace openge {
 	bool firstMouse = true;
@@ -209,15 +211,23 @@ namespace openge {
 
 	void Engine::initializeObjects()
 	{
+		shader::Shader* shaderDataUniform = new shader::Shader();
+		shader::compileShader(
+			shaderDataUniform,
+			FileSystem::path("resources/shaders/uniform/uniform.vert"),
+			FileSystem::path("resources/shaders/uniform/uniform.frag")
+		);
+
 		ref<Camera> camera = EntityManager::getInstance().getMainCamera<GameObject>()->getComponent<Camera>();
 		ref<Shader> shader = createRef<Shader>(
 			FileSystem::path("resources/shaders/uniform/uniform.vert"),
 			FileSystem::path("resources/shaders/uniform/uniform.frag")
-			);
+		);
 
 		ref<Model> ourModel = createRef<Model>(FileSystem::path("resources/models/rock/rock.obj"));
+
 		{
-			const int totalNewPositions = 100000;
+			const int totalNewPositions = 10000;
 
 			ref<Material> materialCubo = createRef<Material>();
 
@@ -249,7 +259,6 @@ namespace openge {
 
 				// 3. rotation: add random rotation around a (semi)randomly picked rotation axis vector
 				float rotAngle = static_cast<float>((rand() % 360));
-
 
 				ref<GameObject> cubo = createRef<GameObject>(i, "cubo" + i, "cubo");
 				ref<Renderer> rendererCubo = createRef<RendererModel>();
