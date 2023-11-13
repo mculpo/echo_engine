@@ -353,7 +353,7 @@
     <Image Include="resources\texture\skybox\space_lightblue\back.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
-    <Image Include="resources\texture\skybox\space_lightblue\bot.png">
+    <Image Include="resources\texture\skybox\space_lightblue\bottom.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
     <Image Include="resources\texture\skybox\space_lightblue\front.png">

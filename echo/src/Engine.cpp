@@ -314,12 +314,12 @@ namespace openge {
 
 		skybox->setTextureCubeMap(createRef<TextureCubeMap>(std::vector<String>
 		{
-				FileSystem::path("resources/texture/skybox/space_blue/right.png"),
-				FileSystem::path("resources/texture/skybox/space_blue/left.png"),
-				FileSystem::path("resources/texture/skybox/space_blue/top.png"),
-				FileSystem::path("resources/texture/skybox/space_blue/bottom.png"),
-				FileSystem::path("resources/texture/skybox/space_blue/front.png"),
-				FileSystem::path("resources/texture/skybox/space_blue/back.png")
+				FileSystem::path("resources/texture/skybox/space_lightblue/right.png"),
+				FileSystem::path("resources/texture/skybox/space_lightblue/left.png"),
+				FileSystem::path("resources/texture/skybox/space_lightblue/top.png"),
+				FileSystem::path("resources/texture/skybox/space_lightblue/bottom.png"),
+				FileSystem::path("resources/texture/skybox/space_lightblue/front.png"),
+				FileSystem::path("resources/texture/skybox/space_lightblue/back.png")
 		}));
 
 		MaterialManager::AddMaterial("skybox", material);
