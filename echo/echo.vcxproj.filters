@@ -260,6 +260,9 @@
     <ClInclude Include="core\vertexBufferObject.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="core\vertexArrayObject.hpp">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\uniform\uniform.frag" />
