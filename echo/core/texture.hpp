@@ -121,11 +121,11 @@ namespace openge::texture {
 	}
 
 	void bind(Texture* pTexture ) {
-		glBindTexture(pTexture->mTarget, pTexture->mTextureID);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, pTexture->mTextureID);
 	}
 
 	void unbind(Texture* pTexture) {
-		glBindTexture(pTexture->mTarget, 0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	}
 
 #endif
