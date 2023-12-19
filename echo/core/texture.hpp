@@ -40,17 +40,7 @@ namespace openge::texture {
 			else if (nrChannels == 4)
 				m_format = GL_RGBA;
 
-			glTexImage2D(GL_TEXTURE_2D,
-				0,
-				m_format,
-				width,
-				height,
-				0,
-				m_format,
-				GL_UNSIGNED_BYTE,
-				data
-			);
-
+			glTexImage2D(GL_TEXTURE_2D, 0, m_format, width, height, 0, m_format, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 		else {
