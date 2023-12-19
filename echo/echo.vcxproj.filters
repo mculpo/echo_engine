@@ -257,10 +257,13 @@
     <ClInclude Include="core\texture.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\vertexBufferObject.hpp">
+    <ClInclude Include="core\gl\vertexBufferObject.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\vertexArrayObject.hpp">
+    <ClInclude Include="core\gl\vertexArrayObject.hpp">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="core\gl\elementBufferObject.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
