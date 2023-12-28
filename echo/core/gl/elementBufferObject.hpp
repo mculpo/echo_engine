@@ -1,12 +1,12 @@
 #ifndef OPENGE_ELEMENT_BUFFER_OBJECT
 #define OPENGE_ELEMENT_BUFFER_OBJECT
 #include <core/core.h>
-namespace openge::gl::ebo {
-
+namespace echo::gl {
 	struct ElementBufferObject {
 		unsigned int mRendererID;
 	};
-
+}
+namespace echo::gl::ebo {
 #ifndef OPENGE_ELEMENT_BUFFER_OBJECT_MANAGER
 #define OPENGE_ELEMENT_BUFFER_OBJECT_MANAGER
 	void create(ElementBufferObject* pEbo, unsigned int size, const void* indices, unsigned int glEnum) {

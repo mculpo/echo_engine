@@ -1,14 +1,15 @@
 #ifndef OPENGE_SHADER
 #define OPENGE_SHADER
 #include <core/core.h>
-namespace openge::shader {
+namespace echo {
 	struct Shader {
 		unsigned int mProgram;
 		UniformLocationCache mUniformLocationCache;
 		String  mFragmentSource;
 		String  mVertexSource;
 	};
-
+}
+namespace echo::shader {
 #ifndef OPENGE_SHADERMANAGER
 #define OPENGE_SHADERMANAGER
 

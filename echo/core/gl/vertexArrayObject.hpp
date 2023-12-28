@@ -1,12 +1,14 @@
-#ifndef OPENGE_VERTEX_BUFFER_OBJECT
-#define OPENGE_VERTEX_BUFFER_OBJECT
+#ifndef OPENGE_VERTEX_ARRAY_OBJECT
+#define OPENGE_VERTEX_ARRAY_OBJECT
 #include <core/core.h>
-namespace openge::gl::vao {
+namespace echo::gl {
 	struct VertexArrayObject {
 		unsigned int mRendererID;
 	};
-#ifndef OPENGE_VERTEX_BUFFER_OBJECT_MANAGER
-#define OPENGE_VERTEX_BUFFER_OBJECT_MANAGER
+}
+namespace echo::gl::vao {
+#ifndef OPENGE_VERTEX_ARRAY_OBJECT_MANAGER
+#define OPENGE_VERTEX_ARRAY_OBJECT_MANAGER
 
 	void create(VertexArrayObject* pVao) {
 		glGenVertexArrays(1, &pVao->mRendererID);

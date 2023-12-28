@@ -1,7 +1,7 @@
 #ifndef OPENGE_TEXTURE
 #define OPENGE_TEXTURE
 #include <core/core.h>
-namespace openge::texture {
+namespace echo::texture {
 
 	enum Type {
 		Diffuse,
@@ -15,7 +15,8 @@ namespace openge::texture {
 		unsigned int mTextureID;
 		Type mType;
 	};
-
+}
+namespace echo::texture {
 #ifndef OPENGE_TEXTUREMANAGER
 #define OPENGE_TEXTUREMANAGER
 

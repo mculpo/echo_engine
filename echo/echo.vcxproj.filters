@@ -251,19 +251,25 @@
     <ClInclude Include="vendor\ecs\ecs.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\shader.hpp">
+    <ClInclude Include="core\Shader.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\texture.hpp">
+    <ClInclude Include="core\Texture.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\gl\vertexBufferObject.hpp">
+    <ClInclude Include="core\gl\VertexBufferObject.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\gl\vertexArrayObject.hpp">
+    <ClInclude Include="core\gl\VertexArrayObject.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="core\gl\elementBufferObject.hpp">
+    <ClInclude Include="core\gl\ElementBufferObject.hpp">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Mesh.hpp">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Vertex.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
