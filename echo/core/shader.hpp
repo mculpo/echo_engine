@@ -13,7 +13,7 @@ namespace echo::shader {
 #ifndef OPENGE_SHADERMANAGER
 #define OPENGE_SHADERMANAGER
 
-	void deleteProgram(Shader* shader);
+	/*void deleteProgram(Shader* shader);
 
 	void bindProgram(Shader* shader);
 
@@ -39,7 +39,7 @@ namespace echo::shader {
 
 	void setMatrix3(Shader* shader, String name, const Matrix3& mat);
 
-	void compileShader(Shader* shader, const String& pathVertex, const String& pathFragment);
+	void compileShader(Shader* shader, const String& pathVertex, const String& pathFragment);*/
 
 
 	void deleteProgram(Shader* shader) {
