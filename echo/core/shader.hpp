@@ -13,35 +13,6 @@ namespace echo::shader {
 #ifndef OPENGE_SHADERMANAGER
 #define OPENGE_SHADERMANAGER
 
-	/*void deleteProgram(Shader* shader);
-
-	void bindProgram(Shader* shader);
-
-	void unbindProgram();
-
-	int getUniformLocation(Shader* shader, String name);
-
-	unsigned int createShader(String& sourceShader, GLenum type);
-
-	String getContentPathShader(const String& path);
-
-	void setInt(Shader* shader, String name, int location);
-
-	void setFloat(Shader* shader, String name, float value);
-
-	void setVector3(Shader* shader, String name, const Vector3& vec3);
-
-	void setVector3(Shader* shader, String name, float x, float y, float z);
-
-	void setMatrix4(Shader* shader, String name, const Matrix4& mat);
-
-	void setMatrix4(Shader* shader, String name, float v1, float v2, float v3, float v4);
-
-	void setMatrix3(Shader* shader, String name, const Matrix3& mat);
-
-	void compileShader(Shader* shader, const String& pathVertex, const String& pathFragment);*/
-
-
 	void deleteProgram(Shader* shader) {
 		glDeleteProgram(shader->mProgram);
 	}

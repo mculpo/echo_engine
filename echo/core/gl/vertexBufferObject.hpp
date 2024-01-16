@@ -24,7 +24,7 @@ namespace echo::gl::vbo {
 		glBindBuffer(GL_ARRAY_BUFFER, pVBO->mRendererID);
 	}
 
-	void unbind(VertexBufferObject* pVBO) {
+	void unbind() {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 #endif

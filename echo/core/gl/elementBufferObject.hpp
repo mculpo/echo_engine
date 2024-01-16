@@ -9,7 +9,7 @@ namespace echo::gl {
 namespace echo::gl::ebo {
 #ifndef OPENGE_ELEMENT_BUFFER_OBJECT_MANAGER
 #define OPENGE_ELEMENT_BUFFER_OBJECT_MANAGER
-	void create(ElementBufferObject* pEbo, unsigned int size, const void* indices, unsigned int glEnum) {
+	void create(ElementBufferObject* pEbo, const void* indices, unsigned int size, unsigned int glEnum) {
 		glGenBuffers(1, &pEbo->mRendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pEbo->mRendererID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, glEnum);
